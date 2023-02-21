@@ -1,0 +1,135 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PlayerInventory : Inventory
+{
+    [SerializeField] private InventoryUI inventoryUI;
+
+    private List<GameObject> invSlotsUI;
+    private List<GameObject> invItemsUI;
+    private List<GameObject> invItemCountersUI;
+    private List<GameObject> invHandSlotsUI;
+    private List<GameObject> invHandItemsUI;
+    private List<GameObject> invHandItemCountersUI;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        invSlotsUI = inventoryUI.GetInvSlotsUI();
+        invItemsUI = inventoryUI.GetInvItemsUI();
+        invItemCountersUI = inventoryUI.GetInvItemCountersUI();
+        invHandSlotsUI = inventoryUI.GetInvHandSlotsUI();
+        invHandItemsUI = inventoryUI.GetInvHandItemsUI();
+        invHandItemCountersUI = inventoryUI.GetInvHandItemCountersUI();
+
+        RefreshInventoryVisuals();
+    }
+
+    public void RefreshInventoryVisuals()
+    {
+        // Move UI inventory items to the correct location
+        for (int i = 0; i < invItemList.Count; i++)
+        {
+            invItemsUI[i].transform.position = invSlotsUI[i].transform.position;
+        }
+
+        for (int i = 0; i < invHandItemList.Count; i++)
+        {
+            invHandItemsUI[i].transform.position = invHandSlotsUI[i].transform.position;
+        }
+
+        // Set correct sprites and text for stack size and adjust IndexValue
+        for (int i = 0; i < invItemList.Count; i++)
+        {
+            if (invItemList[i].GetItemSprite() == null)
+            {
+                invItemsUI[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                invItemsUI[i].GetComponent<RawImage>().texture = null;
+            }
+            else
+            {
+                invItemsUI[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                invItemsUI[i].GetComponent<RawImage>().texture = invItemList[i].GetItemSprite().texture;
+            }
+
+            if (invItemList[i].GetItemCount() > 1)
+            {
+                invItemCountersUI[i].GetComponent<Text>().text = invItemList[i].GetItemCount().ToString();
+            }
+            else
+            {
+                invItemCountersUI[i].GetComponent<Text>().text = "";
+            }
+
+            invItemsUI[i].GetComponent<IndexValue>().SetIndexValue(i);
+        }
+
+        for (int i = 0; i < invHandItemList.Count; i++)
+        {
+            if (invHandItemList[i].GetItemSprite() == null)
+            {
+                invHandItemsUI[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+                invHandItemsUI[i].GetComponent<RawImage>().texture = null;
+            }
+            else
+            {
+                invHandItemsUI[i].GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+                invHandItemsUI[i].GetComponent<RawImage>().texture = invHandItemList[i].GetItemSprite().texture;
+            }
+
+            if (invHandItemList[i].GetItemCount() > 1)
+            {
+                invHandItemCountersUI[i].GetComponent<Text>().text = invHandItemList[i].GetItemCount().ToString();
+            }
+            else
+            {
+                invHandItemCountersUI[i].GetComponent<Text>().text = "";
+            }
+
+            invHandItemsUI[i].GetComponent<IndexValue>().SetIndexValue(i);
+        }
+    }
+
+    // Called whenever the player adjusts Inventory through the UI
+    public void SwapTwoInvItems(int first, int second)
+    {
+        // Swap Inventory Items in Inventory
+        InventoryItem firstInvItem = invItemList[first];
+        InventoryItem secondInvItem = invItemList[second];
+        
+        invItemList[first] = secondInvItem;
+        invItemList[second] = firstInvItem;
+        
+        RefreshInventoryVisuals();
+    }
+
+    public void SwapTwoInvHandItems(int first, int second)
+    {
+        InventoryItem firstInvHandItem = invHandItemList[first];
+        InventoryItem secondInvHandItem = invHandItemList[second];
+
+        invHandItemList[first] = secondInvHandItem;
+        invHandItemList[second] = firstInvHandItem;
+
+        RefreshInventoryVisuals();
+    }
+
+    public void SwapInvItemWithHandItem(int firstFromInv, int secondFromHandInv)
+    {
+        InventoryItem invItem = invItemList[firstFromInv];
+        InventoryItem invHandItem = invHandItemList[secondFromHandInv];
+
+        invItemList[firstFromInv] = invHandItem;
+        invHandItemList[secondFromHandInv] = invItem;
+
+        RefreshInventoryVisuals();
+    }
+
+    public InventoryUI GetInventoryUI()
+    {
+        return inventoryUI;
+    }
+}
