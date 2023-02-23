@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode pickUpKey = KeyCode.E;
     [SerializeField] private KeyCode inventoryKey = KeyCode.Tab;
+    // For testing purposes
+    [SerializeField] private KeyCode selfKillKey = KeyCode.K;
+    [SerializeField] private KeyCode selfLiveKey = KeyCode.L;
 
     private InventoryUI inventoryUI;
 
@@ -124,8 +127,10 @@ public class PlayerController : MonoBehaviour
         velocityY += gravity * Time.deltaTime;
 
         // Sets the player's speed using the vectors scaled by their axis
-        if (Input.GetKey(sprintKey))
+        if (Input.GetKey(sprintKey) && GetComponent<Stamina>().GetCurrentValue() > 0)
         {
+            GetComponent<Stamina>().DecCurrentValueOverTime();
+
             playerVelocity = (transform.forward * currentDirection.y + transform.right * currentDirection.x)
                 * sprintSpeed + Vector3.up * velocityY;
         }
@@ -217,6 +222,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(inventoryKey))
         {
             ToggleInventoryUI();
+        }
+
+        if (Input.GetKeyDown(selfKillKey))
+        {
+            GetComponent<Health>().DecCurrentValue(10f);
+        }
+        else if (Input.GetKeyDown(selfLiveKey))
+        {
+            GetComponent<Health>().IncCurrentValue(5f);
         }
     }
 

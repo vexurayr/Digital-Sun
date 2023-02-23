@@ -9,6 +9,7 @@ public class DifficultyManager : MonoBehaviour
     [Range(0f, 100f)] [SerializeField] private int startingStage;
     [Range(0f, 5f)] [SerializeField] private float difficultyMultiplierPerStage;
     [SerializeField] private float secondsUntilStageChange;
+    [SerializeField] private bool isDebugging;
 
     private int currentStage;
     private float currentDifficulty = 1;
@@ -36,7 +37,10 @@ public class DifficultyManager : MonoBehaviour
     {
         IncreaseDifficultyWithTime();
 
-        Debug.Log("Diff: " + currentDifficulty);
+        if (isDebugging)
+        {
+            Debug.Log("Diff: " + currentDifficulty);
+        }
     }
 
     public void IncreaseDifficultyWithTime()

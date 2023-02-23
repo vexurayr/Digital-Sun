@@ -95,6 +95,11 @@ GameObject:
   - component: {fileID: 281385419716939154}
   - component: {fileID: 8183075646251983158}
   - component: {fileID: 3377036346077641403}
+  - component: {fileID: 1645117589131744759}
+  - component: {fileID: 4343693250337912774}
+  - component: {fileID: 6980715797390888414}
+  - component: {fileID: 6449182244168678847}
+  - component: {fileID: 6939311668126202570}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -191,6 +196,8 @@ MonoBehaviour:
   sprintKey: 304
   pickUpKey: 101
   inventoryKey: 9
+  selfKillKey: 107
+  selfLiveKey: 108
 --- !u!114 &3377036346077641403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +214,100 @@ MonoBehaviour:
   invHandSlots: 4
   emptyInvItem: {fileID: 9091200904645990277, guid: e6d072bebea6e854aa557dda389b2b06, type: 3}
   inventoryUI: {fileID: 3970469136623765326}
+--- !u!114 &1645117589131744759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016175755622753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e732533df928d7241a7d3c0b51886632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startValue: 100
+  maxValue: 100
+  drainMult: 0.01
+  drainDelay: 5
+  regainMult: 1.5
+  regainDelay: 5
+  isDebugging: 0
+--- !u!114 &4343693250337912774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016175755622753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316400f56cc23634fbe8c3e1243b9df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startValue: 10
+  maxValue: 10
+  drainMult: 1.2
+  drainDelay: 5
+  regainMult: 1.5
+  regainDelay: 5
+  isDebugging: 0
+--- !u!114 &6980715797390888414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016175755622753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a84cde3a9c5eb634395944be34fd35da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startValue: 100
+  maxValue: 100
+  drainMult: 0.01
+  drainDelay: 5
+  regainMult: 1.5
+  regainDelay: 5
+  isDebugging: 0
+--- !u!114 &6449182244168678847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016175755622753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99f58e821c165b04fa8db46b41a8d59c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startValue: 100
+  maxValue: 100
+  drainMult: 0.03
+  drainDelay: 5
+  regainMult: 1.5
+  regainDelay: 5
+  isDebugging: 0
+--- !u!114 &6939311668126202570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016175755622753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d9700bf9a56404f890ea5c3a4af0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage1HotTemp: 95
+  stage2HotTemp: 120
+  stage1ColdTemp: 50
+  stage2ColdTemp: 25
+  stage1DrainMult: 0.05
+  stage2DrainMult: 0.09
 --- !u!1 &7225056889445945647
 GameObject:
   m_ObjectHideFlags: 0
