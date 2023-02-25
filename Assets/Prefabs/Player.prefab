@@ -231,7 +231,7 @@ MonoBehaviour:
   drainMult: 0.01
   drainDelay: 5
   regainMult: 1.5
-  regainDelay: 5
+  regainDelay: 2
   isDebugging: 0
 --- !u!114 &4343693250337912774
 MonoBehaviour:
@@ -250,7 +250,7 @@ MonoBehaviour:
   drainMult: 1.2
   drainDelay: 5
   regainMult: 1.5
-  regainDelay: 5
+  regainDelay: 2
   isDebugging: 0
 --- !u!114 &6980715797390888414
 MonoBehaviour:
@@ -269,7 +269,7 @@ MonoBehaviour:
   drainMult: 0.01
   drainDelay: 5
   regainMult: 1.5
-  regainDelay: 5
+  regainDelay: 2
   isDebugging: 0
 --- !u!114 &6449182244168678847
 MonoBehaviour:
@@ -288,7 +288,7 @@ MonoBehaviour:
   drainMult: 0.03
   drainDelay: 5
   regainMult: 1.5
-  regainDelay: 5
+  regainDelay: 2
   isDebugging: 0
 --- !u!114 &6939311668126202570
 MonoBehaviour:
@@ -475,6 +475,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 4016175755622753308}
+    - target: {fileID: 2500193016138171312, guid: 43bf931002e21cb43aa9fc3da35a6b5d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2609153249191007673, guid: 43bf931002e21cb43aa9fc3da35a6b5d, type: 3}
       propertyPath: m_IsActive
       value: 0

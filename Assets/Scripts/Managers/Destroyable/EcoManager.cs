@@ -8,12 +8,14 @@ public class EcoManager : MonoBehaviour
 {
     public static EcoManager instance { get; private set; }
 
+    [SerializeField] private GameObject sun;
     [SerializeField] private bool isStartingTimeRandom;
     [SerializeField] private float startingTimeOfDay;
     [SerializeField] private float maxTemperature;
     [SerializeField] private float minTemperature;
     [SerializeField] private bool isDebugging;
 
+    private float sunRotationAtMidnight = 265;
     private float currentTimeOfDay;
     private float currentTemperature;
 
@@ -40,24 +42,59 @@ public class EcoManager : MonoBehaviour
             currentTimeOfDay = startingTimeOfDay;
             currentTemperature = ConvertTimeToTemp();
         }
+        ChangeSunPosition();
     }
 
     private void Update()
     {
+        PassTime();
+
         if (isDebugging)
         {
             Debug.Log("Current Time: " + currentTimeOfDay + "\nCurrent Temp: " + currentTemperature);
         }
     }
 
-    public float GetCurrentTimeOfDay()
+    public float GetCurrentHour()
     {
         return currentTimeOfDay;
+    }
+
+    public float GetCurrentMinute()
+    {
+        float decimalValue = currentTimeOfDay % 1;
+        float minutes = decimalValue * 60;
+
+        return minutes;
+    }
+
+    public float GetCurrentSecond()
+    {
+        float decimalValue = currentTimeOfDay % 1;
+        float minutes = decimalValue * 60;
+        float seconds = minutes * 60;
+        seconds = seconds % 60;
+
+        return seconds;
     }
 
     public float GetCurrentTemperature()
     {
         return currentTemperature;
+    }
+
+    public void PassTime()
+    {
+        currentTimeOfDay += (0.05f * Time.deltaTime);
+        currentTimeOfDay = Mathf.Clamp(currentTimeOfDay, 0f, 24f);
+
+        if (currentTimeOfDay >= 24)
+        {
+            currentTimeOfDay = 0;
+        }
+
+        ChangeSunPosition();
+        currentTemperature = ConvertTimeToTemp();
     }
 
     public float ConvertTimeToTemp()
@@ -77,5 +114,22 @@ public class EcoManager : MonoBehaviour
         float newTemp = newRatio + minTemperature;
 
         return newTemp;
+    }
+
+    public void ChangeSunPosition()
+    {
+        sun.transform.rotation = Quaternion.Euler(ConvertTimeToSunPosition(), sun.transform.rotation.y, sun.transform.rotation.z);
+    }
+
+    public float ConvertTimeToSunPosition()
+    {
+        float timeRatio = currentTimeOfDay / 24f;
+
+        float sunRange = 360;
+        float newRatio = sunRange * timeRatio;
+
+        float newSunPos = newRatio + sunRotationAtMidnight;
+
+        return newSunPos;
     }
 }

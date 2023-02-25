@@ -43,13 +43,13 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        if (newItem.GetItemType() == InventoryItem.ItemType.Resource)
+        if (newItem.GetItemType() == InventoryItem.ItemType.Resource || newItem.GetItemType() == InventoryItem.ItemType.Consumable)
         {
             // Check if incoming item can be added to an existing stack
             for (int i = 0; i < invItemList.Count; i++)
             {
-                // Determine which resource is in this inventory slot
-                if (invItemList[i].GetItem() == InventoryItem.Item.Wood)
+                // Check if resource/consumable in this inventory slot matches the incoming item's
+                if (invItemList[i].GetItem() == newItem.GetItem())
                 {
                     int invMaxSize = invItemList[i].GetMaxStackSize();
                     int invCurrenSize = invItemList[i].GetItemCount();
@@ -73,13 +73,6 @@ public class Inventory : MonoBehaviour
                         return;
                     }
                 }
-            }
-        }
-        else if (newItem.GetItemType() == InventoryItem.ItemType.Consumable)
-        {
-            for (int i = 0; i < invItemList.Count; i++)
-            {
-
             }
         }
 

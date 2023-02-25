@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode selfLiveKey = KeyCode.L;
 
     private InventoryUI inventoryUI;
+    private SurvivalUI survivalUI;
+    private Health health;
+    private Stamina stamina;
+    private Hunger hunger;
+    private Thirst thirst;
 
     private bool isMovementLocked = false;
     private bool isCameraMovementLocked = false;
@@ -63,6 +68,11 @@ public class PlayerController : MonoBehaviour
         }
 
         inventoryUI = GetComponent<PlayerInventory>().GetInventoryUI();
+        survivalUI = inventoryUI.GetSurvivalUI();
+        health = GetComponent<Health>();
+        stamina = GetComponent<Stamina>();
+        hunger = GetComponent<Hunger>();
+        thirst = GetComponent<Thirst>();
     }
 
     private void Update()
@@ -77,6 +87,7 @@ public class PlayerController : MonoBehaviour
         }
         if (isInventoryActive)
         {
+            RefreshSurvivalUI();
             UpdateInventoryToolTip();
         }
         CheckForPickups();
@@ -250,6 +261,7 @@ public class PlayerController : MonoBehaviour
             }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(true);
+            survivalUI.gameObject.SetActive(true);
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -270,6 +282,7 @@ public class PlayerController : MonoBehaviour
             }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
+            survivalUI.gameObject.SetActive(false);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -353,6 +366,17 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void RefreshSurvivalUI()
+    {
+        survivalUI.RefreshHealthUI(health.GetCurrentValue(), health.GetMaxValue());
+        survivalUI.RefreshStaminaUI(stamina.GetCurrentValue(), stamina.GetMaxValue());
+        survivalUI.RefreshHungerUI(hunger.GetCurrentValue(), hunger.GetMaxValue());
+        survivalUI.RefreshThirstUI(thirst.GetCurrentValue(), thirst.GetMaxValue());
+        survivalUI.RefreshTimeOfDayUI(EcoManager.instance.GetCurrentHour(), EcoManager.instance.GetCurrentMinute());
+        survivalUI.RefreshTemperatureUI(EcoManager.instance.GetCurrentTemperature());
+        survivalUI.RefreshDifficultyUI(DifficultyManager.instance.GetCurrentDifficulty());
     }
 
     public float GetPickupMinDropDistance()
