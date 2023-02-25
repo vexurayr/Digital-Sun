@@ -10,7 +10,9 @@ public class InventoryItem : MonoBehaviour
         Wood,
         Stone,
         Water,
-        Food
+        Berry,
+        Bandage,
+        StaminaBoost
     }
 
     public enum ItemType

@@ -46,3 +46,7 @@ MonoBehaviour:
   invItemPrefabs:
   - {fileID: 6698066347075909765, guid: e6d072bebea6e854aa557dda389b2b06, type: 3}
   - {fileID: 6698066347075909765, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
+  - {fileID: 6698066347075909765, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
+  - {fileID: 6698066347075909765, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
+  - {fileID: 6698066347075909765, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
+  - {fileID: 6698066347075909765, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}

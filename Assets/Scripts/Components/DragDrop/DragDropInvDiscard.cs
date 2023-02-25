@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -56,45 +57,7 @@ public class DragDropInvDiscard : DragAndDrop
         // Everything else will already match
         itemToDiscard.GetComponent<InventoryItem>().SetItemCount(invItem.GetItemCount());
 
-        // Don't want to spawn/remove an empty item
-        if (itemToDiscard.GetComponent<InventoryItem>().GetItem() != InventoryItem.Item.None)
-        {
-            Vector3 spawnLocation = player.gameObject.transform.position +
-                (player.gameObject.transform.forward * player.GetComponent<PlayerController>().GetPickupMinDropDistance());
-            spawnLocation.y = 0;
-
-            // Use Physics.OverlapShere to check if there is an inventory item in the way
-            Collider[] hitColliders = Physics.OverlapSphere(spawnLocation, 0.5f);
-            Collider obstacle = new Collider();
-
-            foreach (Collider collider in hitColliders)
-            {
-                if (collider.gameObject.GetComponent<InventoryItem>())
-                {
-                    obstacle = collider;
-                    continue;
-                }
-            }
-
-            if (obstacle != null)
-            {
-                // Take into account height of object and distance from the object to ground
-                var maxBounds = GetMaxBounds(obstacle.gameObject);
-                spawnLocation.y = (maxBounds.size.y + obstacle.transform.position.y);
-
-                Instantiate(itemToDiscard, spawnLocation, player.gameObject.transform.rotation);
-            }
-            else
-            {
-                // Spawn itemToDiscard in front of the player at valid location
-                Instantiate(itemToDiscard, spawnLocation, player.gameObject.transform.rotation);
-            }
-            
-            // Remove InvItem from playerInventory's list of InvItems using index
-            playerInventory.RemoveFromInventory(index, isInvHandItem);
-        }
-        
-        playerInventory.RefreshInventoryVisuals();
+        CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, 0, 0);
     }
 
     public Bounds GetMaxBounds(GameObject parentObj)
@@ -107,5 +70,62 @@ public class DragDropInvDiscard : DragAndDrop
         }
 
         return totalColliderSize;
+    }
+
+    public void CheckForValidSpawnPoint(GameObject itemToDiscard, int index, bool isInvHandItem, float prevHeight, float combinedHeight)
+    {
+        // Don't want to spawn/remove an empty item
+        if (itemToDiscard.GetComponent<InventoryItem>().GetItem() == InventoryItem.Item.None)
+        {
+            return;
+        }
+
+        float sphereRadius = 0.1f;
+
+        Vector3 spawnLocation = player.gameObject.transform.position +
+                (player.gameObject.transform.forward * player.GetComponent<PlayerController>().GetPickupMinDropDistance());
+        spawnLocation.y = combinedHeight;
+
+        // Use Physics.OverlapShere to check if there is an inventory item in the way
+        Collider[] hitColliders = Physics.OverlapSphere(spawnLocation, sphereRadius);
+        Collider obstacle = new Collider();
+
+        foreach (Collider collider in hitColliders)
+        {
+            if (collider.gameObject.GetComponent<InventoryItem>())
+            {
+                if (obstacle == null)
+                {
+                    obstacle = collider;
+                }
+                // Get the collider of the heighest object
+                else if (collider.transform.position.y > obstacle.transform.position.y)
+                {
+                    obstacle = collider;
+                }
+            }
+        }
+
+        if (obstacle != null)
+        {
+            // Take into account height of object
+            var maxBounds = GetMaxBounds(obstacle.gameObject);
+            prevHeight = maxBounds.size.y;
+            spawnLocation.y += maxBounds.size.y;
+
+            CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, prevHeight, spawnLocation.y);
+        }
+        else
+        {
+            spawnLocation.y = combinedHeight - prevHeight;
+
+            // Spawn itemToDiscard in front of the player at valid location
+            Instantiate(itemToDiscard, spawnLocation, player.gameObject.transform.rotation);
+
+            // Remove InvItem from playerInventory's list of InvItems using index
+            playerInventory.RemoveFromInventory(index, isInvHandItem);
+
+            playerInventory.RefreshInventoryVisuals();
+        }
     }
 }
