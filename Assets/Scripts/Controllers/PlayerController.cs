@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Variables
     [SerializeField] private Text worldToolTipUI;
     [SerializeField] private Text inventoryToolTipUI;
     [SerializeField] private Camera playerCamera;
@@ -26,6 +27,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode pickUpKey = KeyCode.E;
     [SerializeField] private KeyCode inventoryKey = KeyCode.Tab;
+    // Right-click to use items
+    [SerializeField] private KeyCode useKey = KeyCode.Mouse1;
     // For testing purposes
     [SerializeField] private KeyCode selfKillKey = KeyCode.K;
     [SerializeField] private KeyCode selfLiveKey = KeyCode.L;
@@ -53,6 +56,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDelta = Vector2.zero;
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     private void Start()
     {
         // Lets the character controller handle movement and collision, applies the value to this component
@@ -88,12 +94,15 @@ public class PlayerController : MonoBehaviour
         if (isInventoryActive)
         {
             RefreshSurvivalUI();
-            UpdateInventoryToolTip();
+            UpdateInventoryInteractions();
         }
         CheckForPickups();
         CheckOtherInputs();
     }
 
+    #endregion MonoBehaviours
+
+    #region KeyboardAndMouse
     private void UpdateMouseLook()
     {
         // Saves the x and y position of the mouse on the screen
@@ -185,6 +194,26 @@ public class PlayerController : MonoBehaviour
         playerController.slopeLimit = 45.0f;
     }
 
+    public void CheckOtherInputs()
+    {
+        if (Input.GetKeyDown(inventoryKey))
+        {
+            ToggleInventoryUI();
+        }
+
+        if (Input.GetKeyDown(selfKillKey))
+        {
+            GetComponent<Health>().DecCurrentValue(10f);
+        }
+        else if (Input.GetKeyDown(selfLiveKey))
+        {
+            GetComponent<Health>().IncCurrentValue(5f);
+        }
+    }
+
+    #endregion KeyboardAndMouse
+
+    #region PickupsAndInventory
     private void CheckForPickups()
     {
         Vector3 cameraDirection = playerCamera.transform.forward;
@@ -225,23 +254,6 @@ public class PlayerController : MonoBehaviour
             Destroy(hitInventoryItem.gameObject);
 
             inventory.RefreshInventoryVisuals();
-        }
-    }
-
-    public void CheckOtherInputs()
-    {
-        if (Input.GetKeyDown(inventoryKey))
-        {
-            ToggleInventoryUI();
-        }
-
-        if (Input.GetKeyDown(selfKillKey))
-        {
-            GetComponent<Health>().DecCurrentValue(10f);
-        }
-        else if (Input.GetKeyDown(selfLiveKey))
-        {
-            GetComponent<Health>().IncCurrentValue(5f);
         }
     }
 
@@ -291,7 +303,8 @@ public class PlayerController : MonoBehaviour
         }    
     }
     
-    public void UpdateInventoryToolTip()
+    // This function updates the Inventory tooltip and lets the player use items from their inventory
+    public void UpdateInventoryInteractions()
     {
         int invItemIndex = GetInvItemIndexFromMouse();
         bool isInvItemIndexInvHand = IsInvItemIndexInvHand();
@@ -303,7 +316,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Inventory playerInventory = this.gameObject.GetComponent<Inventory>();
+        PlayerInventory playerInventory = this.gameObject.GetComponent<PlayerInventory>();
         List<InventoryItem> invItems = playerInventory.GetInvItemList();
         List<InventoryItem> invHandItems = playerInventory.GetInvHandItemList();
         InventoryItem invItem = null;
@@ -323,10 +336,33 @@ public class PlayerController : MonoBehaviour
         if (invItem.GetItem() == InventoryItem.Item.None)
         {
             inventoryToolTipUI.text = "";
+            return;
         }
         else
         {
             inventoryToolTipUI.text = invItem.GetItem().ToString();
+        }
+
+        // Right click to use consumables
+        if (Input.GetKeyDown(useKey) && invItem.GetItemType() == InventoryItem.ItemType.Consumable)
+        {
+            bool wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+            int itemCount = invItem.GetItemCount();
+
+            if (wasConsumed == false)
+            {
+                // Do nothing
+            }
+            else if (itemCount <= 1)
+            {
+                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand);
+            }
+            else
+            {
+                invItem.SetItemCount(itemCount - 1);
+            }
+
+            playerInventory.RefreshInventoryVisuals();
         }
     }
     
@@ -379,6 +415,9 @@ public class PlayerController : MonoBehaviour
         survivalUI.RefreshDifficultyUI(DifficultyManager.instance.GetCurrentDifficulty());
     }
 
+    #endregion PickupsAndInventory
+
+    #region GetSet
     public float GetPickupMinDropDistance()
     {
         return pickupMinDropDistance;
@@ -388,4 +427,6 @@ public class PlayerController : MonoBehaviour
     { 
         return pickupMaxDropDistance;
     }
+
+    #endregion GetSet
 }

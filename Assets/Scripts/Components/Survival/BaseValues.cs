@@ -25,6 +25,8 @@ public abstract class BaseValues : MonoBehaviour
     protected virtual void Start()
     {
         currentValue = startValue;
+        currentDrainMult = drainMult;
+        currentRegainMult = regainMult;
         isDrainingValueOverTime = false;
         isRegainingValueOverTime = false;
     }
@@ -106,7 +108,7 @@ public abstract class BaseValues : MonoBehaviour
 
     public virtual void DecCurrentValueOverTime()
     {
-        currentValue -= drainMult * Time.deltaTime;
+        currentValue -= currentDrainMult * Time.deltaTime;
         currentValue = Mathf.Clamp(currentValue, 0, maxValue);
     }
 
@@ -121,7 +123,7 @@ public abstract class BaseValues : MonoBehaviour
 
     public virtual void IncCurrentValueOverTime()
     {
-        currentValue += regainMult * Time.deltaTime;
+        currentValue += currentRegainMult * Time.deltaTime;
         currentValue = Mathf.Clamp(currentValue, 0, maxValue);
     }
 
@@ -176,4 +178,19 @@ public abstract class BaseValues : MonoBehaviour
     }
 
     #endregion IEnumerators
+
+    #region Helpers
+    public bool IsCurrentValueAtMaxValue()
+    {
+        if (currentValue >= maxValue)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    #endregion
 }
