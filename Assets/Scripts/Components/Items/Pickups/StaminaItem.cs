@@ -35,7 +35,7 @@ public class StaminaItem : InventoryItem
         {
             return false;
         }
-
+        //Debug.Log("Powerup Duration: " + powerup.GetPowerupDuration());
         powerupManager.Add(powerup);
         return true;
     }
