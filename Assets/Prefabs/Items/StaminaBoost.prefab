@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 7140448938702028141}
-  - component: {fileID: 7374407477654957288}
+  - component: {fileID: 1395908859388813191}
   m_Layer: 0
   m_Name: StaminaBoost
   m_TagString: Untagged
@@ -127,7 +127,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &7374407477654957288
+--- !u!114 &1395908859388813191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6698066347075909765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 780074e9f6d97384780535e7006af0ed, type: 3}
+  m_Script: {fileID: 11500000, guid: c415c0540f59d434caf981838a87f9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: 6
@@ -144,11 +144,15 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: 3631843991074cd46a0a5f781b13db0e, type: 3}
   itemCount: 0
   maxStackSize: 20
-  powerupType: 3
-  staminaRegainRateIncrease: 5
-  thirstBarRestore: 5
+  primaryEffect: 5
+  secondEffect: 4
+  primaryStatChangeAmount: 5
+  secondStatChangeAmount: 1
   powerupDuration: 60
   isStackable: 0
-  isPermanent: 0
+  isPrimaryEffectPermanent: 0
+  isSecondEffectPermanent: 1
+  isPrimaryStatPercentChange: 0
+  isSecondStatPercentChange: 1
   isPrimaryEffectAlwaysApplied: 0
   isSecondEffectAlwaysApplied: 1

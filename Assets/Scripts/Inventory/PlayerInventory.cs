@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerInventory : Inventory
 {
+    #region Variables
     [SerializeField] private InventoryUI inventoryUI;
 
     private List<GameObject> invSlotsUI;
@@ -16,6 +17,9 @@ public class PlayerInventory : Inventory
 
     private int selectedInvHandSlot = 0;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     public override void Awake()
     {
         base.Awake();
@@ -30,6 +34,9 @@ public class PlayerInventory : Inventory
         RefreshInventoryVisuals();
     }
 
+    #endregion MonoBehaviours
+
+    #region RefreshInventoryVisuals
     public void RefreshInventoryVisuals()
     {
         // Move UI inventory items to the correct location
@@ -95,6 +102,9 @@ public class PlayerInventory : Inventory
         }
     }
 
+    #endregion RefreshInventoryVisuals
+
+    #region SwapInvItems
     // Called whenever the player adjusts Inventory through the UI
     public void SwapTwoInvItems(int first, int second)
     {
@@ -130,6 +140,9 @@ public class PlayerInventory : Inventory
         RefreshInventoryVisuals();
     }
 
+    #endregion SwapInvItems
+
+    #region GetSet
     public InventoryUI GetInventoryUI()
     {
         return inventoryUI;
@@ -145,6 +158,9 @@ public class PlayerInventory : Inventory
         selectedInvHandSlot = slotIndex;
     }
 
+    #endregion GetSet
+
+    #region SelectHotbarSlot
     public void MoveSelectedInvHandSlotRight()
     {
         selectedInvHandSlot++;
@@ -164,4 +180,6 @@ public class PlayerInventory : Inventory
             selectedInvHandSlot = invHandSlotsUI.Count - 1;
         }
     }
+
+    #endregion SelectHotbarSlot
 }

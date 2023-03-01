@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 7140448938702028141}
-  - component: {fileID: 5250689359383153618}
+  - component: {fileID: 8320492190017966555}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -127,7 +127,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &5250689359383153618
+--- !u!114 &8320492190017966555
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6698066347075909765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc063f61ed71004fba29f779ab7a9e0, type: 3}
+  m_Script: {fileID: 11500000, guid: c415c0540f59d434caf981838a87f9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: 3
@@ -144,10 +144,15 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: 83cacace382c6aa478fd0afea10f522b, type: 3}
   itemCount: 0
   maxStackSize: 20
-  powerupType: 2
-  thirstBarRestore: 15
+  primaryEffect: 3
+  secondEffect: 0
+  primaryStatChangeAmount: 15
+  secondStatChangeAmount: 0
   powerupDuration: 0
   isStackable: 0
-  isPermanent: 0
-  isPrimaryEffectAlwaysApplied: 1
+  isPrimaryEffectPermanent: 1
+  isSecondEffectPermanent: 0
+  isPrimaryStatPercentChange: 0
+  isSecondStatPercentChange: 0
+  isPrimaryEffectAlwaysApplied: 0
   isSecondEffectAlwaysApplied: 0
