@@ -182,6 +182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StaminaBoost
       objectReference: {fileID: 0}
+    - target: {fileID: 7374407477654957288, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: itemCount
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
 --- !u!1001 &174963580
@@ -234,6 +238,10 @@ PrefabInstance:
     - target: {fileID: 1399104532389653122, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465549134005030158, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
+      propertyPath: itemCount
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4886127773041000980, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
       propertyPath: itemCount
@@ -295,6 +303,10 @@ PrefabInstance:
     - target: {fileID: 1399104532389653122, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465549134005030158, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
+      propertyPath: itemCount
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4886127773041000980, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
       propertyPath: itemCount
@@ -499,6 +511,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1217886636860568142, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
+      propertyPath: itemCount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1399104532389653122, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -776,6 +792,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1217886636860568142, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
+      propertyPath: itemCount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1399104532389653122, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
       propertyPath: m_RootOrder
       value: 15
@@ -985,6 +1005,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StaminaBoost (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7374407477654957288, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: itemCount
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
 --- !u!1001 &1071352206
@@ -1041,6 +1065,10 @@ PrefabInstance:
     - target: {fileID: 4886127773041000980, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
       propertyPath: itemCount
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250689359383153618, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
+      propertyPath: itemCount
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 6698066347075909765, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
       propertyPath: m_Name
@@ -1103,6 +1131,10 @@ PrefabInstance:
       propertyPath: itemCount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5250689359383153618, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
+      propertyPath: itemCount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6698066347075909765, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
       propertyPath: m_Name
       value: Water (1)
@@ -1161,6 +1193,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4886127773041000980, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
+      propertyPath: itemCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250689359383153618, guid: 4eb17c29b2396cb47adc0441b13cc398, type: 3}
       propertyPath: itemCount
       value: 1
       objectReference: {fileID: 0}
@@ -1476,6 +1512,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StaminaBoost (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7374407477654957288, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: itemCount
+      value: 19
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
 --- !u!1001 &1550894088
@@ -1485,6 +1525,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1217886636860568142, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
+      propertyPath: itemCount
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 1399104532389653122, guid: 9205719d042d9f84698c39ad004f7bbf, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -1992,6 +2036,10 @@ PrefabInstance:
     - target: {fileID: 1399104532389653122, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2465549134005030158, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
+      propertyPath: itemCount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4886127773041000980, guid: 64825280ae1ae39469236b6f23f0e1ed, type: 3}
       propertyPath: itemCount

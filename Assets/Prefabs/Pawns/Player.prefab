@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 6980715797390888414}
   - component: {fileID: 6449182244168678847}
   - component: {fileID: 6939311668126202570}
+  - component: {fileID: 4261295615998066493}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -308,6 +309,18 @@ MonoBehaviour:
   stage2ColdTemp: 25
   stage1DrainMult: 0.05
   stage2DrainMult: 0.09
+--- !u!114 &4261295615998066493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4016175755622753308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c92c3553ba4613242a21dd8f39cc9303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7225056889445945647
 GameObject:
   m_ObjectHideFlags: 0

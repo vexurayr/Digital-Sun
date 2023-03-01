@@ -14,6 +14,8 @@ public class PlayerInventory : Inventory
     private List<GameObject> invHandItemsUI;
     private List<GameObject> invHandItemCountersUI;
 
+    private int selectedInvHandSlot = 0;
+
     public override void Awake()
     {
         base.Awake();
@@ -131,5 +133,35 @@ public class PlayerInventory : Inventory
     public InventoryUI GetInventoryUI()
     {
         return inventoryUI;
+    }
+
+    public int GetSelectedInvHandSlot()
+    {
+        return selectedInvHandSlot;
+    }
+
+    public void SetSelectedInvHandSlot(int slotIndex)
+    {
+        selectedInvHandSlot = slotIndex;
+    }
+
+    public void MoveSelectedInvHandSlotRight()
+    {
+        selectedInvHandSlot++;
+
+        if (selectedInvHandSlot > invHandSlotsUI.Count - 1)
+        {
+            selectedInvHandSlot = 0;
+        }
+    }
+
+    public void MoveSelectedInvHandSlotLeft()
+    {
+        selectedInvHandSlot--;
+
+        if (selectedInvHandSlot < 0)
+        {
+            selectedInvHandSlot = invHandSlotsUI.Count - 1;
+        }
     }
 }

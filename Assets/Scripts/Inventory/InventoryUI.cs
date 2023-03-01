@@ -18,6 +18,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private List<GameObject> invHandItemCountersUI;
     [SerializeField] private GameObject survivalUI;
 
+    [SerializeField] private List<GameObject> invHandSelectedSlotUI;
+
     public List<GameObject> GetInvSlotsUI()
     {
         return invSlotsUI;
@@ -56,5 +58,10 @@ public class InventoryUI : MonoBehaviour
     public SurvivalUI GetSurvivalUI()
     {
         return survivalUI.GetComponent<SurvivalUI>();
+    }
+
+    public List<GameObject> GetInvHandSelectedSlotUI()
+    {
+        return invHandSelectedSlotUI;
     }
 }

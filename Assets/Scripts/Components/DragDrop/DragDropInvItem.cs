@@ -75,16 +75,31 @@ public class DragDropInvItem : DragAndDrop
         {
             playerInventory.SwapTwoInvItems(firstInvIndex, secondInvIndex);
         }
+        // Both items are in invHandUI
         else if (isFirstItemInvHand && isSecondItemInvHand)
         {
             playerInventory.SwapTwoInvHandItems(firstInvIndex, secondInvIndex);
         }
+        // Other item is in invUI, this item is in invHandUI
         else if (!isFirstItemInvHand && isSecondItemInvHand)
         {
+            // Prevent resources from entering the invHand
+            if (playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Resource)
+            {
+                return;
+            }
+
             playerInventory.SwapInvItemWithHandItem(firstInvIndex, secondInvIndex);
         }
+        // Other item is in invHandUI, this item is in invUI
         else if (isFirstItemInvHand && !isSecondItemInvHand)
         {
+            // Prevent resources from entering the invHand
+            if (playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Resource)
+            {
+                return;
+            }
+
             playerInventory.SwapInvItemWithHandItem(secondInvIndex, firstInvIndex);
         }
     }
