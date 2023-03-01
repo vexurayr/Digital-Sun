@@ -5,7 +5,7 @@ using UnityEngine;
 public class HealthPowerup : Powerup
 {
     // This will give the target the healing amount to their health component
-    public override void Apply(PowerupManager target)
+    public override void ApplyPrimaryEffect(PowerupManager target)
     {
         // Gets Health Component
         Health health = target.GetComponent<Health>();
@@ -19,6 +19,6 @@ public class HealthPowerup : Powerup
 
     // We don't want to take health away, so this is empty
     // The powerup can be safely removed from the PowerupManager
-    public override void Remove(PowerupManager target)
+    public override void RemovePrimaryEffect(PowerupManager target)
     {}
 }

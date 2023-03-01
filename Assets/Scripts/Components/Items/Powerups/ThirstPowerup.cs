@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThirstPowerup : Powerup
 {
-    public override void Apply(PowerupManager target)
+    public override void ApplyPrimaryEffect(PowerupManager target)
     {
         Thirst thirst = target.GetComponent<Thirst>();
 
@@ -14,6 +14,6 @@ public class ThirstPowerup : Powerup
         }
     }
 
-    public override void Remove(PowerupManager target)
+    public override void RemovePrimaryEffect(PowerupManager target)
     { }
 }

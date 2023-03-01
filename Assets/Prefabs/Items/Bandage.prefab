@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5174417797694424518}
   - component: {fileID: 530950250493937349}
   m_Layer: 0
-  m_Name: Bottle
+  m_Name: Cloth Roll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3432443972802105927}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 1399104532389653122}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &5174417797694424518
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8429e6eb9793cbe44a5f57e2d7e3b724, type: 2}
+  - {fileID: 2100000, guid: e6a524e5c5ca02540a1a8b97d13dca2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,9 +91,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 7140448938702028141}
-  - component: {fileID: 7374407477654957288}
+  - component: {fileID: 2465549134005030158}
   m_Layer: 0
-  m_Name: StaminaBoost
+  m_Name: Bandage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,9 +125,9 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 0.5}
-  m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &7374407477654957288
+  m_Size: {x: 1, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 0.25, z: 0}
+--- !u!114 &2465549134005030158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,16 +136,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6698066347075909765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 780074e9f6d97384780535e7006af0ed, type: 3}
+  m_Script: {fileID: 11500000, guid: c415c0540f59d434caf981838a87f9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: 6
+  item: 5
   itemType: 2
-  itemSprite: {fileID: 21300000, guid: 3631843991074cd46a0a5f781b13db0e, type: 3}
+  itemSprite: {fileID: 21300000, guid: aed680322faa43d4c980f9ee852bd01d, type: 3}
   itemCount: 0
   maxStackSize: 20
-  powerupType: 3
-  staminaRegainRateIncrease: 5
-  thirstBarRestore: 5
-  powerupDuration: 60
+  powerupType: 0
+  healthBarRestore: 20
+  powerupDuration: 0
+  isStackable: 0
   isPermanent: 0
+  isPrimaryEffectAlwaysApplied: 1
+  isSecondEffectAlwaysApplied: 0

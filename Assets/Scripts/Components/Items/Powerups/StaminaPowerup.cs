@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class StaminaPowerup : Powerup
 {
-    public override void Apply(PowerupManager target)
+    public override void ApplyPrimaryEffect(PowerupManager target)
     {
         Stamina stamina = target.GetComponent<Stamina>();
-        Thirst thirst = target.GetComponent<Thirst>();
 
         if (stamina != null)
         {
             stamina.IncRegainMult(statChangeAmount);
         }
+    }
+
+    public override void ApplySecondEffect(PowerupManager target)
+    {
+        Thirst thirst = target.GetComponent<Thirst>();
+
         if (thirst != null)
         {
             thirst.IncCurrentValue(secondStatChangeAmount);
         }
     }
 
-    public override void Remove(PowerupManager target)
+    public override void RemovePrimaryEffect(PowerupManager target)
     {
         Stamina stamina = target.GetComponent<Stamina>();
 

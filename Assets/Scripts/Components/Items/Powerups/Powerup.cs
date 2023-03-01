@@ -18,15 +18,26 @@ public abstract class Powerup
     protected float statChangeAmount;
     protected float secondStatChangeAmount;
     protected float powerupDuration;
+    protected bool isStackable;
     protected bool isPermanent;
+    protected bool isPrimaryEffectAlwaysApplied;
+    protected bool isSecondEffectAlwaysApplied;
+    // Will track stacking effects so Remove() is called for each stack applied
+    protected int timesApplied;
 
     // This method will be called when the item is picked up
-    public virtual void Apply(PowerupManager target)
-    {}
+    public virtual void ApplyPrimaryEffect(PowerupManager target)
+    { }
+
+    public virtual void ApplySecondEffect(PowerupManager target)
+    { }
 
     // This method will be called when the item's effect wears off
-    public virtual void Remove(PowerupManager target)
-    {}
+    public virtual void RemovePrimaryEffect(PowerupManager target)
+    { }
+
+    public virtual void RemoveSecondEffect(PowerupManager target)
+    { }
 
     public float GetStatChangeAmount()
     {
@@ -65,6 +76,16 @@ public abstract class Powerup
         powerupDuration = newDuration;
     }
 
+    public bool GetIsStackable()
+    {
+        return isStackable;
+    }
+
+    public void SetIsStackable(bool newState)
+    {
+        isStackable = newState;
+    }
+
     public bool GetIsPermanent()
     {
         return isPermanent;
@@ -83,5 +104,35 @@ public abstract class Powerup
     public void SetPowerupType(PowerupType newType)
     {
         powerupType = newType;
+    }
+
+    public bool GetIsPrimaryEffectAlwaysApplied()
+    {
+        return isPrimaryEffectAlwaysApplied;
+    }
+
+    public void SetIsPrimaryEffectAlwaysApplied(bool newState)
+    {
+        isPrimaryEffectAlwaysApplied = newState;
+    }
+
+    public bool GetIsSecondEffectAlwaysApplied()
+    {
+        return isSecondEffectAlwaysApplied;
+    }
+
+    public void SetIsSecondEffectAlwaysApplied(bool newState)
+    {
+        isSecondEffectAlwaysApplied = newState;
+    }
+
+    public int GetTimesApplied()
+    {
+        return timesApplied;
+    }
+
+    public void SetTimesApplied(int applied)
+    {
+        timesApplied = applied;
     }
 }

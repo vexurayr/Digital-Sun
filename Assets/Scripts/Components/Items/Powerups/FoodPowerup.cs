@@ -5,7 +5,7 @@ using UnityEngine;
 public class FoodPowerup : Powerup
 {
     // Refill target's hunger bar
-    public override void Apply(PowerupManager target)
+    public override void ApplyPrimaryEffect(PowerupManager target)
     {
         // Gets Hunger Component
         Hunger hunger = target.GetComponent<Hunger>();
@@ -17,6 +17,6 @@ public class FoodPowerup : Powerup
     }
 
     // Won't be removing hunger when the powerup's timer reaches 0
-    public override void Remove(PowerupManager target)
+    public override void RemovePrimaryEffect(PowerupManager target)
     { }
 }

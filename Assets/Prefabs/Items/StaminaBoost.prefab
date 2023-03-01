@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3cc876edcc95b344584488f1a1b78f4b, type: 2}
+  - {fileID: 2100000, guid: 8429e6eb9793cbe44a5f57e2d7e3b724, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,9 +91,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 7140448938702028141}
-  - component: {fileID: 5250689359383153618}
+  - component: {fileID: 7374407477654957288}
   m_Layer: 0
-  m_Name: Water
+  m_Name: StaminaBoost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,7 +127,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 0.5}
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &5250689359383153618
+--- !u!114 &7374407477654957288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,15 +136,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6698066347075909765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc063f61ed71004fba29f779ab7a9e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 780074e9f6d97384780535e7006af0ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: 3
+  item: 6
   itemType: 2
-  itemSprite: {fileID: 21300000, guid: 83cacace382c6aa478fd0afea10f522b, type: 3}
+  itemSprite: {fileID: 21300000, guid: 3631843991074cd46a0a5f781b13db0e, type: 3}
   itemCount: 0
   maxStackSize: 20
-  powerupType: 2
-  thirstBarRestore: 15
-  powerupDuration: 0
+  powerupType: 3
+  staminaRegainRateIncrease: 5
+  thirstBarRestore: 5
+  powerupDuration: 60
+  isStackable: 0
   isPermanent: 0
+  isPrimaryEffectAlwaysApplied: 0
+  isSecondEffectAlwaysApplied: 1

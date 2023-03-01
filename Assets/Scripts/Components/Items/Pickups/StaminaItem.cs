@@ -9,7 +9,10 @@ public class StaminaItem : InventoryItem
     [SerializeField] private float staminaRegainRateIncrease;
     [SerializeField] private float thirstBarRestore;
     [SerializeField] private float powerupDuration;
+    [SerializeField] private bool isStackable;
     [SerializeField] private bool isPermanent;
+    [SerializeField] private bool isPrimaryEffectAlwaysApplied;
+    [SerializeField] private bool isSecondEffectAlwaysApplied;
 
     private StaminaPowerup powerup;
 
@@ -20,7 +23,10 @@ public class StaminaItem : InventoryItem
         powerup.SetStatChangeAmount(staminaRegainRateIncrease);
         powerup.SetSecondStatChangeAmount(thirstBarRestore);
         powerup.SetPowerupDuration(powerupDuration);
+        powerup.SetIsStackable(isStackable);
         powerup.SetIsPermanent(isPermanent);
+        powerup.SetIsPrimaryEffectAlwaysApplied(isPrimaryEffectAlwaysApplied);
+        powerup.SetIsSecondEffectAlwaysApplied(isSecondEffectAlwaysApplied);
     }
 
     public override bool PrimaryAction(PowerupManager powerupManager)

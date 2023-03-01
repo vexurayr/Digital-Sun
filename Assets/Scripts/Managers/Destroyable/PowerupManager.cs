@@ -36,7 +36,8 @@ public class PowerupManager : MonoBehaviour
     // This method activates the powerup's effects and adds it to a list of active powerups
     public void Add(Powerup powerup)
     {
-        bool canApply = true;
+        Debug.Log("Incoming powerup: " + powerup.GetPowerupDuration());
+        bool isAlreadyApplied = false;
         int indexPowerupExists = 0;
         int index = 0;
 
@@ -45,24 +46,44 @@ public class PowerupManager : MonoBehaviour
         {
             if (powerup.GetPowerupType() == power.GetPowerupType())
             {
-                canApply = false;
+                isAlreadyApplied = true;
                 indexPowerupExists = index;
             }
             index++;
         }
 
         // Apply powerup if it's not already in this list
-        if (canApply)
+        if (!isAlreadyApplied)
         {
-            powerup.Apply(this);
+            powerup.ApplyPrimaryEffect(this);
+            powerup.ApplySecondEffect(this);
+            
+            powerup.SetTimesApplied(powerup.GetTimesApplied() + 1);
             // Add powerup to list
             powerups.Add(powerup);
         }
-        // If it is in the list, reset the time it lasts for
+        // If it is in the list and can't stack, just reset its timer
+        else if (!powerup.GetIsStackable())
+        {
+            powerups[indexPowerupExists].SetPowerupDuration(powerup.GetPowerupDuration());
+
+            if (powerup.GetIsPrimaryEffectAlwaysApplied())
+            {
+                powerup.ApplyPrimaryEffect(this);
+                powerups[indexPowerupExists].SetTimesApplied(powerup.GetTimesApplied() + 1);
+            }
+            if (powerup.GetIsSecondEffectAlwaysApplied())
+            {
+                powerup.ApplySecondEffect(this);
+            }
+        }
+        // It is in the list and can stack, also reset the timer
         else
         {
-            Debug.Log("Remaining Duration: " + powerups[indexPowerupExists].GetPowerupDuration() +
-                "\nResetting Duration To: " + powerup.GetPowerupDuration());
+            powerup.ApplyPrimaryEffect(this);
+            powerup.ApplySecondEffect(this);
+
+            powerups[indexPowerupExists].SetTimesApplied(powerup.GetTimesApplied() + 1);
             powerups[indexPowerupExists].SetPowerupDuration(powerup.GetPowerupDuration());
         }
     }
@@ -70,10 +91,14 @@ public class PowerupManager : MonoBehaviour
     // This method will remove a powerup's effects from the object
     public void Remove(Powerup powerup)
     {
-        // Remove the powerup from the object
-        powerup.Remove(this);
+        // For each time the effect was applied, remove its stat change
+        for (int i = powerup.GetTimesApplied(); i <= 0; i--)
+        {
+            powerup.RemovePrimaryEffect(this);
+            powerup.RemoveSecondEffect(this);
+        }
 
-        // Add powerup to list of powerups that will be removed after the foreach loop is done
+        // Add powerup to list of powerups that will be removed after DecrementPowerupTimers() foreach is done
         removedPowerupQueue.Add(powerup);
     }
 
@@ -85,7 +110,9 @@ public class PowerupManager : MonoBehaviour
             if (!powerup.GetIsPermanent())
             {
                 // Decrease the time it has remaining
-                powerup.SetPowerupDuration(powerup.GetPowerupDuration() - Time.deltaTime);
+                float remainingDuration = powerup.GetPowerupDuration();
+                remainingDuration -= Time.deltaTime;
+                powerup.SetPowerupDuration(remainingDuration);
                 
                 // Remove powerup if time is up
                 if (powerup.GetPowerupDuration() <= 0)

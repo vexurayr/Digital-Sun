@@ -682,7 +682,10 @@ MonoBehaviour:
   powerupType: 1
   hungerBarRestore: 5
   powerupDuration: 0
+  isStackable: 0
   isPermanent: 0
+  isPrimaryEffectAlwaysApplied: 1
+  isSecondEffectAlwaysApplied: 0
 --- !u!1 &8931839143685346327
 GameObject:
   m_ObjectHideFlags: 0
