@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
+    #region Variables
     // List of slots used to anchor invItems
     [SerializeField] private List<GameObject> invSlotsUI;
     // These contain InventoryItem component, change displayed sprite on raw image component
@@ -20,6 +21,9 @@ public class InventoryUI : MonoBehaviour
 
     [SerializeField] private List<GameObject> invHandSelectedSlotUI;
 
+    #endregion Variables
+
+    #region GetSet
     public List<GameObject> GetInvSlotsUI()
     {
         return invSlotsUI;
@@ -64,4 +68,6 @@ public class InventoryUI : MonoBehaviour
     {
         return invHandSelectedSlotUI;
     }
+
+    #endregion GetSet
 }
