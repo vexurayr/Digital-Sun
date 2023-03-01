@@ -43,6 +43,7 @@ public class PowerupManager : MonoBehaviour
     // This method activates the powerup's effects and adds it to a list of active powerups
     public void Add(Powerup powerup)
     {
+        Debug.Log("Incoming powerup duration: " + powerup.GetPowerupDuration());
         bool isAlreadyApplied = false;
         int indexPowerupExists = 0;
         int index = 0;

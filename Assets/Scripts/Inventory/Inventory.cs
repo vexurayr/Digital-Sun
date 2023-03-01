@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    #region Variables
     [SerializeField] protected int invSlots;
     [SerializeField] protected int invHandSlots;
     [SerializeField] protected InventoryItem emptyInvItem;
@@ -12,6 +13,9 @@ public class Inventory : MonoBehaviour
     protected List<InventoryItem> invItemList;
     protected List<InventoryItem> invHandItemList;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     public virtual void Awake()
     {
         invItemList = new List<InventoryItem>();
@@ -20,22 +24,32 @@ public class Inventory : MonoBehaviour
         InitializeInventory();
     }
 
-    public virtual void InitializeInventory()
+    #endregion MonoBehaviours
+
+    #region GetSet
+    public virtual int GetInvSlotCount()
     {
-        invItemList.Clear();
-        invHandItemList.Clear();
-
-        for (int i = 0; i < invSlots; i++)
-        {
-            invItemList.Add(emptyInvItem);
-        }
-
-        for (int i = 0; i < invHandSlots; i++)
-        {
-            invHandItemList.Add(emptyInvItem);
-        }
+        return invSlots;
     }
 
+    public virtual int GetInvHandSlotCount()
+    {
+        return invHandSlots;
+    }
+
+    public virtual List<InventoryItem> GetInvItemList()
+    {
+        return invItemList;
+    }
+
+    public virtual List<InventoryItem> GetInvHandItemList()
+    {
+        return invHandItemList;
+    }
+
+    #endregion GetSet
+
+    #region AddItemToInventory
     public virtual void AddToInventory(InventoryItem newItem)
     {
         if (newItem == null)
@@ -94,6 +108,9 @@ public class Inventory : MonoBehaviour
         AddToInventory(newItem);
     }
 
+    #endregion AddItemToInventory
+
+    #region RemoveItemFromInventory
     public virtual void RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem)
     {
         if (itemAtIndexToRemove < 0 || itemAtIndexToRemove > invItemList.Count)
@@ -157,6 +174,25 @@ public class Inventory : MonoBehaviour
         RemoveFromInventory(itemToRemove, isInvHandItem);
     }
 
+    #endregion RemoveItemFromInventory
+
+    #region HelperFunctions
+    public virtual void InitializeInventory()
+    {
+        invItemList.Clear();
+        invHandItemList.Clear();
+
+        for (int i = 0; i < invSlots; i++)
+        {
+            invItemList.Add(emptyInvItem);
+        }
+
+        for (int i = 0; i < invHandSlots; i++)
+        {
+            invHandItemList.Add(emptyInvItem);
+        }
+    }
+
     public virtual void DisplayInventoryDebug()
     {
         string invItems = "";
@@ -175,23 +211,5 @@ public class Inventory : MonoBehaviour
         Debug.Log("Inventory: " + invItems + "\nHotbar: " + invHandItems);
     }
 
-    public virtual int GetInvSlotCount()
-    {
-        return invSlots;
-    }
-
-    public virtual int GetInvHandSlotCount()
-    {
-        return invHandSlots;
-    }
-
-    public virtual List<InventoryItem> GetInvItemList()
-    {
-        return invItemList;
-    }
-
-    public virtual List<InventoryItem> GetInvHandItemList()
-    {
-        return invHandItemList;
-    }
+    #endregion HelperFunctions
 }

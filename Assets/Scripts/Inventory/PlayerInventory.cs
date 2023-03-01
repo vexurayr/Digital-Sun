@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,6 +36,24 @@ public class PlayerInventory : Inventory
     }
 
     #endregion MonoBehaviours
+
+    #region GetSet
+    public InventoryUI GetInventoryUI()
+    {
+        return inventoryUI;
+    }
+
+    public int GetSelectedInvHandSlot()
+    {
+        return selectedInvHandSlot;
+    }
+
+    public void SetSelectedInvHandSlot(int slotIndex)
+    {
+        selectedInvHandSlot = slotIndex;
+    }
+
+    #endregion GetSet
 
     #region RefreshInventoryVisuals
     public void RefreshInventoryVisuals()
@@ -142,23 +161,42 @@ public class PlayerInventory : Inventory
 
     #endregion SwapInvItems
 
-    #region GetSet
-    public InventoryUI GetInventoryUI()
+    #region CombineStacks
+    // These will always be of the same item
+    public bool CombineStacks(InventoryItem firstInvItem, InventoryItem secondInvItem, int secondInvItemIndex, bool isSecondInvHandItem)
     {
-        return inventoryUI;
+        int firstInvItemCount = firstInvItem.GetItemCount();
+        int secondInvItemCount = secondInvItem.GetItemCount();
+        int maxItemCount = firstInvItem.GetMaxStackSize();
+        int newAmount = firstInvItemCount + secondInvItemCount;
+
+        // Can't combine stacks if 1 or both are already at capacity
+        if (firstInvItemCount == maxItemCount || secondInvItemCount == maxItemCount)
+        {
+            return false;
+        }
+        // Adding this will exceed max stack size, will give any remainder back to second inv item
+        else if (newAmount > maxItemCount)
+        {
+            secondInvItemCount = newAmount - maxItemCount;
+
+            firstInvItem.SetItemCount(maxItemCount);
+            secondInvItem.SetItemCount(secondInvItemCount);
+            return true;
+        }
+        // Stacks can combine fully into 1 stack
+        else
+        {
+            firstInvItem.SetItemCount(newAmount);
+
+            // Remove second item from the player's inventory
+            RemoveFromInventory(secondInvItemIndex, isSecondInvHandItem);
+
+            return true;
+        }
     }
 
-    public int GetSelectedInvHandSlot()
-    {
-        return selectedInvHandSlot;
-    }
-
-    public void SetSelectedInvHandSlot(int slotIndex)
-    {
-        selectedInvHandSlot = slotIndex;
-    }
-
-    #endregion GetSet
+    #endregion CombineStacks
 
     #region SelectHotbarSlot
     public void MoveSelectedInvHandSlotRight()
