@@ -146,9 +146,9 @@ MonoBehaviour:
   maxStackSize: 20
   primaryEffect: 5
   secondEffect: 4
-  primaryStatChangeAmount: 5
+  primaryStatChangeAmount: 10
   secondStatChangeAmount: 1
-  powerupDuration: 60
+  maxPowerupDuration: 60
   isStackable: 0
   isPrimaryEffectPermanent: 0
   isSecondEffectPermanent: 1

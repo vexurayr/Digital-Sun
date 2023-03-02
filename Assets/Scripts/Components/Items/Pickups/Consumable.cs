@@ -10,7 +10,7 @@ public class Consumable : InventoryItem
     [Tooltip("Set to None if the consumable won't have a second effect.")] [SerializeField] private SecondEffect secondEffect;
     [Tooltip("Being a flat amount versus a percent changes what this number means.")] [SerializeField] private float primaryStatChangeAmount;
     [Tooltip("Being a flat amount versus a percent changes what this number means.")] [SerializeField] private float secondStatChangeAmount;
-    [Tooltip("Leave duration at 0 if the effect is instant.")] [SerializeField] private float powerupDuration;
+    [Tooltip("Leave duration at 0 if the effect is instant.")] [SerializeField] private float maxPowerupDuration;
     [Tooltip("If true, the effects will stack on top of their duration being reset.")] [SerializeField] private bool isStackable;
     [Tooltip("If true, the effect will never wear off.")] [SerializeField] private bool isPrimaryEffectPermanent;
     [Tooltip("If true, the effect will never wear off.")] [SerializeField] private bool isSecondEffectPermanent;
@@ -31,7 +31,8 @@ public class Consumable : InventoryItem
         powerup.SetSecondEffect(secondEffect);
         powerup.SetPrimaryStatChangeAmount(primaryStatChangeAmount);
         powerup.SetSecondStatChangeAmount(secondStatChangeAmount);
-        powerup.SetPowerupDuration(powerupDuration);
+        powerup.SetMaxPowerupDuration(maxPowerupDuration);
+        powerup.SetCurrentPowerupDuration(maxPowerupDuration);
         powerup.SetIsStackable(isStackable);
         powerup.SetIsPrimaryPermanent(isPrimaryEffectPermanent);
         powerup.SetIsSecondPermanent(isSecondEffectPermanent);

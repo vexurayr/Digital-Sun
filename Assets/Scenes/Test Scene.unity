@@ -132,7 +132,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
       propertyPath: itemCount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: powerupDuration
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: maxPowerupDuration
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: primaryStatChangeAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: isPrimaryEffectAlwaysApplied
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1399104532389653122, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
       propertyPath: m_RootOrder
@@ -975,7 +991,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
       propertyPath: itemCount
-      value: 5
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: powerupDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: maxPowerupDuration
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: primaryStatChangeAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: isPrimaryEffectAlwaysApplied
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1399104532389653122, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
       propertyPath: m_RootOrder
@@ -1498,7 +1530,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
       propertyPath: itemCount
-      value: 19
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: powerupDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: maxPowerupDuration
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: primaryStatChangeAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1395908859388813191, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
+      propertyPath: isPrimaryEffectAlwaysApplied
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1399104532389653122, guid: d0b912d13e03cfc4189d59d08257a6db, type: 3}
       propertyPath: m_RootOrder

@@ -31,7 +31,7 @@ public class Powerup
     private SecondEffect secondEffect;
     private float primaryStatChangeAmount;
     private float secondStatChangeAmount;
-    private float powerupDuration;
+    private float maxPowerupDuration;
     private bool isStackable;
     private bool isPrimaryPermanent;
     private bool isSecondPermanent;
@@ -42,13 +42,16 @@ public class Powerup
     // Will track stacking effects so Remove() is called for each stack applied
     private int timesPrimaryEffectApplied;
     private int timesSecondEffectApplied;
+    private float currentPowerupDuration;
 
     #endregion Variables
 
     #region ApplyPrimaryEffect
     // This method will be called when the item is used
     public void ApplyPrimaryEffect(PowerupManager target)
-    { 
+    {
+        currentPowerupDuration = maxPowerupDuration;
+
         if (primaryEffect == PrimaryEffect.None)
         {
             // Do nothing
@@ -163,6 +166,8 @@ public class Powerup
     #region ApplySecondEffect
     public void ApplySecondEffect(PowerupManager target)
     {
+        currentPowerupDuration = maxPowerupDuration;
+
         if (secondEffect == SecondEffect.None)
         {
             // Do nothing
@@ -368,7 +373,7 @@ public class Powerup
         else if (primaryEffect == PrimaryEffect.StaminaRegen)
         {
             Stamina stamina = target.GetComponent<Stamina>();
-
+            
             if (stamina == null)
             {
                 return;
@@ -531,14 +536,24 @@ public class Powerup
         secondStatChangeAmount = newAmount;
     }
 
-    public float GetPowerupDuration()
+    public float GetMaxPowerupDuration()
     {
-        return powerupDuration;
+        return maxPowerupDuration;
     }
 
-    public void SetPowerupDuration(float newDuration)
+    public void SetMaxPowerupDuration(float newDuration)
     {
-        powerupDuration = newDuration;
+        maxPowerupDuration = newDuration;
+    }
+
+    public float GetCurrentPowerupDuration()
+    {
+        return currentPowerupDuration;
+    }
+
+    public void SetCurrentPowerupDuration(float newDuration)
+    {
+        currentPowerupDuration = newDuration;
     }
 
     public bool GetIsStackable()

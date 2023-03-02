@@ -193,10 +193,17 @@ MonoBehaviour:
   pickupRange: 5
   pickupMinDropDistance: 2
   pickupMaxDropDistance: 4
+  isInvHandSlotSelectReverse: 0
   jumpKey: 32
   sprintKey: 304
   pickUpKey: 101
   inventoryKey: 9
+  leftClickKey: 323
+  rightClickKey: 324
+  numpadOneKey: 257
+  numpadTwoKey: 258
+  numpadThreeKey: 259
+  numpadFourKey: 260
   selfKillKey: 107
   selfLiveKey: 108
 --- !u!114 &3377036346077641403
@@ -250,7 +257,7 @@ MonoBehaviour:
   maxValue: 10
   drainMult: 1.2
   drainDelay: 5
-  regainMult: 1.5
+  regainMult: 1.3
   regainDelay: 2
   isDebugging: 0
 --- !u!114 &6980715797390888414
