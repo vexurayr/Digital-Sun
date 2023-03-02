@@ -193,6 +193,34 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    // Only checks invItemList because items will never be placed directly into the hotbar
+    public bool IsInventoryFull()
+    {
+        foreach (InventoryItem item in invItemList)
+        {
+            if (item.GetItem() == InventoryItem.Item.None)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public InventoryItem HasSameItemOfNonMaxStackSize(InventoryItem itemToCheck)
+    {
+        foreach (InventoryItem item in invItemList)
+        {
+            // Items match and the inventory item has room for more
+            if (item.GetItem() == itemToCheck.GetItem() && item.GetItemCount() != item.GetMaxStackSize())
+            {
+                return item;
+            }
+        }
+
+        return emptyInvItem;
+    }
+
     public virtual void DisplayInventoryDebug()
     {
         string invItems = "";

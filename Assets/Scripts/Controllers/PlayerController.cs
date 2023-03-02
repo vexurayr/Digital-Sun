@@ -355,6 +355,42 @@ public class PlayerController : MonoBehaviour
 
         worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
 
+        // If there is not a single empty slot in the player's inventory
+        if (GetComponent<PlayerInventory>().IsInventoryFull())
+        {
+            // If they have a non-max stack of the same item, pick up as much as possible
+            InventoryItem itemToTransferTo = GetComponent<PlayerInventory>().HasSameItemOfNonMaxStackSize(hitInventoryItem);
+
+            // Must recieve empty InvItem because itemToTransferTo == null will always equal null
+            if (itemToTransferTo.GetItem() == InventoryItem.Item.None)
+            {
+                worldToolTipUI.text = "Inventory Full";
+                return;
+            }
+            else if (Input.GetKeyDown(pickUpKey))
+            {
+                // Pass item count from the object in the world to the object in the inventory
+                int newAmount = itemToTransferTo.GetItemCount() + hitInventoryItem.GetItemCount();
+
+                // Can't transfer the whole stack size
+                if (newAmount > itemToTransferTo.GetMaxStackSize())
+                {
+                    itemToTransferTo.SetItemCount(itemToTransferTo.GetMaxStackSize());
+                    hitInventoryItem.SetItemCount(newAmount - itemToTransferTo.GetMaxStackSize());
+                }
+                // Can transfer everything
+                else
+                {
+                    itemToTransferTo.SetItemCount(newAmount);
+                    Destroy(hitInventoryItem.gameObject);
+                }
+
+                inventory.RefreshInventoryVisuals();
+                return;
+            }
+        }
+
+        // Player can pick the item up no problem
         if (Input.GetKeyDown(pickUpKey))
         {
             hitInventoryItem.PickItemUp(inventory);
