@@ -11,6 +11,7 @@ public class Temperature : MonoBehaviour
     [SerializeField] private float stage2ColdTemp;
     [SerializeField] private float stage1DrainMult;
     [SerializeField] private float stage2DrainMult;
+    [SerializeField] private bool isDebugging;
 
     #endregion Variables
 
@@ -45,66 +46,61 @@ public class Temperature : MonoBehaviour
 
     #endregion GetSet
 
-    #region IncreaseDecrease
-    public void IncHotTempStages(float incAmount)
-    {
-        stage1HotTemp += incAmount;
-        stage2HotTemp += incAmount;
-    }
-
-    public void DecHotTempStages(float decAmount)
-    {
-        stage1HotTemp -= decAmount;
-        stage2HotTemp -= decAmount;
-    }
-
-    public void IncColdTempStages(float incAmount)
-    {
-        stage1ColdTemp += incAmount;
-        stage2ColdTemp += incAmount;
-    }
-
-    public void DecColdTempStages(float decAmount)
-    {
-        stage1ColdTemp -= decAmount;
-        stage2ColdTemp -= decAmount;
-    }
-
-    #endregion IncreaseDecrease
-
     #region CheckTemperature
     // Still need to implement detection for player clothing
     public void CheckTemperature()
     {
+        float hotProtection = GetComponent<Defense>().GetCurrentHotProtection();
+        float coldProtection = GetComponent<Defense>().GetCurrentColdProtection();
         float currentTemp = EcoManager.instance.GetCurrentTemperature();
 
         // Outside temp is fine
-        if (currentTemp < stage1HotTemp && currentTemp > stage1ColdTemp)
+        if (currentTemp < (stage1HotTemp + hotProtection) && currentTemp > (stage1ColdTemp - coldProtection))
         {
             return;
         }
 
         // Outside temp is too hot
-        if (currentTemp >= stage1HotTemp )
+        if (currentTemp >= (stage1HotTemp + hotProtection))
         {
-            if (currentTemp >= stage2HotTemp)
+            if (currentTemp >= (stage2HotTemp + hotProtection))
             {
+                if (isDebugging)
+                {
+                    Debug.Log("Way too hot! Reached stage 2 hot temperature.");
+                }
+
                 GetComponent<Health>().DecCurrentValue(stage2DrainMult * Time.deltaTime);
             }
             else
             {
+                if (isDebugging)
+                {
+                    Debug.Log("Too hot! Reached stage 1 hot temperature.");
+                }
+
                 GetComponent<Health>().DecCurrentValue(stage1DrainMult * Time.deltaTime);
             }
         }
         // Outside temp is too cold
-        else if (currentTemp <= stage1ColdTemp)
+        else if (currentTemp <= (stage1ColdTemp - coldProtection))
         {
-            if (currentTemp <= stage2HotTemp)
+            if (currentTemp <= (stage2ColdTemp - coldProtection))
             {
+                if (isDebugging)
+                {
+                    Debug.Log("Way too cold! Reached stage 2 cold temperature.");
+                }
+
                 GetComponent<Health>().DecCurrentValue(stage2DrainMult * Time.deltaTime);
             }
             else
             {
+                if (isDebugging)
+                {
+                    Debug.Log("Too cold! Reached stage 1 cold temperature.");
+                }
+
                 GetComponent<Health>().DecCurrentValue(stage1DrainMult * Time.deltaTime);
             }
         }

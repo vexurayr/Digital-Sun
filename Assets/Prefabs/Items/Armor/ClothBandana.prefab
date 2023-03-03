@@ -390,6 +390,6 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: c03bb580badbc0b439d754cb0b00e6c0, type: 3}
   itemCount: 0
   maxStackSize: 1
-  defenseProtection: 0.05
+  defenseProtection: 0.01
   coldTemperatureProtection: 1
   hotTemperatureProtection: 2

@@ -26,11 +26,10 @@ public class Armor : InventoryItem
         }
 
         Defense defense = powerupManager.GetComponent<Defense>();
-        Temperature temperature = powerupManager.GetComponent<Temperature>();
 
         defense.IncCurrentValue(defenseProtection);
-        temperature.IncColdTempStages(coldTemperatureProtection);
-        temperature.IncHotTempStages(hotTemperatureProtection);
+        defense.IncCurrentHotProtection(hotTemperatureProtection);
+        defense.IncCurrentColdProtection(coldTemperatureProtection);
 
         return true;
     }
@@ -47,11 +46,10 @@ public class Armor : InventoryItem
         }
 
         Defense defense = powerupManager.GetComponent<Defense>();
-        Temperature temperature = powerupManager.GetComponent<Temperature>();
 
         defense.DecCurrentValue(defenseProtection);
-        temperature.DecColdTempStages(coldTemperatureProtection);
-        temperature.DecHotTempStages(hotTemperatureProtection);
+        defense.DecCurrentHotProtection(hotTemperatureProtection);
+        defense.DecCurrentColdProtection(coldTemperatureProtection);
 
         return false;
     }

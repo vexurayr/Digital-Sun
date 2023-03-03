@@ -227,21 +227,21 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction();
+                invItem.PrimaryAction(GetComponent<PowerupManager>());
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction();
+                invItem.PrimaryAction(GetComponent<PowerupManager>());
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction();
+                invItem.PrimaryAction(GetComponent<PowerupManager>());
             }
         }
         // Attempting to remove armor and place in an empty slot
@@ -250,7 +250,7 @@ public class PlayerInventory : Inventory
             invItemArmorList[firstFromArmorInv] = invItem;
             invItemList[secondFromInv] = invArmorItem;
 
-            invArmorItem.SecondaryAction();
+            invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
         }
         // Attempting to remove armor and add something else to the armor slot
         else
@@ -261,8 +261,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction();
-                invItem.PrimaryAction();
+                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(GetComponent<PowerupManager>());
             }
             // Replace chestplate with different chestplate
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
@@ -270,8 +270,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction();
-                invItem.PrimaryAction();
+                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(GetComponent<PowerupManager>());
             }
             // Replace leggings with different leggings
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
@@ -279,8 +279,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction();
-                invItem.PrimaryAction();
+                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(GetComponent<PowerupManager>());
             }
         }
 

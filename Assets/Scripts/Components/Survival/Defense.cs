@@ -5,7 +5,8 @@ using UnityEngine;
 public class Defense : BaseValues
 {
     #region Variables
-    private float currentTemperatureProtection;
+    private float currentHotProtection = 0;
+    private float currentColdProtection = 0;
 
     #endregion Variables
 
@@ -13,8 +14,6 @@ public class Defense : BaseValues
     protected override void Start()
     {
         base.Start();
-
-        currentTemperatureProtection = 0;
     }
 
     protected override void Update()
@@ -23,35 +22,57 @@ public class Defense : BaseValues
 
         if (isDebugging)
         {
-            Debug.Log("Current Defense: " + currentValue);
+            Debug.Log("Current Defense: " + currentValue +
+                "\nCurrent Hot Protection: " + currentHotProtection +
+                "\nCurrent Cold Protection: " + currentColdProtection);
         }
     }
 
     #endregion MonoBehaviours
 
     #region GetSet
-    public float GetCurrentTemperatureProtection()
+    public float GetCurrentHotProtection()
     {
-        return currentTemperatureProtection;
+        return currentHotProtection;
     }
 
-    public void SetCurrentTemperatureProtection(float newAmount)
+    public void SetCurrentHotProtection(float newAmount)
     {
-        currentTemperatureProtection = newAmount;
+        currentHotProtection = newAmount;
+    }
+
+    public float GetCurrentColdProtection()
+    {
+        return currentColdProtection;
+    }
+
+    public void SetCurrentColdProtection(float newAmount)
+    {
+        currentColdProtection = newAmount;
     }
 
     #endregion GetSet
 
     #region IncreaseDecrease
-    public void IncCurrentTemperatureProtection(float incAmount)
+    public void IncCurrentHotProtection(float incAmount)
     {
-        currentTemperatureProtection += incAmount;
+        currentHotProtection += incAmount;
     }
 
-    public void DecCurrentTemperatureProtection(float decAmount)
+    public void DecCurrentHotProtection(float decAmount)
     {
-        currentTemperatureProtection -= decAmount;
+        currentHotProtection -= decAmount;
     }
 
-    #endregion HelperFunctions
+    public void IncCurrentColdProtection(float incAmount)
+    {
+        currentColdProtection += incAmount;
+    }
+
+    public void DecCurrentColdProtection(float decAmount)
+    {
+        currentColdProtection -= decAmount;
+    }
+
+    #endregion IncreaseDecrease
 }

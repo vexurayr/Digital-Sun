@@ -315,8 +315,9 @@ MonoBehaviour:
   stage2HotTemp: 120
   stage1ColdTemp: 50
   stage2ColdTemp: 25
-  stage1DrainMult: 0.05
-  stage2DrainMult: 0.09
+  stage1DrainMult: 0.1
+  stage2DrainMult: 0.16
+  isDebugging: 0
 --- !u!114 &5207522992488995643
 MonoBehaviour:
   m_ObjectHideFlags: 0

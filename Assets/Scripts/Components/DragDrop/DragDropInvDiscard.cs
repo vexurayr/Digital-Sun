@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class DragDropInvDiscard : DragAndDrop
 {
+    #region Variables
     [SerializeField] private GameObject player;
 
     private PlayerInventory playerInventory;
@@ -13,6 +14,9 @@ public class DragDropInvDiscard : DragAndDrop
     private List<InventoryItem> inventoryHandItems;
     private List<InventoryItem> inventoryArmorItems;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     public override void Awake()
     {
         base.Awake();
@@ -22,6 +26,9 @@ public class DragDropInvDiscard : DragAndDrop
         inventoryArmorItems = playerInventory.GetInvItemArmorList();
     }
 
+    #endregion MonoBehaviours
+
+    #region OnDropEvents
     public override void OnDrop(PointerEventData eventData)
     {
         // Get index of InvItem to discard aka the object being dragged by the mouse
@@ -58,6 +65,9 @@ public class DragDropInvDiscard : DragAndDrop
         else if (isInvArmorItem)
         {
             invItem = inventoryArmorItems[index];
+
+            // Remove effect from player since the discarded item is armor straight from an invArmorItem slot
+            invItem.SecondaryAction(playerInventory.GetComponent<PowerupManager>());
         }
         else
         {
@@ -74,6 +84,9 @@ public class DragDropInvDiscard : DragAndDrop
         CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, isInvArmorItem, 0, 0);
     }
 
+    #endregion OnDropEvents
+
+    #region HelperFunctions
     public Bounds GetMaxBounds(GameObject parentObj)
     {
         Bounds totalColliderSize = new Bounds(parentObj.transform.position, Vector3.zero);
@@ -142,4 +155,6 @@ public class DragDropInvDiscard : DragAndDrop
             playerInventory.RefreshInventoryVisuals();
         }
     }
+
+    #endregion HelperFunctions
 }
