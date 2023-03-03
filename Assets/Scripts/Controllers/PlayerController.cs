@@ -355,6 +355,42 @@ public class PlayerController : MonoBehaviour
 
         worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
 
+        // If there is not a single empty slot in the player's inventory
+        if (GetComponent<PlayerInventory>().IsInventoryFull())
+        {
+            // If they have a non-max stack of the same item, pick up as much as possible
+            InventoryItem itemToTransferTo = GetComponent<PlayerInventory>().HasSameItemOfNonMaxStackSize(hitInventoryItem);
+
+            // Must recieve empty InvItem because itemToTransferTo == null will always equal null
+            if (itemToTransferTo.GetItem() == InventoryItem.Item.None)
+            {
+                worldToolTipUI.text = "Inventory Full";
+                return;
+            }
+            else if (Input.GetKeyDown(pickUpKey))
+            {
+                // Pass item count from the object in the world to the object in the inventory
+                int newAmount = itemToTransferTo.GetItemCount() + hitInventoryItem.GetItemCount();
+
+                // Can't transfer the whole stack size
+                if (newAmount > itemToTransferTo.GetMaxStackSize())
+                {
+                    itemToTransferTo.SetItemCount(itemToTransferTo.GetMaxStackSize());
+                    hitInventoryItem.SetItemCount(newAmount - itemToTransferTo.GetMaxStackSize());
+                }
+                // Can transfer everything
+                else
+                {
+                    itemToTransferTo.SetItemCount(newAmount);
+                    Destroy(hitInventoryItem.gameObject);
+                }
+
+                inventory.RefreshInventoryVisuals();
+                return;
+            }
+        }
+
+        // Player can pick the item up no problem
         if (Input.GetKeyDown(pickUpKey))
         {
             hitInventoryItem.PickItemUp(inventory);
@@ -375,6 +411,14 @@ public class PlayerController : MonoBehaviour
                 obj.gameObject.SetActive(true);
             }
             foreach (GameObject obj in inventoryUI.GetInvItemsUI())
+            {
+                obj.gameObject.SetActive(true);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorSlotsUI())
+            {
+                obj.gameObject.SetActive(true);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorItemsUI())
             {
                 obj.gameObject.SetActive(true);
             }
@@ -399,6 +443,14 @@ public class PlayerController : MonoBehaviour
             {
                 obj.gameObject.SetActive(false);
             }
+            foreach (GameObject obj in inventoryUI.GetInvArmorSlotsUI())
+            {
+                obj.gameObject.SetActive(false);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorItemsUI())
+            {
+                obj.gameObject.SetActive(false);
+            }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
             survivalUI.gameObject.SetActive(false);
@@ -415,6 +467,7 @@ public class PlayerController : MonoBehaviour
     {
         int invItemIndex = GetInvItemIndexFromMouse();
         bool isInvItemIndexInvHand = IsInvItemIndexInvHand();
+        bool isInvArmorItem = IsInvArmorItem();
         
         inventoryToolTipUI.text = "";
 
@@ -426,15 +479,20 @@ public class PlayerController : MonoBehaviour
         PlayerInventory playerInventory = this.gameObject.GetComponent<PlayerInventory>();
         List<InventoryItem> invItems = playerInventory.GetInvItemList();
         List<InventoryItem> invHandItems = playerInventory.GetInvHandItemList();
+        List<InventoryItem> invArmorItems = playerInventory.GetInvItemArmorList();
         InventoryItem invItem = null;
 
-        if (!isInvItemIndexInvHand)
+        if (isInvItemIndexInvHand)
         {
-            invItem = invItems[invItemIndex];
+            invItem = invHandItems[invItemIndex];
+        }
+        else if (isInvArmorItem)
+        {
+            invItem = invArmorItems[invItemIndex];
         }
         else
         {
-            invItem = invHandItems[invItemIndex];
+            invItem = invItems[invItemIndex];
         }
 
         inventoryToolTipUI.gameObject.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 25,
@@ -462,7 +520,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (itemCount <= 1)
             {
-                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand);
+                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
             }
             else
             {
@@ -504,7 +562,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (itemCount <= 1)
                 {
-                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true);
+                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
                 }
                 else
                 {
@@ -555,6 +613,25 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < raycastResults.Count; i++)
         {
             if (raycastResults[i].gameObject.GetComponent<IsInvHandItem>())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsInvArmorItem()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+
+        for (int i = 0; i < raycastResults.Count; i++)
+        {
+            if (raycastResults[i].gameObject.GetComponent<IsInvArmorItem>())
             {
                 return true;
             }

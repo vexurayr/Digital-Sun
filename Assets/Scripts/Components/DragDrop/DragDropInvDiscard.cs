@@ -6,48 +6,72 @@ using UnityEngine.EventSystems;
 
 public class DragDropInvDiscard : DragAndDrop
 {
+    #region Variables
     [SerializeField] private GameObject player;
 
     private PlayerInventory playerInventory;
     private List<InventoryItem> inventoryItems;
     private List<InventoryItem> inventoryHandItems;
+    private List<InventoryItem> inventoryArmorItems;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     public override void Awake()
     {
         base.Awake();
         playerInventory = player.GetComponent<PlayerInventory>();
         inventoryItems = playerInventory.GetInvItemList();
         inventoryHandItems = playerInventory.GetInvHandItemList();
+        inventoryArmorItems = playerInventory.GetInvItemArmorList();
     }
 
+    #endregion MonoBehaviours
+
+    #region OnDropEvents
     public override void OnDrop(PointerEventData eventData)
     {
         // Get index of InvItem to discard aka the object being dragged by the mouse
         GameObject otherItem = eventData.pointerDrag;
         int index = otherItem.GetComponent<IndexValue>().GetIndexValue();
 
-        // Determine if InvItem comes from the inventory or the hotbar
+        // Determine if InvItem comes from the inventory, the hotbar, or an armor slot
         bool isInvHandItem;
+        bool isInvArmorItem;
 
         if (otherItem.GetComponent<IsInvHandItem>())
         {
             isInvHandItem = true;
+            isInvArmorItem = false;
+        }
+        else if (otherItem.GetComponent<IsInvArmorItem>())
+        {
+            isInvHandItem = false;
+            isInvArmorItem = true;
         }
         else
         {
             isInvHandItem = false;
+            isInvArmorItem = false;
         }
 
         // Get InvItem from playerInventory using index
         InventoryItem invItem;
 
-        if (!isInvHandItem)
+        if (isInvHandItem)
         {
-            invItem = inventoryItems[index];
+            invItem = inventoryHandItems[index];
+        }
+        else if (isInvArmorItem)
+        {
+            invItem = inventoryArmorItems[index];
+
+            // Remove effect from player since the discarded item is armor straight from an invArmorItem slot
+            invItem.SecondaryAction(playerInventory.GetComponent<PowerupManager>());
         }
         else
         {
-            invItem = inventoryHandItems[index];
+            invItem = inventoryItems[index];
         }
 
         // Get InvItem Prefab from instance of InvItemManager using InvItem
@@ -57,9 +81,12 @@ public class DragDropInvDiscard : DragAndDrop
         // Everything else will already match
         itemToDiscard.GetComponent<InventoryItem>().SetItemCount(invItem.GetItemCount());
 
-        CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, 0, 0);
+        CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, isInvArmorItem, 0, 0);
     }
 
+    #endregion OnDropEvents
+
+    #region HelperFunctions
     public Bounds GetMaxBounds(GameObject parentObj)
     {
         Bounds totalColliderSize = new Bounds(parentObj.transform.position, Vector3.zero);
@@ -72,7 +99,7 @@ public class DragDropInvDiscard : DragAndDrop
         return totalColliderSize;
     }
 
-    public void CheckForValidSpawnPoint(GameObject itemToDiscard, int index, bool isInvHandItem, float prevHeight, float combinedHeight)
+    public void CheckForValidSpawnPoint(GameObject itemToDiscard, int index, bool isInvHandItem, bool isInvArmorItem, float prevHeight, float combinedHeight)
     {
         // Don't want to spawn/remove an empty item
         if (itemToDiscard.GetComponent<InventoryItem>().GetItem() == InventoryItem.Item.None)
@@ -113,7 +140,7 @@ public class DragDropInvDiscard : DragAndDrop
             prevHeight = maxBounds.size.y;
             spawnLocation.y += maxBounds.size.y;
 
-            CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, prevHeight, spawnLocation.y);
+            CheckForValidSpawnPoint(itemToDiscard, index, isInvHandItem, isInvArmorItem, prevHeight, spawnLocation.y);
         }
         else
         {
@@ -123,9 +150,11 @@ public class DragDropInvDiscard : DragAndDrop
             Instantiate(itemToDiscard, spawnLocation, player.gameObject.transform.rotation);
 
             // Remove InvItem from playerInventory's list of InvItems using index
-            playerInventory.RemoveFromInventory(index, isInvHandItem);
+            playerInventory.RemoveFromInventory(index, isInvHandItem, isInvArmorItem);
 
             playerInventory.RefreshInventoryVisuals();
         }
     }
+
+    #endregion HelperFunctions
 }
