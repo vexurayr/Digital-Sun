@@ -59,6 +59,21 @@ public class InventoryUI : MonoBehaviour
         return invHandItemCountersUI;
     }
 
+    public List<GameObject> GetInvArmorSlotsUI()
+    {
+        return invArmorSlotsUI;
+    }
+
+    public List<GameObject> GetInvArmorItemsUI()
+    {
+        return invArmorItemsUI;
+    }
+
+    public List<GameObject> GetInvArmorItemCountersUI()
+    {
+        return invArmorItemCountersUI;
+    }
+
     public GameObject GetInvItemDiscardUI()
     {
         return invItemDiscardUI;

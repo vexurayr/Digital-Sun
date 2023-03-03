@@ -15,7 +15,7 @@ public class InventoryItem : MonoBehaviour
         Stamina_Boost,
         Cloth_Bandana,
         Wood_Chestplate,
-        Wood_Leggings,
+        Wood_Leggings
     }
 
     public enum ItemType
@@ -24,8 +24,11 @@ public class InventoryItem : MonoBehaviour
         Resource,
         Consumable,
         Equipment,
+        Tool,
         Weapon,
-        Armor
+        Helmet,
+        Chestplate,
+        Leggings
     }
 
     [SerializeField] protected Item item;

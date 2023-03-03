@@ -56,7 +56,9 @@ public class DragDropInvItem : DragAndDrop
         int firstInvIndex = otherItem.GetComponent<IndexValue>().GetIndexValue();
         int secondInvIndex = GetComponent<IndexValue>().GetIndexValue();
         bool isFirstItemInvHand;
+        bool isFirstItemInvArmor;
         bool isSecondItemInvHand;
+        bool isSecondItemInvArmor;
         bool isCombineSuccessful = false;
         InventoryItem otherInvItem;
         InventoryItem thisInvItem;
@@ -64,26 +66,50 @@ public class DragDropInvItem : DragAndDrop
         // Other InvItem is in invHandUI
         if (otherItem.GetComponent<IsInvHandItem>())
         {
+            isFirstItemInvArmor = false;
             isFirstItemInvHand = true;
             otherInvItem = playerInventory.GetInvHandItemList()[firstInvIndex];
+        }
+        // Other InvItem is in invArmorUI
+        else if (otherItem.GetComponent<IsInvArmorItem>())
+        {
+            isFirstItemInvHand = false;
+            isFirstItemInvArmor = true;
+            otherInvItem = playerInventory.GetInvItemArmorList()[firstInvIndex];
         }
         // Other InvItem is in invUI
         else
         {
             isFirstItemInvHand = false;
+            isFirstItemInvArmor = false;
             otherInvItem = playerInventory.GetInvItemList()[firstInvIndex];
+        }
+
+        // If player is dragging around an empty invItem, don't do anything
+        if (otherInvItem.GetItemType() == InventoryItem.ItemType.Empty)
+        {
+            return;
         }
 
         // This InvItem is in invHandUI
         if (GetComponent<IsInvHandItem>())
         {
+            isSecondItemInvArmor = false;
             isSecondItemInvHand = true;
             thisInvItem = playerInventory.GetInvHandItemList()[secondInvIndex];
+        }
+        // This InvItem is in invArmorUI
+        else if (GetComponent<IsInvArmorItem>())
+        {
+            isSecondItemInvHand = false;
+            isSecondItemInvArmor = true;
+            thisInvItem = playerInventory.GetInvItemArmorList()[secondInvIndex];
         }
         // This InvItem is in invUI
         else
         {
             isSecondItemInvHand = false;
+            isSecondItemInvArmor = false;
             thisInvItem = playerInventory.GetInvItemList()[secondInvIndex];
         }
 
@@ -100,13 +126,8 @@ public class DragDropInvItem : DragAndDrop
             return;
         }
 
-        // Both items are in invUI
-        if (!isFirstItemInvHand && !isSecondItemInvHand)
-        {
-            playerInventory.SwapTwoInvItems(firstInvIndex, secondInvIndex);
-        }
         // Both items are in invHandUI
-        else if (isFirstItemInvHand && isSecondItemInvHand)
+        if (isFirstItemInvHand && isSecondItemInvHand)
         {
             playerInventory.SwapTwoInvHandItems(firstInvIndex, secondInvIndex);
         }
@@ -118,7 +139,15 @@ public class DragDropInvItem : DragAndDrop
             {
                 return;
             }
-
+            
+            // Prevent armor from entering the invHand
+            if (playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Helmet ||
+                playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Chestplate ||
+                playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Leggings)
+            {
+                return;
+            }
+            
             playerInventory.SwapInvItemWithHandItem(firstInvIndex, secondInvIndex);
         }
         // Other item is in invHandUI, this item is in invUI
@@ -129,8 +158,52 @@ public class DragDropInvItem : DragAndDrop
             {
                 return;
             }
+            
+            // Prevent armor from entering the invHand
+            if (playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Helmet ||
+                playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Chestplate ||
+                playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Leggings)
+            {
+                return;
+            }
 
             playerInventory.SwapInvItemWithHandItem(secondInvIndex, firstInvIndex);
+        }
+        // Other item is in invArmorUI, this item is in invHandUI
+        else if (isFirstItemInvArmor && isSecondItemInvHand)
+        {
+            // Armor shouldn't be in the hotbar
+            Debug.Log("No");
+        }
+        // Other item is in invHandUI, this item is in inveArmorUI
+        else if (isFirstItemInvHand && isSecondItemInvArmor)
+        {
+            Debug.Log("Don't");
+            // Armor shouldn't be in the hotbar
+        }
+        // Other item is in invArmorUI, this item is in invUI
+        else if (isFirstItemInvArmor && !isSecondItemInvArmor)
+        {
+            Debug.Log("InvArmor, Inv");
+            playerInventory.SwapArmorItemWithInvItem(firstInvIndex, secondInvIndex);
+        }
+        // Other item is in invUI, this item is in invArmorUI
+        else if (!isFirstItemInvArmor && isSecondItemInvArmor)
+        {
+            Debug.Log("Inv, InvArmor");
+            playerInventory.SwapArmorItemWithInvItem(secondInvIndex, firstInvIndex);
+        }
+        // Both items are in invArmorUI
+        else if (isFirstItemInvArmor && isSecondItemInvArmor)
+        {
+            Debug.Log("InvArmor, InvArmor");
+            // Do nothing because this would mean swapping helmet in helmet slot with chestplate in chestplate slot
+        }
+        // Both items are in invUI
+        else
+        {
+            Debug.Log("Inv, Inv");
+            playerInventory.SwapTwoInvItems(firstInvIndex, secondInvIndex);
         }
     }
 

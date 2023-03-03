@@ -414,6 +414,14 @@ public class PlayerController : MonoBehaviour
             {
                 obj.gameObject.SetActive(true);
             }
+            foreach (GameObject obj in inventoryUI.GetInvArmorSlotsUI())
+            {
+                obj.gameObject.SetActive(true);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorItemsUI())
+            {
+                obj.gameObject.SetActive(true);
+            }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(true);
             survivalUI.gameObject.SetActive(true);
@@ -435,6 +443,14 @@ public class PlayerController : MonoBehaviour
             {
                 obj.gameObject.SetActive(false);
             }
+            foreach (GameObject obj in inventoryUI.GetInvArmorSlotsUI())
+            {
+                obj.gameObject.SetActive(false);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorItemsUI())
+            {
+                obj.gameObject.SetActive(false);
+            }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
             survivalUI.gameObject.SetActive(false);
@@ -451,6 +467,7 @@ public class PlayerController : MonoBehaviour
     {
         int invItemIndex = GetInvItemIndexFromMouse();
         bool isInvItemIndexInvHand = IsInvItemIndexInvHand();
+        bool isInvArmorItem = IsInvArmorItem();
         
         inventoryToolTipUI.text = "";
 
@@ -462,15 +479,20 @@ public class PlayerController : MonoBehaviour
         PlayerInventory playerInventory = this.gameObject.GetComponent<PlayerInventory>();
         List<InventoryItem> invItems = playerInventory.GetInvItemList();
         List<InventoryItem> invHandItems = playerInventory.GetInvHandItemList();
+        List<InventoryItem> invArmorItems = playerInventory.GetInvItemArmorList();
         InventoryItem invItem = null;
 
-        if (!isInvItemIndexInvHand)
+        if (isInvItemIndexInvHand)
         {
-            invItem = invItems[invItemIndex];
+            invItem = invHandItems[invItemIndex];
+        }
+        else if (isInvArmorItem)
+        {
+            invItem = invArmorItems[invItemIndex];
         }
         else
         {
-            invItem = invHandItems[invItemIndex];
+            invItem = invItems[invItemIndex];
         }
 
         inventoryToolTipUI.gameObject.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 25,
@@ -498,7 +520,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (itemCount <= 1)
             {
-                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand);
+                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
             }
             else
             {
@@ -540,7 +562,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (itemCount <= 1)
                 {
-                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true);
+                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
                 }
                 else
                 {
@@ -591,6 +613,25 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < raycastResults.Count; i++)
         {
             if (raycastResults[i].gameObject.GetComponent<IsInvHandItem>())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsInvArmorItem()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+
+        for (int i = 0; i < raycastResults.Count; i++)
+        {
+            if (raycastResults[i].gameObject.GetComponent<IsInvArmorItem>())
             {
                 return true;
             }

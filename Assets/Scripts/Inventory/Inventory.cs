@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour
 
     protected List<InventoryItem> invItemList;
     protected List<InventoryItem> invHandItemList;
+    protected List<InventoryItem> invItemArmorList;
 
     #endregion Variables
 
@@ -20,6 +21,7 @@ public class Inventory : MonoBehaviour
     {
         invItemList = new List<InventoryItem>();
         invHandItemList = new List<InventoryItem>();
+        invItemArmorList = new List<InventoryItem>();
 
         InitializeInventory();
     }
@@ -45,6 +47,11 @@ public class Inventory : MonoBehaviour
     public virtual List<InventoryItem> GetInvHandItemList()
     {
         return invHandItemList;
+    }
+
+    public virtual List<InventoryItem> GetInvItemArmorList()
+    {
+        return invItemArmorList;
     }
 
     #endregion GetSet
@@ -111,67 +118,31 @@ public class Inventory : MonoBehaviour
     #endregion AddItemToInventory
 
     #region RemoveItemFromInventory
-    public virtual void RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem)
+    public virtual void RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem, bool isInvArmorItem)
     {
         if (itemAtIndexToRemove < 0 || itemAtIndexToRemove > invItemList.Count)
         {
             return;
         }
 
-        if (!isInvHandItem)
-        {
-            invItemList[itemAtIndexToRemove] = emptyInvItem;
-        }
-        else
+        if (isInvHandItem)
         {
             invHandItemList[itemAtIndexToRemove] = emptyInvItem;
         }
-    }
-
-    // Unavoidable problem with this function
-    // If player has two max stacks of wood, attempting to remove the second will always remove the first
-    // Use RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem) when possible
-    public virtual void RemoveFromInventory(InventoryItem itemToRemove, bool isInvHandItem)
-    {
-        if (itemToRemove.GetItem() == InventoryItem.Item.None)
+        else if (isInvArmorItem)
         {
-            return;
-        }
-
-        for (int i = 0; i < invItemList.Count; i++)
-        {
-            // Replace object from the inventory slot it is found in with an empty object
-            if (invItemList[i].GetItem() == itemToRemove.GetItem() && invItemList[i].GetItemCount() == itemToRemove.GetItemCount())
-            {
-                if (!isInvHandItem)
-                {
-                    invItemList[i] = emptyInvItem;
-                }
-                else
-                {
-                    invHandItemList[i] = emptyInvItem;
-                }
-                
-                i = invItemList.Count;
-            }
-        }
-    }
-
-    public virtual void RemoveFromInventory(GameObject objToRemove)
-    {
-        InventoryItem itemToRemove = objToRemove.GetComponent<InventoryItem>();
-        bool isInvHandItem;
-
-        if (objToRemove.GetComponent<IsInvHandItem>())
-        {
-            isInvHandItem = true;
+            invItemArmorList[itemAtIndexToRemove] = emptyInvItem;
         }
         else
         {
-            isInvHandItem = false;
+            invItemList[itemAtIndexToRemove] = emptyInvItem;
         }
+    }
 
-        RemoveFromInventory(itemToRemove, isInvHandItem);
+    // Will be used to remove items for crafting recipes
+    public virtual void RemoveAmountFromInventory(List<InventoryItem> itemsToRemove)
+    {
+        
     }
 
     #endregion RemoveItemFromInventory
@@ -190,6 +161,11 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < invHandSlots; i++)
         {
             invHandItemList.Add(emptyInvItem);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            invItemArmorList.Add(emptyInvItem);
         }
     }
 
