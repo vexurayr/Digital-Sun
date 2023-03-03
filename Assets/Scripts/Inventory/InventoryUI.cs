@@ -17,6 +17,11 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private List<GameObject> invHandSlotsUI;
     [SerializeField] private List<GameObject> invHandItemsUI;
     [SerializeField] private List<GameObject> invHandItemCountersUI;
+
+    [SerializeField] private List<GameObject> invArmorSlotsUI;
+    [SerializeField] private List<GameObject> invArmorItemsUI;
+    [SerializeField] private List<GameObject> invArmorItemCountersUI;
+
     [SerializeField] private GameObject survivalUI;
 
     [SerializeField] private List<GameObject> invHandSelectedSlotUI;

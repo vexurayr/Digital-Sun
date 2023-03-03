@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Temperature : MonoBehaviour
 {
+    #region Variables
     [SerializeField] private float stage1HotTemp;
     [SerializeField] private float stage2HotTemp;
     [SerializeField] private float stage1ColdTemp;
@@ -11,11 +12,67 @@ public class Temperature : MonoBehaviour
     [SerializeField] private float stage1DrainMult;
     [SerializeField] private float stage2DrainMult;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     private void Update()
     {
         CheckTemperature();
     }
 
+    #endregion MonoBehaviours
+
+    #region GetSet
+    public float GetStage1HotTemp()
+    {
+        return stage1HotTemp;
+    }
+
+    public float GetStage2HotTemp()
+    {
+        return stage2HotTemp;
+    }
+
+    public float GetStage1ColdTemp()
+    {
+        return stage1ColdTemp;
+    }
+
+    public float GetStage2ColdTemp()
+    {
+        return stage2ColdTemp;
+    }
+
+    #endregion GetSet
+
+    #region IncreaseDecrease
+    public void IncHotTempStages(float incAmount)
+    {
+        stage1HotTemp += incAmount;
+        stage2HotTemp += incAmount;
+    }
+
+    public void DecHotTempStages(float decAmount)
+    {
+        stage1HotTemp -= decAmount;
+        stage2HotTemp -= decAmount;
+    }
+
+    public void IncColdTempStages(float incAmount)
+    {
+        stage1ColdTemp += incAmount;
+        stage2ColdTemp += incAmount;
+    }
+
+    public void DecColdTempStages(float decAmount)
+    {
+        stage1ColdTemp -= decAmount;
+        stage2ColdTemp -= decAmount;
+    }
+
+    #endregion IncreaseDecrease
+
+    #region CheckTemperature
     // Still need to implement detection for player clothing
     public void CheckTemperature()
     {
@@ -52,4 +109,6 @@ public class Temperature : MonoBehaviour
             }
         }
     }
+
+    #endregion CheckTemperature
 }

@@ -12,7 +12,10 @@ public class InventoryItem : MonoBehaviour
         Water,
         Berry,
         Bandage,
-        Stamina_Boost
+        Stamina_Boost,
+        Cloth_Bandana,
+        Wood_Chestplate,
+        Wood_Leggings,
     }
 
     public enum ItemType
@@ -40,6 +43,11 @@ public class InventoryItem : MonoBehaviour
 
     public virtual void PrimaryAction()
     { }
+
+    public virtual bool SecondaryAction(PowerupManager powerupManager)
+    {
+        return false;
+    }
 
     public virtual void SecondaryAction()
     { }
