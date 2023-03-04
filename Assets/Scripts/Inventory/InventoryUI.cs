@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
+    #region Variables
     // List of slots used to anchor invItems
     [SerializeField] private List<GameObject> invSlotsUI;
     // These contain InventoryItem component, change displayed sprite on raw image component
@@ -17,6 +18,17 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private List<GameObject> invHandItemsUI;
     [SerializeField] private List<GameObject> invHandItemCountersUI;
 
+    [SerializeField] private List<GameObject> invArmorSlotsUI;
+    [SerializeField] private List<GameObject> invArmorItemsUI;
+    [SerializeField] private List<GameObject> invArmorItemCountersUI;
+
+    [SerializeField] private GameObject survivalUI;
+
+    [SerializeField] private List<GameObject> invHandSelectedSlotUI;
+
+    #endregion Variables
+
+    #region GetSet
     public List<GameObject> GetInvSlotsUI()
     {
         return invSlotsUI;
@@ -47,8 +59,35 @@ public class InventoryUI : MonoBehaviour
         return invHandItemCountersUI;
     }
 
+    public List<GameObject> GetInvArmorSlotsUI()
+    {
+        return invArmorSlotsUI;
+    }
+
+    public List<GameObject> GetInvArmorItemsUI()
+    {
+        return invArmorItemsUI;
+    }
+
+    public List<GameObject> GetInvArmorItemCountersUI()
+    {
+        return invArmorItemCountersUI;
+    }
+
     public GameObject GetInvItemDiscardUI()
     {
         return invItemDiscardUI;
     }
+
+    public SurvivalUI GetSurvivalUI()
+    {
+        return survivalUI.GetComponent<SurvivalUI>();
+    }
+
+    public List<GameObject> GetInvHandSelectedSlotUI()
+    {
+        return invHandSelectedSlotUI;
+    }
+
+    #endregion GetSet
 }

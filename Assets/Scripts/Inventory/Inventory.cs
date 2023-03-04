@@ -5,37 +5,58 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    #region Variables
     [SerializeField] protected int invSlots;
     [SerializeField] protected int invHandSlots;
     [SerializeField] protected InventoryItem emptyInvItem;
 
     protected List<InventoryItem> invItemList;
     protected List<InventoryItem> invHandItemList;
+    protected List<InventoryItem> invItemArmorList;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     public virtual void Awake()
     {
         invItemList = new List<InventoryItem>();
         invHandItemList = new List<InventoryItem>();
+        invItemArmorList = new List<InventoryItem>();
 
         InitializeInventory();
     }
 
-    public virtual void InitializeInventory()
+    #endregion MonoBehaviours
+
+    #region GetSet
+    public virtual int GetInvSlotCount()
     {
-        invItemList.Clear();
-        invHandItemList.Clear();
-
-        for (int i = 0; i < invSlots; i++)
-        {
-            invItemList.Add(emptyInvItem);
-        }
-
-        for (int i = 0; i < invHandSlots; i++)
-        {
-            invHandItemList.Add(emptyInvItem);
-        }
+        return invSlots;
     }
 
+    public virtual int GetInvHandSlotCount()
+    {
+        return invHandSlots;
+    }
+
+    public virtual List<InventoryItem> GetInvItemList()
+    {
+        return invItemList;
+    }
+
+    public virtual List<InventoryItem> GetInvHandItemList()
+    {
+        return invHandItemList;
+    }
+
+    public virtual List<InventoryItem> GetInvItemArmorList()
+    {
+        return invItemArmorList;
+    }
+
+    #endregion GetSet
+
+    #region AddItemToInventory
     public virtual void AddToInventory(InventoryItem newItem)
     {
         if (newItem == null)
@@ -43,13 +64,13 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        if (newItem.GetItemType() == InventoryItem.ItemType.Resource)
+        if (newItem.GetItemType() == InventoryItem.ItemType.Resource || newItem.GetItemType() == InventoryItem.ItemType.Consumable)
         {
             // Check if incoming item can be added to an existing stack
             for (int i = 0; i < invItemList.Count; i++)
             {
-                // Determine which resource is in this inventory slot
-                if (invItemList[i].GetItem() == InventoryItem.Item.Wood)
+                // Check if resource/consumable in this inventory slot matches the incoming item's
+                if (invItemList[i].GetItem() == newItem.GetItem())
                 {
                     int invMaxSize = invItemList[i].GetMaxStackSize();
                     int invCurrenSize = invItemList[i].GetItemCount();
@@ -75,13 +96,6 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-        else if (newItem.GetItemType() == InventoryItem.ItemType.Consumable)
-        {
-            for (int i = 0; i < invItemList.Count; i++)
-            {
-
-            }
-        }
 
         // Place object in first empty inventory slot
         for (int i = 0; i < invItemList.Count; i++)
@@ -101,67 +115,86 @@ public class Inventory : MonoBehaviour
         AddToInventory(newItem);
     }
 
-    public virtual void RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem)
+    #endregion AddItemToInventory
+
+    #region RemoveItemFromInventory
+    public virtual void RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem, bool isInvArmorItem)
     {
         if (itemAtIndexToRemove < 0 || itemAtIndexToRemove > invItemList.Count)
         {
             return;
         }
 
-        if (!isInvHandItem)
-        {
-            invItemList[itemAtIndexToRemove] = emptyInvItem;
-        }
-        else
+        if (isInvHandItem)
         {
             invHandItemList[itemAtIndexToRemove] = emptyInvItem;
         }
-    }
-
-    // Unavoidable problem with this function
-    // If player has two max stacks of wood, attempting to remove the second will always remove the first
-    // Use RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem) when possible
-    public virtual void RemoveFromInventory(InventoryItem itemToRemove, bool isInvHandItem)
-    {
-        if (itemToRemove.GetItem() == InventoryItem.Item.None)
+        else if (isInvArmorItem)
         {
-            return;
-        }
-
-        for (int i = 0; i < invItemList.Count; i++)
-        {
-            // Replace object from the inventory slot it is found in with an empty object
-            if (invItemList[i].GetItem() == itemToRemove.GetItem() && invItemList[i].GetItemCount() == itemToRemove.GetItemCount())
-            {
-                if (!isInvHandItem)
-                {
-                    invItemList[i] = emptyInvItem;
-                }
-                else
-                {
-                    invHandItemList[i] = emptyInvItem;
-                }
-                
-                i = invItemList.Count;
-            }
-        }
-    }
-
-    public virtual void RemoveFromInventory(GameObject objToRemove)
-    {
-        InventoryItem itemToRemove = objToRemove.GetComponent<InventoryItem>();
-        bool isInvHandItem;
-
-        if (objToRemove.GetComponent<IsInvHandItem>())
-        {
-            isInvHandItem = true;
+            invItemArmorList[itemAtIndexToRemove] = emptyInvItem;
         }
         else
         {
-            isInvHandItem = false;
+            invItemList[itemAtIndexToRemove] = emptyInvItem;
+        }
+    }
+
+    // Will be used to remove items for crafting recipes
+    public virtual void RemoveAmountFromInventory(List<InventoryItem> itemsToRemove)
+    {
+        
+    }
+
+    #endregion RemoveItemFromInventory
+
+    #region HelperFunctions
+    public virtual void InitializeInventory()
+    {
+        invItemList.Clear();
+        invHandItemList.Clear();
+
+        for (int i = 0; i < invSlots; i++)
+        {
+            invItemList.Add(emptyInvItem);
         }
 
-        RemoveFromInventory(itemToRemove, isInvHandItem);
+        for (int i = 0; i < invHandSlots; i++)
+        {
+            invHandItemList.Add(emptyInvItem);
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            invItemArmorList.Add(emptyInvItem);
+        }
+    }
+
+    // Only checks invItemList because items will never be placed directly into the hotbar
+    public bool IsInventoryFull()
+    {
+        foreach (InventoryItem item in invItemList)
+        {
+            if (item.GetItem() == InventoryItem.Item.None)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public InventoryItem HasSameItemOfNonMaxStackSize(InventoryItem itemToCheck)
+    {
+        foreach (InventoryItem item in invItemList)
+        {
+            // Items match and the inventory item has room for more
+            if (item.GetItem() == itemToCheck.GetItem() && item.GetItemCount() != item.GetMaxStackSize())
+            {
+                return item;
+            }
+        }
+
+        return emptyInvItem;
     }
 
     public virtual void DisplayInventoryDebug()
@@ -182,23 +215,5 @@ public class Inventory : MonoBehaviour
         Debug.Log("Inventory: " + invItems + "\nHotbar: " + invHandItems);
     }
 
-    public virtual int GetInvSlotCount()
-    {
-        return invSlots;
-    }
-
-    public virtual int GetInvHandSlotCount()
-    {
-        return invHandSlots;
-    }
-
-    public virtual List<InventoryItem> GetInvItemList()
-    {
-        return invItemList;
-    }
-
-    public virtual List<InventoryItem> GetInvHandItemList()
-    {
-        return invHandItemList;
-    }
+    #endregion HelperFunctions
 }

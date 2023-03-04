@@ -10,7 +10,12 @@ public class InventoryItem : MonoBehaviour
         Wood,
         Stone,
         Water,
-        Food
+        Berry,
+        Bandage,
+        Stamina_Boost,
+        Cloth_Bandana,
+        Wood_Chestplate,
+        Wood_Leggings
     }
 
     public enum ItemType
@@ -19,17 +24,36 @@ public class InventoryItem : MonoBehaviour
         Resource,
         Consumable,
         Equipment,
+        Tool,
         Weapon,
-        Armor
+        Helmet,
+        Chestplate,
+        Leggings
     }
 
-    [SerializeField] private Item item;
-    [SerializeField] private ItemType itemType;
-    [SerializeField] private Sprite itemSprite;
+    [SerializeField] protected Item item;
+    [SerializeField] protected ItemType itemType;
+    [SerializeField] protected Sprite itemSprite;
 
     // Used to manage same objects in inventory
-    [SerializeField] private int itemCount;
-    [SerializeField] private int maxStackSize;
+    [SerializeField] protected int itemCount;
+    [SerializeField] protected int maxStackSize;
+
+    public virtual bool PrimaryAction(PowerupManager powerupManager)
+    { 
+        return false;
+    }
+
+    public virtual void PrimaryAction()
+    { }
+
+    public virtual bool SecondaryAction(PowerupManager powerupManager)
+    {
+        return false;
+    }
+
+    public virtual void SecondaryAction()
+    { }
 
     public void PickItemUp(Inventory targetInv)
     {

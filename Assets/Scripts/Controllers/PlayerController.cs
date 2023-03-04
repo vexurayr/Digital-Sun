@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Variables
     [SerializeField] private Text worldToolTipUI;
     [SerializeField] private Text inventoryToolTipUI;
     [SerializeField] private Camera playerCamera;
@@ -22,15 +23,30 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float pickupRange;
     [SerializeField] private float pickupMinDropDistance;
     [SerializeField] private float pickupMaxDropDistance;
+    [SerializeField] private bool isInvHandSlotSelectReverse;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode pickUpKey = KeyCode.E;
     [SerializeField] private KeyCode inventoryKey = KeyCode.Tab;
+    // Left-click to use items in hotbar
+    [SerializeField] private KeyCode leftClickKey = KeyCode.Mouse0;
+    // Right-click to use items inventory
+    [SerializeField] private KeyCode rightClickKey = KeyCode.Mouse1;
+    // Used for navigating inventory hand slots like the mouse scroll wheel
+    [SerializeField] private KeyCode numpadOneKey = KeyCode.Keypad1;
+    [SerializeField] private KeyCode numpadTwoKey = KeyCode.Keypad2;
+    [SerializeField] private KeyCode numpadThreeKey = KeyCode.Keypad3;
+    [SerializeField] private KeyCode numpadFourKey = KeyCode.Keypad4;
     // For testing purposes
     [SerializeField] private KeyCode selfKillKey = KeyCode.K;
     [SerializeField] private KeyCode selfLiveKey = KeyCode.L;
 
     private InventoryUI inventoryUI;
+    private SurvivalUI survivalUI;
+    private Health health;
+    private Stamina stamina;
+    private Hunger hunger;
+    private Thirst thirst;
 
     private bool isMovementLocked = false;
     private bool isCameraMovementLocked = false;
@@ -48,6 +64,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDelta = Vector2.zero;
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     private void Start()
     {
         // Lets the character controller handle movement and collision, applies the value to this component
@@ -63,6 +82,16 @@ public class PlayerController : MonoBehaviour
         }
 
         inventoryUI = GetComponent<PlayerInventory>().GetInventoryUI();
+        survivalUI = inventoryUI.GetSurvivalUI();
+        health = GetComponent<Health>();
+        stamina = GetComponent<Stamina>();
+        hunger = GetComponent<Hunger>();
+        thirst = GetComponent<Thirst>();
+
+        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
+            new Color(background.r, background.g, background.b, .8f);
     }
 
     private void Update()
@@ -77,12 +106,20 @@ public class PlayerController : MonoBehaviour
         }
         if (isInventoryActive)
         {
-            UpdateInventoryToolTip();
+            RefreshSurvivalUI();
+            UpdateInventoryInteractions();
+        }
+        else
+        {
+            UpdateHotbarInteractions();
         }
         CheckForPickups();
         CheckOtherInputs();
     }
 
+    #endregion MonoBehaviours
+
+    #region KeyboardAndMouse
     private void UpdateMouseLook()
     {
         // Saves the x and y position of the mouse on the screen
@@ -174,6 +211,116 @@ public class PlayerController : MonoBehaviour
         playerController.slopeLimit = 45.0f;
     }
 
+    public void CheckOtherInputs()
+    {
+        if (Input.GetKeyDown(inventoryKey))
+        {
+            ToggleInventoryUI();
+        }
+
+        if (Input.GetKeyDown(selfKillKey))
+        {
+            GetComponent<Health>().DecCurrentValue(10f);
+        }
+        else if (Input.GetKeyDown(selfLiveKey))
+        {
+            GetComponent<Health>().IncCurrentValue(5f);
+        }
+
+        // Using scroll wheel to change inventory hand slots
+        if (Input.mouseScrollDelta.y < 0)
+        {
+            if (!isInvHandSlotSelectReverse)
+            {
+                ChangeSelectedHandSlot(true);
+            }
+            else
+            {
+                ChangeSelectedHandSlot(false);
+            }
+        }
+        else if (Input.mouseScrollDelta.y > 0)
+        {
+            if (!isInvHandSlotSelectReverse)
+            {
+                ChangeSelectedHandSlot(false);
+            }
+            else
+            {
+                ChangeSelectedHandSlot(true);
+            }
+        }
+
+        // Using number keys to change inventory hand slots
+        if (Input.GetKeyDown("1") || Input.GetKeyDown(numpadOneKey))
+        {
+            ChangeSelectedHandSlot(0);
+        }
+        else if (Input.GetKeyDown("2") || Input.GetKeyDown(numpadTwoKey))
+        {
+            ChangeSelectedHandSlot(1);
+        }
+        else if (Input.GetKeyDown("3") || Input.GetKeyDown(numpadThreeKey))
+        {
+            ChangeSelectedHandSlot(2);
+        }
+        else if (Input.GetKeyDown("4") || Input.GetKeyDown(numpadFourKey))
+        {
+            ChangeSelectedHandSlot(3);
+        }
+    }
+
+    public void ChangeSelectedHandSlot(int slotIndex)
+    {
+        // Get currently selected slot
+        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+
+        // Make currently selected slot lose its highlight
+        Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
+            new Color(background.r, background.g, background.b, 0f);
+
+        // Change selected slot
+        GetComponent<PlayerInventory>().SetSelectedInvHandSlot(slotIndex);
+
+        // Make new selected slot highlighted
+        background = inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color =
+            new Color(background.r, background.g, background.b, .8f);
+    }
+
+    public void ChangeSelectedHandSlot(bool isMovingRight)
+    {
+        // Get currently selected slot
+        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+
+        // Make currently selected slot lose its highlight
+        Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
+            new Color(background.r, background.g, background.b, 0f);
+
+        if (!isMovingRight)
+        {
+            // Change selected slot
+            GetComponent<PlayerInventory>().MoveSelectedInvHandSlotLeft();
+        }
+        else
+        {
+            GetComponent<PlayerInventory>().MoveSelectedInvHandSlotRight();
+        }
+
+        // Get newly selected slot
+        selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        
+        // Make new selected slot highlighted
+        background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
+            new Color(background.r, background.g, background.b, .8f);
+    }
+
+    #endregion KeyboardAndMouse
+
+    #region PickupsAndInventory
     private void CheckForPickups()
     {
         Vector3 cameraDirection = playerCamera.transform.forward;
@@ -208,29 +355,48 @@ public class PlayerController : MonoBehaviour
 
         worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
 
+        // If there is not a single empty slot in the player's inventory
+        if (GetComponent<PlayerInventory>().IsInventoryFull())
+        {
+            // If they have a non-max stack of the same item, pick up as much as possible
+            InventoryItem itemToTransferTo = GetComponent<PlayerInventory>().HasSameItemOfNonMaxStackSize(hitInventoryItem);
+
+            // Must recieve empty InvItem because itemToTransferTo == null will always equal null
+            if (itemToTransferTo.GetItem() == InventoryItem.Item.None)
+            {
+                worldToolTipUI.text = "Inventory Full";
+                return;
+            }
+            else if (Input.GetKeyDown(pickUpKey))
+            {
+                // Pass item count from the object in the world to the object in the inventory
+                int newAmount = itemToTransferTo.GetItemCount() + hitInventoryItem.GetItemCount();
+
+                // Can't transfer the whole stack size
+                if (newAmount > itemToTransferTo.GetMaxStackSize())
+                {
+                    itemToTransferTo.SetItemCount(itemToTransferTo.GetMaxStackSize());
+                    hitInventoryItem.SetItemCount(newAmount - itemToTransferTo.GetMaxStackSize());
+                }
+                // Can transfer everything
+                else
+                {
+                    itemToTransferTo.SetItemCount(newAmount);
+                    Destroy(hitInventoryItem.gameObject);
+                }
+
+                inventory.RefreshInventoryVisuals();
+                return;
+            }
+        }
+
+        // Player can pick the item up no problem
         if (Input.GetKeyDown(pickUpKey))
         {
             hitInventoryItem.PickItemUp(inventory);
             Destroy(hitInventoryItem.gameObject);
 
             inventory.RefreshInventoryVisuals();
-        }
-    }
-
-    public void CheckOtherInputs()
-    {
-        if (Input.GetKeyDown(inventoryKey))
-        {
-            ToggleInventoryUI();
-        }
-
-        if (Input.GetKeyDown(selfKillKey))
-        {
-            GetComponent<Health>().DecCurrentValue(10f);
-        }
-        else if (Input.GetKeyDown(selfLiveKey))
-        {
-            GetComponent<Health>().IncCurrentValue(5f);
         }
     }
 
@@ -248,8 +414,17 @@ public class PlayerController : MonoBehaviour
             {
                 obj.gameObject.SetActive(true);
             }
+            foreach (GameObject obj in inventoryUI.GetInvArmorSlotsUI())
+            {
+                obj.gameObject.SetActive(true);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorItemsUI())
+            {
+                obj.gameObject.SetActive(true);
+            }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(true);
+            survivalUI.gameObject.SetActive(true);
 
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -268,8 +443,17 @@ public class PlayerController : MonoBehaviour
             {
                 obj.gameObject.SetActive(false);
             }
+            foreach (GameObject obj in inventoryUI.GetInvArmorSlotsUI())
+            {
+                obj.gameObject.SetActive(false);
+            }
+            foreach (GameObject obj in inventoryUI.GetInvArmorItemsUI())
+            {
+                obj.gameObject.SetActive(false);
+            }
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
+            survivalUI.gameObject.SetActive(false);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -278,10 +462,12 @@ public class PlayerController : MonoBehaviour
         }    
     }
     
-    public void UpdateInventoryToolTip()
+    // This function updates the Inventory tooltip and lets the player use items from their inventory
+    public void UpdateInventoryInteractions()
     {
         int invItemIndex = GetInvItemIndexFromMouse();
         bool isInvItemIndexInvHand = IsInvItemIndexInvHand();
+        bool isInvArmorItem = IsInvArmorItem();
         
         inventoryToolTipUI.text = "";
 
@@ -290,18 +476,23 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        Inventory playerInventory = this.gameObject.GetComponent<Inventory>();
+        PlayerInventory playerInventory = this.gameObject.GetComponent<PlayerInventory>();
         List<InventoryItem> invItems = playerInventory.GetInvItemList();
         List<InventoryItem> invHandItems = playerInventory.GetInvHandItemList();
+        List<InventoryItem> invArmorItems = playerInventory.GetInvItemArmorList();
         InventoryItem invItem = null;
 
-        if (!isInvItemIndexInvHand)
+        if (isInvItemIndexInvHand)
         {
-            invItem = invItems[invItemIndex];
+            invItem = invHandItems[invItemIndex];
+        }
+        else if (isInvArmorItem)
+        {
+            invItem = invArmorItems[invItemIndex];
         }
         else
         {
-            invItem = invHandItems[invItemIndex];
+            invItem = invItems[invItemIndex];
         }
 
         inventoryToolTipUI.gameObject.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 25,
@@ -310,13 +501,88 @@ public class PlayerController : MonoBehaviour
         if (invItem.GetItem() == InventoryItem.Item.None)
         {
             inventoryToolTipUI.text = "";
+            return;
         }
         else
         {
             inventoryToolTipUI.text = invItem.GetItem().ToString();
         }
+
+        // Right click to use consumables
+        if (Input.GetKeyDown(rightClickKey) && invItem.GetItemType() == InventoryItem.ItemType.Consumable)
+        {
+            bool wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+            int itemCount = invItem.GetItemCount();
+
+            if (wasConsumed == false)
+            {
+                // Do nothing
+            }
+            else if (itemCount <= 1)
+            {
+                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
+            }
+            else
+            {
+                invItem.SetItemCount(itemCount - 1);
+            }
+
+            playerInventory.RefreshInventoryVisuals();
+        }
     }
-    
+
+    // Only runs when Inventory is not open, handles using items in inventory hand slots
+    public void UpdateHotbarInteractions()
+    {
+        if (Input.GetKeyDown(leftClickKey))
+        {
+            bool wasConsumed = false;
+
+            // Get player inventory
+            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
+
+            // Get the index of the selected inv hand slot
+            int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
+
+            // Get the player's InvHandItemList
+            List<InventoryItem> invHandItemList = playerInventory.GetInvHandItemList();
+
+            // Get the item at that index in the player's InvHandItemList
+            InventoryItem invItem = invHandItemList[selectedInvHandSlot];
+
+            // Use the inventory item's primary action
+            if (invItem.GetItemType() == InventoryItem.ItemType.Consumable)
+            {
+                wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+                int itemCount = invItem.GetItemCount();
+
+                if (wasConsumed == false)
+                {
+                    // Do nothing
+                }
+                else if (itemCount <= 1)
+                {
+                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
+                }
+                else
+                {
+                    invItem.SetItemCount(itemCount - 1);
+                }
+
+                playerInventory.RefreshInventoryVisuals();
+            }
+            else if (invItem.GetItemType() == InventoryItem.ItemType.Weapon)
+            {
+                invItem.PrimaryAction();
+            }
+        }
+
+        if (Input.GetKeyDown(rightClickKey))
+        {
+
+        }
+    }
+
     public int GetInvItemIndexFromMouse()
     {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
@@ -355,6 +621,39 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    public bool IsInvArmorItem()
+    {
+        PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
+        pointerEventData.position = Input.mousePosition;
+
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResults);
+
+        for (int i = 0; i < raycastResults.Count; i++)
+        {
+            if (raycastResults[i].gameObject.GetComponent<IsInvArmorItem>())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void RefreshSurvivalUI()
+    {
+        survivalUI.RefreshHealthUI(health.GetCurrentValue(), health.GetMaxValue());
+        survivalUI.RefreshStaminaUI(stamina.GetCurrentValue(), stamina.GetMaxValue());
+        survivalUI.RefreshHungerUI(hunger.GetCurrentValue(), hunger.GetMaxValue());
+        survivalUI.RefreshThirstUI(thirst.GetCurrentValue(), thirst.GetMaxValue());
+        survivalUI.RefreshTimeOfDayUI(EcoManager.instance.GetCurrentHour(), EcoManager.instance.GetCurrentMinute());
+        survivalUI.RefreshTemperatureUI(EcoManager.instance.GetCurrentTemperature());
+        survivalUI.RefreshDifficultyUI(DifficultyManager.instance.GetCurrentDifficulty());
+    }
+
+    #endregion PickupsAndInventory
+
+    #region GetSet
     public float GetPickupMinDropDistance()
     {
         return pickupMinDropDistance;
@@ -364,4 +663,6 @@ public class PlayerController : MonoBehaviour
     { 
         return pickupMaxDropDistance;
     }
+
+    #endregion GetSet
 }
