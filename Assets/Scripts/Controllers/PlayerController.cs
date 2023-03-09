@@ -220,7 +220,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(selfKillKey))
         {
-            GetComponent<Health>().DecCurrentValue(10f);
+            GetComponent<Health>().DecCurrentValue(10f - GetComponent<Defense>().GetCurrentValue() * 10f);
         }
         else if (Input.GetKeyDown(selfLiveKey))
         {
@@ -275,6 +275,9 @@ public class PlayerController : MonoBehaviour
         // Get currently selected slot
         int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
 
+        // Object in hand will be disabled
+        GetComponent<PlayerInventory>().ShowItemInHand(false, selectedInvHandSlot);
+
         // Make currently selected slot lose its highlight
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
@@ -282,6 +285,9 @@ public class PlayerController : MonoBehaviour
 
         // Change selected slot
         GetComponent<PlayerInventory>().SetSelectedInvHandSlot(slotIndex);
+
+        // New object in hand will be enabled
+        GetComponent<PlayerInventory>().ShowItemInHand(true, selectedInvHandSlot);
 
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color;
@@ -293,6 +299,8 @@ public class PlayerController : MonoBehaviour
     {
         // Get currently selected slot
         int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+
+        GetComponent<PlayerInventory>().ShowItemInHand(false, selectedInvHandSlot);
 
         // Make currently selected slot lose its highlight
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
@@ -311,7 +319,9 @@ public class PlayerController : MonoBehaviour
 
         // Get newly selected slot
         selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
-        
+
+        GetComponent<PlayerInventory>().ShowItemInHand(true, selectedInvHandSlot);
+
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
@@ -394,6 +404,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(pickUpKey))
         {
             hitInventoryItem.PickItemUp(inventory);
+
             Destroy(hitInventoryItem.gameObject);
 
             inventory.RefreshInventoryVisuals();

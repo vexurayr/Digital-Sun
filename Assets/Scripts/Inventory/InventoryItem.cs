@@ -15,7 +15,9 @@ public class InventoryItem : MonoBehaviour
         Stamina_Boost,
         Cloth_Bandana,
         Wood_Chestplate,
-        Wood_Leggings
+        Wood_Leggings,
+        Wood_Spear,
+        Stone_Axe
     }
 
     public enum ItemType
@@ -44,16 +46,20 @@ public class InventoryItem : MonoBehaviour
         return false;
     }
 
-    public virtual void PrimaryAction()
-    { }
+    public virtual bool PrimaryAction()
+    {
+        return false;
+    }
 
     public virtual bool SecondaryAction(PowerupManager powerupManager)
     {
         return false;
     }
 
-    public virtual void SecondaryAction()
-    { }
+    public virtual bool SecondaryAction()
+    {
+        return false;
+    }
 
     public void PickItemUp(Inventory targetInv)
     {
@@ -108,5 +114,15 @@ public class InventoryItem : MonoBehaviour
     public void SetItemSprite(Sprite newSprite)
     {
         itemSprite = newSprite;
+    }
+
+    public virtual Vector3 GetTransformInHand()
+    {
+        return new Vector3(0, 0, 0);
+    }
+
+    public virtual Vector3 GetRotationInHand()
+    {
+        return new Vector3(0, 0, 0);
     }
 }

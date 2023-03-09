@@ -348,4 +348,25 @@ public class PlayerInventory : Inventory
     }
 
     #endregion SelectHotbarSlot
+
+    public void ShowItemInHand(bool isShowing, int indexInHandList)
+    {
+        // Use the item in the currently selected inventory hand slot
+        InventoryItem item = invHandItemList[indexInHandList];
+        GameObject itemToShow = InvItemManager.instance.GetPrefabForInvItem(item);
+
+        if (item.gameObject.activeInHierarchy && !isShowing)
+        {
+            item.gameObject.SetActive(false);
+        }
+        else if (item.gameObject.activeInHierarchy && isShowing)
+        {
+            item.gameObject.SetActive(true);
+        }
+
+        Quaternion quaternion = new Quaternion(item.GetRotationInHand().x, item.GetRotationInHand().y,
+            item.GetRotationInHand().z, this.transform.rotation.w);
+
+        Instantiate(itemToShow, item.GetTransformInHand(), quaternion);
+    }
 }
