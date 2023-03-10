@@ -69,7 +69,7 @@ public class DragDropInvDiscard : DragAndDrop
             invItem = inventoryArmorItems[index];
 
             // Remove effect from player since the discarded item is armor straight from an invArmorItem slot
-            invItem.SecondaryAction(playerInventory.GetComponent<PowerupManager>());
+            invItem.SecondaryAction(player);
         }
         else
         {

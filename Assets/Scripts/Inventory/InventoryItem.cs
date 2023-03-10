@@ -49,7 +49,7 @@ public class InventoryItem : MonoBehaviour
     #endregion Variables
 
     #region Actions
-    public virtual bool PrimaryAction(PowerupManager powerupManager)
+    public virtual bool PrimaryAction(GameObject player)
     { 
         return false;
     }
@@ -59,7 +59,7 @@ public class InventoryItem : MonoBehaviour
         return false;
     }
 
-    public virtual bool SecondaryAction(PowerupManager powerupManager)
+    public virtual bool SecondaryAction(GameObject player)
     {
         return false;
     }

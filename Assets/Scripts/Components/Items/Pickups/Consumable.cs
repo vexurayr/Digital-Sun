@@ -45,13 +45,8 @@ public class Consumable : InventoryItem
     #endregion MonoBehaviours
 
     #region PrimaryAction
-    public override bool PrimaryAction(PowerupManager powerupManager)
+    public override bool PrimaryAction(GameObject player)
     {
-        if (powerupManager == null)
-        {
-            return false;
-        }
-
         if (primaryEffect == PrimaryEffect.None)
         {
             // Do Nothing
@@ -60,15 +55,15 @@ public class Consumable : InventoryItem
         else if (primaryEffect == PrimaryEffect.Health)
         {
             // Checks if object is not already at max health
-            if (!powerupManager.GetComponent<Health>().IsCurrentValueAtMaxValue())
+            if (!player.GetComponent<Health>().IsCurrentValueAtMaxValue())
             {
                 // Adds the powerup to the manager for its effect to be applied
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
             {
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else
@@ -78,14 +73,14 @@ public class Consumable : InventoryItem
         }
         else if (primaryEffect == PrimaryEffect.Hunger)
         {
-            if (!powerupManager.GetComponent<Hunger>().IsCurrentValueAtMaxValue())
+            if (!player.GetComponent<Hunger>().IsCurrentValueAtMaxValue())
             {
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
             {
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else
@@ -96,15 +91,15 @@ public class Consumable : InventoryItem
         else if (primaryEffect == PrimaryEffect.Thirst)
         {
             // Checks if object is not already at max health
-            if (!powerupManager.GetComponent<Thirst>().IsCurrentValueAtMaxValue())
+            if (!player.GetComponent<Thirst>().IsCurrentValueAtMaxValue())
             {
                 // Adds the powerup to the manager for its effect to be applied
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
             {
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else
@@ -114,14 +109,14 @@ public class Consumable : InventoryItem
         }
         else if (primaryEffect == PrimaryEffect.Stamina)
         {
-            if (!powerupManager.GetComponent<Stamina>().IsCurrentValueAtMaxValue())
+            if (!player.GetComponent<Stamina>().IsCurrentValueAtMaxValue())
             {
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
             {
-                powerupManager.Add(powerup);
+                player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
             else
@@ -131,7 +126,7 @@ public class Consumable : InventoryItem
         }
         else if (primaryEffect == PrimaryEffect.StaminaRegen)
         {
-            powerupManager.Add(powerup);
+            player.GetComponent<PowerupManager>().Add(powerup);
             return true;
         }
 

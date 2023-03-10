@@ -530,7 +530,7 @@ public class PlayerController : MonoBehaviour
         // Right click to use consumables
         if (Input.GetKeyDown(rightClickKey) && invItem.GetItemType() == InventoryItem.ItemType.Consumable)
         {
-            bool wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+            bool wasConsumed = invItem.PrimaryAction(this.gameObject);
             int itemCount = invItem.GetItemCount();
 
             if (wasConsumed == false)
@@ -572,7 +572,7 @@ public class PlayerController : MonoBehaviour
             // Use the inventory item's primary action
             if (invItem.GetItemType() == InventoryItem.ItemType.Consumable)
             {
-                wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+                wasConsumed = invItem.PrimaryAction(this.gameObject);
                 int itemCount = invItem.GetItemCount();
 
                 if (wasConsumed == false)
@@ -595,7 +595,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Weapon)
             {
-                playerInventory.GetActivePlayerItem().GetComponent<Weapon>().PrimaryAction();
+                playerInventory.GetActivePlayerItem().GetComponent<Weapon>().PrimaryAction(this.gameObject);
             }
         }
 
