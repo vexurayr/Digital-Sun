@@ -2610,6 +2610,10 @@ PrefabInstance:
       propertyPath: spear
       value: 
       objectReference: {fileID: 932040282}
+    - target: {fileID: 8183075646251983158, guid: 9eb605ef67680754e82528b60f1c1a81, type: 3}
+      propertyPath: isInvHandSlotSelectReverse
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9eb605ef67680754e82528b60f1c1a81, type: 3}
 --- !u!4 &1925923286 stripped

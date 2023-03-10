@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InventoryItem : MonoBehaviour
 {
+    #region Variables
     public enum Item
     {
         None,
@@ -41,6 +42,13 @@ public class InventoryItem : MonoBehaviour
     [SerializeField] protected int itemCount;
     [SerializeField] protected int maxStackSize;
 
+    // Used to place objects in a way that the player seems to be holding it
+    [SerializeField] protected float transformInHandX, transformInHandY, transformInHandZ;
+    [SerializeField] protected float rotationInHandX, rotationInHandY, rotationInHandZ;
+
+    #endregion Variables
+
+    #region Actions
     public virtual bool PrimaryAction(PowerupManager powerupManager)
     { 
         return false;
@@ -66,6 +74,9 @@ public class InventoryItem : MonoBehaviour
         targetInv.AddToInventory(this.gameObject);
     }
 
+    #endregion Actions
+
+    #region GetSet
     public Item GetItem()
     {
         return item;
@@ -116,13 +127,15 @@ public class InventoryItem : MonoBehaviour
         itemSprite = newSprite;
     }
 
-    public virtual Vector3 GetTransformInHand()
+    public Vector3 GetTransformInHand()
     {
-        return new Vector3(0, 0, 0);
+        return new Vector3(transformInHandX, transformInHandY, transformInHandZ);
     }
 
-    public virtual Vector3 GetRotationInHand()
+    public Vector3 GetRotationInHand()
     {
-        return new Vector3(0, 0, 0);
+        return new Vector3(rotationInHandX, rotationInHandY, rotationInHandZ);
     }
+
+    #endregion GetSet
 }

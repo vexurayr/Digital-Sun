@@ -272,60 +272,68 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeSelectedHandSlot(int slotIndex)
     {
-        // Get currently selected slot
-        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        PlayerInventory playerInventory = GetComponent<PlayerInventory>();
 
-        // Object in hand will be disabled
-        GetComponent<PlayerInventory>().ShowSelectedItemInHand(false);
+        // Get the currently selected slot
+        int oldInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
         // Make currently selected slot lose its highlight
-        Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
-        inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
+        Color background = inventoryUI.GetInvHandSelectedSlotUI()[oldInvHandSlot].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[oldInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, 0f);
 
         // Change selected slot
-        GetComponent<PlayerInventory>().SetSelectedInvHandSlot(slotIndex);
-
-        // New object in hand will be enabled
-        GetComponent<PlayerInventory>().ShowSelectedItemInHand(true);
+        playerInventory.SetSelectedInvHandSlot(slotIndex);
 
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, .8f);
+
+        // Update the scene with the player's currently held object
+        playerInventory.CreateItemInHand(playerInventory.GetInvHandItemList()[slotIndex]);
     }
 
     public void ChangeSelectedHandSlot(bool isMovingRight)
     {
-        // Get currently selected slot
-        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        PlayerInventory playerInventory = GetComponent<PlayerInventory>();
 
-        GetComponent<PlayerInventory>().ShowSelectedItemInHand(false);
+        // Get currently selected slot
+        int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
         // Make currently selected slot lose its highlight
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, 0f);
 
-        if (!isMovingRight)
+        if (!isMovingRight && !isInvHandSlotSelectReverse)
         {
             // Change selected slot
-            GetComponent<PlayerInventory>().MoveSelectedInvHandSlotLeft();
+            playerInventory.MoveSelectedInvHandSlotLeft();
         }
-        else
+        else if (isMovingRight && !isInvHandSlotSelectReverse)
         {
-            GetComponent<PlayerInventory>().MoveSelectedInvHandSlotRight();
+            playerInventory.MoveSelectedInvHandSlotRight();
+        }
+        else if (isMovingRight && isInvHandSlotSelectReverse)
+        {
+            playerInventory.MoveSelectedInvHandSlotRight();
+        }
+        else if (!isMovingRight && isInvHandSlotSelectReverse)
+        {
+            playerInventory.MoveSelectedInvHandSlotLeft();
         }
 
         // Get newly selected slot
-        selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
-
-        GetComponent<PlayerInventory>().ShowSelectedItemInHand(true);
+        selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, .8f);
+
+        // Update the scene with the player's currently held object
+        playerInventory.CreateItemInHand(playerInventory.GetInvHandItemList()[selectedInvHandSlot]);
     }
 
     #endregion KeyboardAndMouse
@@ -574,6 +582,9 @@ public class PlayerController : MonoBehaviour
                 else if (itemCount <= 1)
                 {
                     playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
+
+                    // Update the scene with the player's currently held object
+                    playerInventory.CreateItemInHand(invHandItemList[selectedInvHandSlot]);
                 }
                 else
                 {
@@ -584,7 +595,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Weapon)
             {
-                playerInventory.GetHeldItems()[playerInventory.GetSelectedInvHandSlot()].GetComponent<Weapon>().PrimaryAction();
+                playerInventory.GetActivePlayerItem().GetComponent<Weapon>().PrimaryAction();
             }
         }
 

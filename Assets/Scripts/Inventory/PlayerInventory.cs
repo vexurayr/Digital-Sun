@@ -39,8 +39,12 @@ public class PlayerInventory : Inventory
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
 
         RefreshInventoryVisuals();
+    }
 
-        ShowSelectedItemInHand(true);
+    public void Start()
+    {
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
     }
 
     #endregion MonoBehaviours
@@ -183,11 +187,8 @@ public class PlayerInventory : Inventory
         invHandItemList[first] = secondInvHandItem;
         invHandItemList[second] = firstInvHandItem;
 
-        // Set heldItems to match the change in the invHandItemList
-        GameObject newFirstItem = InvItemManager.instance.GetPrefabForInvItem(firstInvHandItem);
-        GameObject newSecondItem = InvItemManager.instance.GetPrefabForInvItem(secondInvHandItem);
-        heldItems[second] = newFirstItem;
-        heldItems[first] = newSecondItem;
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
 
         RefreshInventoryVisuals();
     }
@@ -200,19 +201,8 @@ public class PlayerInventory : Inventory
         invItemList[firstFromInv] = invHandItem;
         invHandItemList[secondFromHandInv] = invItem;
 
-        GameObject oldItem = heldItems[secondFromHandInv];
-
-        // Set heldItems to match the change in the invHandItemList
-        GameObject newItem = InvItemManager.instance.GetPrefabForInvItem(invItem);
-        Debug.Log("Before: " + heldItems[secondFromHandInv]);
-        heldItems[secondFromHandInv] = newItem;
-        Debug.Log("After: " + heldItems[secondFromHandInv]);
-
-        if (secondFromHandInv == selectedInvHandSlot)
-        {
-            ReplaceItemInHand(oldItem, newItem, secondFromHandInv);
-            ShowSelectedItemInHand(true);
-        }
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
 
         RefreshInventoryVisuals();
     }
@@ -371,39 +361,29 @@ public class PlayerInventory : Inventory
 
     #endregion SelectHotbarSlot
 
-    public void ShowSelectedItemInHand(bool isShowing)
+    public void CreateItemInHand(InventoryItem newItem)
     {
-        // Get the item game object in the currently selected inventory hand slot
-        GameObject item = heldItems[selectedInvHandSlot];
+        // There will only be one object in the scene with this name
+        Destroy(GameObject.Find("ActivePlayerItem"));
 
-        // Make the object visible
-        if (isShowing)
-        {
-            //Debug.Log("Item to Enable: " + invItem.GetItem());
-            item.gameObject.SetActive(true);
-        }
-        // Disable the object so it can't be seen
-        else
-        {
-            //Debug.Log("Item to Disable: " + invItem.GetItem());
-            item.gameObject.SetActive(false);
-        }
-    }
+        // Get the prefab of the new item that will be in the scene
+        GameObject itemPrefab = InvItemManager.instance.GetPrefabForInvItem(newItem);
 
-    public void ReplaceItemInHand(GameObject oldItem, GameObject newItem, int handIndex)
-    {
-        Debug.Log("DESTROY: " + oldItem.gameObject.name);
-        Destroy(GameObject.Find(oldItem.gameObject.name));
-
-        GameObject itemInScene = Instantiate(newItem, this.gameObject.transform.position, this.gameObject.transform.rotation);
+        // Instantiate and make this new item a child of the player's camera
+        GameObject itemInScene = Instantiate(itemPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
         itemInScene.transform.parent = this.GetComponent<PlayerController>().GetPlayerCamera().transform;
 
-        InventoryItem invItem = itemInScene.GetComponent<InventoryItem>();
-
         // Adjust the item so it appears to be held
-        itemInScene.gameObject.transform.localPosition = invItem.GetTransformInHand();
-        itemInScene.gameObject.transform.localEulerAngles = invItem.GetRotationInHand();
+        itemInScene.gameObject.transform.localPosition = newItem.GetTransformInHand();
+        itemInScene.gameObject.transform.localEulerAngles = newItem.GetRotationInHand();
+        itemInScene.GetComponent<InventoryItem>().SetItemCount(newItem.GetItemCount());
 
-        heldItems[handIndex] = itemInScene;
+        // Give the item in the scene the unique name
+        itemInScene.gameObject.name = "ActivePlayerItem";
+    }
+
+    public GameObject GetActivePlayerItem()
+    {
+        return GameObject.Find("ActivePlayerItem");
     }
 }

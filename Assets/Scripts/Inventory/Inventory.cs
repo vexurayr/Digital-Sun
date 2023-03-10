@@ -9,7 +9,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] protected int invSlots;
     [SerializeField] protected int invHandSlots;
     [SerializeField] protected InventoryItem emptyInvItem;
-    [SerializeField] protected List<GameObject> heldItems;
 
     protected List<InventoryItem> invItemList;
     protected List<InventoryItem> invHandItemList;
@@ -55,9 +54,11 @@ public class Inventory : MonoBehaviour
         return invItemArmorList;
     }
 
-    public virtual List<GameObject> GetHeldItems()
+    public virtual GameObject GetEmptyInventoryItem()
     {
-        return heldItems;
+        GameObject obj = InvItemManager.instance.GetPrefabForInvItem(emptyInvItem);
+
+        return obj;
     }
 
     #endregion GetSet

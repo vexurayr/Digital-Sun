@@ -8,8 +8,6 @@ public class Weapon : InventoryItem
     [SerializeField] private float damageToEnemy;
     [SerializeField] private string animationTriggerName;
     [SerializeField] private float animationSpeed;
-    [SerializeField] private float transformInHandX, transformInHandY, transformInHandZ;
-    [SerializeField] private float rotationInHandX, rotationInHandY, rotationInHandZ;
     [SerializeField] private Collider hitbox;
 
     private Animator animator;
@@ -27,7 +25,6 @@ public class Weapon : InventoryItem
     #endregion MonoBehaviours
 
     #region PrimaryAction
-    [ContextMenu("Primary Action")]
     public override bool PrimaryAction()
     {
         // If the animation is ready to play
@@ -48,15 +45,5 @@ public class Weapon : InventoryItem
     public float GetDamageToEnemy()
     {
         return damageToEnemy;
-    }
-
-    public override Vector3 GetTransformInHand()
-    {
-        return new Vector3(transformInHandX, transformInHandY, transformInHandZ);
-    }
-
-    public override Vector3 GetRotationInHand()
-    {
-        return new Vector3(rotationInHandX, rotationInHandY, rotationInHandZ);
     }
 }

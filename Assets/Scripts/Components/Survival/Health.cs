@@ -56,6 +56,7 @@ public class Health : BaseValues
             float damageTaken = weapon.GetDamageToEnemy();
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
+            Debug.LogWarning("Dealing " + totalDamage + " damage to " + collision.gameObject.name);
             DecCurrentValue(totalDamage);
         }
     }
