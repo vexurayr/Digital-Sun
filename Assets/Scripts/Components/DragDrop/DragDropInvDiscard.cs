@@ -61,6 +61,8 @@ public class DragDropInvDiscard : DragAndDrop
         if (isInvHandItem)
         {
             invItem = inventoryHandItems[index];
+            // Get the prefab of the invItem
+            GameObject oldObject = InvItemManager.instance.GetPrefabForInvItem(invItem);
         }
         else if (isInvArmorItem)
         {
@@ -151,6 +153,9 @@ public class DragDropInvDiscard : DragAndDrop
 
             // Remove InvItem from playerInventory's list of InvItems using index
             playerInventory.RemoveFromInventory(index, isInvHandItem, isInvArmorItem);
+
+            // Update the scene with the player's currently held object
+            playerInventory.CreateItemInHand(playerInventory.GetInvHandItemList()[playerInventory.GetSelectedInvHandSlot()]);
 
             playerInventory.RefreshInventoryVisuals();
         }

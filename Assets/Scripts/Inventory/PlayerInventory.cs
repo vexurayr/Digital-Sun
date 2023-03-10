@@ -41,6 +41,12 @@ public class PlayerInventory : Inventory
         RefreshInventoryVisuals();
     }
 
+    public void Start()
+    {
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
+    }
+
     #endregion MonoBehaviours
 
     #region GetSet
@@ -181,6 +187,9 @@ public class PlayerInventory : Inventory
         invHandItemList[first] = secondInvHandItem;
         invHandItemList[second] = firstInvHandItem;
 
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
+
         RefreshInventoryVisuals();
     }
 
@@ -191,6 +200,9 @@ public class PlayerInventory : Inventory
 
         invItemList[firstFromInv] = invHandItem;
         invHandItemList[secondFromHandInv] = invItem;
+
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
 
         RefreshInventoryVisuals();
     }
@@ -348,4 +360,30 @@ public class PlayerInventory : Inventory
     }
 
     #endregion SelectHotbarSlot
+
+    public void CreateItemInHand(InventoryItem newItem)
+    {
+        // There will only be one object in the scene with this name
+        Destroy(GameObject.Find("ActivePlayerItem"));
+
+        // Get the prefab of the new item that will be in the scene
+        GameObject itemPrefab = InvItemManager.instance.GetPrefabForInvItem(newItem);
+
+        // Instantiate and make this new item a child of the player's camera
+        GameObject itemInScene = Instantiate(itemPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
+        itemInScene.transform.parent = this.GetComponent<PlayerController>().GetPlayerCamera().transform;
+
+        // Adjust the item so it appears to be held
+        itemInScene.gameObject.transform.localPosition = newItem.GetTransformInHand();
+        itemInScene.gameObject.transform.localEulerAngles = newItem.GetRotationInHand();
+        itemInScene.GetComponent<InventoryItem>().SetItemCount(newItem.GetItemCount());
+
+        // Give the item in the scene the unique name
+        itemInScene.gameObject.name = "ActivePlayerItem";
+    }
+
+    public GameObject GetActivePlayerItem()
+    {
+        return GameObject.Find("ActivePlayerItem");
+    }
 }

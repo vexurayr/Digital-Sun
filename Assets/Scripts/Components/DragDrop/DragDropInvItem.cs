@@ -173,36 +173,30 @@ public class DragDropInvItem : DragAndDrop
         else if (isFirstItemInvArmor && isSecondItemInvHand)
         {
             // Armor shouldn't be in the hotbar
-            Debug.Log("No");
         }
         // Other item is in invHandUI, this item is in inveArmorUI
         else if (isFirstItemInvHand && isSecondItemInvArmor)
         {
-            Debug.Log("Don't");
             // Armor shouldn't be in the hotbar
         }
         // Other item is in invArmorUI, this item is in invUI
         else if (isFirstItemInvArmor && !isSecondItemInvArmor)
         {
-            Debug.Log("InvArmor, Inv");
             playerInventory.SwapArmorItemWithInvItem(firstInvIndex, secondInvIndex);
         }
         // Other item is in invUI, this item is in invArmorUI
         else if (!isFirstItemInvArmor && isSecondItemInvArmor)
         {
-            Debug.Log("Inv, InvArmor");
             playerInventory.SwapArmorItemWithInvItem(secondInvIndex, firstInvIndex);
         }
         // Both items are in invArmorUI
         else if (isFirstItemInvArmor && isSecondItemInvArmor)
         {
-            Debug.Log("InvArmor, InvArmor");
             // Do nothing because this would mean swapping helmet in helmet slot with chestplate in chestplate slot
         }
         // Both items are in invUI
         else
         {
-            Debug.Log("Inv, Inv");
             playerInventory.SwapTwoInvItems(firstInvIndex, secondInvIndex);
         }
     }

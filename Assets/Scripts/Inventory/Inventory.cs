@@ -54,6 +54,13 @@ public class Inventory : MonoBehaviour
         return invItemArmorList;
     }
 
+    public virtual GameObject GetEmptyInventoryItem()
+    {
+        GameObject obj = InvItemManager.instance.GetPrefabForInvItem(emptyInvItem);
+
+        return obj;
+    }
+
     #endregion GetSet
 
     #region AddItemToInventory
@@ -152,6 +159,7 @@ public class Inventory : MonoBehaviour
     {
         invItemList.Clear();
         invHandItemList.Clear();
+        invItemArmorList.Clear();
 
         for (int i = 0; i < invSlots; i++)
         {
