@@ -46,17 +46,16 @@ public class Health : BaseValues
 
     #endregion OverrideFunctions
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collider)
     {
         // Check if a weapon's hitbox has collided with the pawn
-        if (collision.gameObject.GetComponent<DamageSource>())
+        if (collider.gameObject.GetComponent<DamageSource>())
         {
-            Weapon weapon = collision.gameObject.GetComponentInParent<Weapon>();
+            Weapon weapon = collider.gameObject.GetComponentInParent<Weapon>();
             Defense defense = this.gameObject.GetComponent<Defense>();
             float damageTaken = weapon.GetDamageToEnemy();
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
-            Debug.LogWarning("Dealing " + totalDamage + " damage to " + collision.gameObject.name);
             DecCurrentValue(totalDamage);
         }
     }

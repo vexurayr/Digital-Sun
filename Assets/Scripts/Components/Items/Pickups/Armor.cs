@@ -18,14 +18,9 @@ public class Armor : InventoryItem
     // Slightly different for armor, only using PowerupManager for player reference
     // Primary Action gives player the armor's buffs
     #region PrimaryAction
-    public override bool PrimaryAction(PowerupManager powerupManager)
+    public override bool PrimaryAction(GameObject player)
     {
-        if (powerupManager == null)
-        {
-            return false;
-        }
-
-        Defense defense = powerupManager.GetComponent<Defense>();
+        Defense defense = player.GetComponent<Defense>();
 
         defense.IncCurrentValue(defenseProtection);
         defense.IncCurrentHotProtection(hotTemperatureProtection);
@@ -38,14 +33,9 @@ public class Armor : InventoryItem
 
     // Second Action removes the armor's buffs
     #region SecondAction
-    public override bool SecondaryAction(PowerupManager powerupManager)
+    public override bool SecondaryAction(GameObject player)
     {
-        if (powerupManager == null)
-        {
-            return false;
-        }
-
-        Defense defense = powerupManager.GetComponent<Defense>();
+        Defense defense = player.GetComponent<Defense>();
 
         defense.DecCurrentValue(defenseProtection);
         defense.DecCurrentHotProtection(hotTemperatureProtection);

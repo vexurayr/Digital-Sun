@@ -239,21 +239,21 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(this.gameObject);
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(this.gameObject);
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(this.gameObject);
             }
         }
         // Attempting to remove armor and place in an empty slot
@@ -262,7 +262,7 @@ public class PlayerInventory : Inventory
             invItemArmorList[firstFromArmorInv] = invItem;
             invItemList[secondFromInv] = invArmorItem;
 
-            invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
+            invArmorItem.SecondaryAction(this.gameObject);
         }
         // Attempting to remove armor and add something else to the armor slot
         else
@@ -273,8 +273,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invArmorItem.SecondaryAction(this.gameObject);
+                invItem.PrimaryAction(this.gameObject);
             }
             // Replace chestplate with different chestplate
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
@@ -282,8 +282,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invArmorItem.SecondaryAction(this.gameObject);
+                invItem.PrimaryAction(this.gameObject);
             }
             // Replace leggings with different leggings
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
@@ -291,8 +291,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invArmorItem.SecondaryAction(this.gameObject);
+                invItem.PrimaryAction(this.gameObject);
             }
         }
 
