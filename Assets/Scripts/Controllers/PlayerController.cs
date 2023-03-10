@@ -597,6 +597,10 @@ public class PlayerController : MonoBehaviour
             {
                 playerInventory.GetActivePlayerItem().GetComponent<Weapon>().PrimaryAction(this.gameObject);
             }
+            else if (invItem.GetItemType() == InventoryItem.ItemType.Axe)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
+            }
         }
 
         if (Input.GetKeyDown(rightClickKey))

@@ -35,7 +35,7 @@ public class Weapon : InventoryItem
             {
                 animator.SetTrigger(animationTriggerName);
 
-                player.GetComponent<Stamina>().SetCurrentValue(player.GetComponent<Stamina>().GetCurrentValue() - staminaCost);
+                player.GetComponent<Stamina>().DecCurrentValue(staminaCost);
 
                 return true;
             }
