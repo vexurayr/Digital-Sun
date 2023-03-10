@@ -276,7 +276,7 @@ public class PlayerController : MonoBehaviour
         int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
 
         // Object in hand will be disabled
-        GetComponent<PlayerInventory>().ShowItemInHand(false, selectedInvHandSlot);
+        GetComponent<PlayerInventory>().ShowSelectedItemInHand(false);
 
         // Make currently selected slot lose its highlight
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<PlayerInventory>().SetSelectedInvHandSlot(slotIndex);
 
         // New object in hand will be enabled
-        GetComponent<PlayerInventory>().ShowItemInHand(true, selectedInvHandSlot);
+        GetComponent<PlayerInventory>().ShowSelectedItemInHand(true);
 
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color;
@@ -300,7 +300,7 @@ public class PlayerController : MonoBehaviour
         // Get currently selected slot
         int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
 
-        GetComponent<PlayerInventory>().ShowItemInHand(false, selectedInvHandSlot);
+        GetComponent<PlayerInventory>().ShowSelectedItemInHand(false);
 
         // Make currently selected slot lose its highlight
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
@@ -320,7 +320,7 @@ public class PlayerController : MonoBehaviour
         // Get newly selected slot
         selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
 
-        GetComponent<PlayerInventory>().ShowItemInHand(true, selectedInvHandSlot);
+        GetComponent<PlayerInventory>().ShowSelectedItemInHand(true);
 
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
@@ -584,7 +584,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Weapon)
             {
-                invItem.PrimaryAction();
+                playerInventory.GetHeldItems()[playerInventory.GetSelectedInvHandSlot()].GetComponent<Weapon>().PrimaryAction();
             }
         }
 
@@ -673,6 +673,11 @@ public class PlayerController : MonoBehaviour
     public float GetPickupMaxDropDistance()
     { 
         return pickupMaxDropDistance;
+    }
+
+    public Camera GetPlayerCamera()
+    {
+        return playerCamera;
     }
 
     #endregion GetSet

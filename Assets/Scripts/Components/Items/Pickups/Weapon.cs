@@ -27,6 +27,7 @@ public class Weapon : InventoryItem
     #endregion MonoBehaviours
 
     #region PrimaryAction
+    [ContextMenu("Primary Action")]
     public override bool PrimaryAction()
     {
         // If the animation is ready to play

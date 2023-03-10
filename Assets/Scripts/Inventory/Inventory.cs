@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] protected int invSlots;
     [SerializeField] protected int invHandSlots;
     [SerializeField] protected InventoryItem emptyInvItem;
+    [SerializeField] protected List<GameObject> heldItems;
 
     protected List<InventoryItem> invItemList;
     protected List<InventoryItem> invHandItemList;
@@ -52,6 +53,11 @@ public class Inventory : MonoBehaviour
     public virtual List<InventoryItem> GetInvItemArmorList()
     {
         return invItemArmorList;
+    }
+
+    public virtual List<GameObject> GetHeldItems()
+    {
+        return heldItems;
     }
 
     #endregion GetSet
@@ -152,6 +158,7 @@ public class Inventory : MonoBehaviour
     {
         invItemList.Clear();
         invHandItemList.Clear();
+        invItemArmorList.Clear();
 
         for (int i = 0; i < invSlots; i++)
         {

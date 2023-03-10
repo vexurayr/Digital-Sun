@@ -39,6 +39,8 @@ public class PlayerInventory : Inventory
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
 
         RefreshInventoryVisuals();
+
+        ShowSelectedItemInHand(true);
     }
 
     #endregion MonoBehaviours
@@ -181,6 +183,12 @@ public class PlayerInventory : Inventory
         invHandItemList[first] = secondInvHandItem;
         invHandItemList[second] = firstInvHandItem;
 
+        // Set heldItems to match the change in the invHandItemList
+        GameObject newFirstItem = InvItemManager.instance.GetPrefabForInvItem(firstInvHandItem);
+        GameObject newSecondItem = InvItemManager.instance.GetPrefabForInvItem(secondInvHandItem);
+        heldItems[second] = newFirstItem;
+        heldItems[first] = newSecondItem;
+
         RefreshInventoryVisuals();
     }
 
@@ -191,6 +199,20 @@ public class PlayerInventory : Inventory
 
         invItemList[firstFromInv] = invHandItem;
         invHandItemList[secondFromHandInv] = invItem;
+
+        GameObject oldItem = heldItems[secondFromHandInv];
+
+        // Set heldItems to match the change in the invHandItemList
+        GameObject newItem = InvItemManager.instance.GetPrefabForInvItem(invItem);
+        Debug.Log("Before: " + heldItems[secondFromHandInv]);
+        heldItems[secondFromHandInv] = newItem;
+        Debug.Log("After: " + heldItems[secondFromHandInv]);
+
+        if (secondFromHandInv == selectedInvHandSlot)
+        {
+            ReplaceItemInHand(oldItem, newItem, secondFromHandInv);
+            ShowSelectedItemInHand(true);
+        }
 
         RefreshInventoryVisuals();
     }
@@ -349,24 +371,39 @@ public class PlayerInventory : Inventory
 
     #endregion SelectHotbarSlot
 
-    public void ShowItemInHand(bool isShowing, int indexInHandList)
+    public void ShowSelectedItemInHand(bool isShowing)
     {
-        // Use the item in the currently selected inventory hand slot
-        InventoryItem item = invHandItemList[indexInHandList];
-        GameObject itemToShow = InvItemManager.instance.GetPrefabForInvItem(item);
+        // Get the item game object in the currently selected inventory hand slot
+        GameObject item = heldItems[selectedInvHandSlot];
 
-        if (item.gameObject.activeInHierarchy && !isShowing)
+        // Make the object visible
+        if (isShowing)
         {
-            item.gameObject.SetActive(false);
-        }
-        else if (item.gameObject.activeInHierarchy && isShowing)
-        {
+            //Debug.Log("Item to Enable: " + invItem.GetItem());
             item.gameObject.SetActive(true);
         }
+        // Disable the object so it can't be seen
+        else
+        {
+            //Debug.Log("Item to Disable: " + invItem.GetItem());
+            item.gameObject.SetActive(false);
+        }
+    }
 
-        Quaternion quaternion = new Quaternion(item.GetRotationInHand().x, item.GetRotationInHand().y,
-            item.GetRotationInHand().z, this.transform.rotation.w);
+    public void ReplaceItemInHand(GameObject oldItem, GameObject newItem, int handIndex)
+    {
+        Debug.Log("DESTROY: " + oldItem.gameObject.name);
+        Destroy(GameObject.Find(oldItem.gameObject.name));
 
-        Instantiate(itemToShow, item.GetTransformInHand(), quaternion);
+        GameObject itemInScene = Instantiate(newItem, this.gameObject.transform.position, this.gameObject.transform.rotation);
+        itemInScene.transform.parent = this.GetComponent<PlayerController>().GetPlayerCamera().transform;
+
+        InventoryItem invItem = itemInScene.GetComponent<InventoryItem>();
+
+        // Adjust the item so it appears to be held
+        itemInScene.gameObject.transform.localPosition = invItem.GetTransformInHand();
+        itemInScene.gameObject.transform.localEulerAngles = invItem.GetRotationInHand();
+
+        heldItems[handIndex] = itemInScene;
     }
 }

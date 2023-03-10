@@ -52,7 +52,11 @@ public class Health : BaseValues
         if (collision.gameObject.GetComponent<DamageSource>())
         {
             Weapon weapon = collision.gameObject.GetComponentInParent<Weapon>();
-            DecCurrentValue(weapon.GetDamageToEnemy());
+            Defense defense = this.gameObject.GetComponent<Defense>();
+            float damageTaken = weapon.GetDamageToEnemy();
+            float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
+
+            DecCurrentValue(totalDamage);
         }
     }
 

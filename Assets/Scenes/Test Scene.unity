@@ -579,7 +579,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1001 &324486996
 PrefabInstance:
@@ -835,6 +835,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spear
       objectReference: {fileID: 0}
+    - target: {fileID: 2277212383445363930, guid: 7383db069607eb94c806b093f6e9644e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2410404491623811762, guid: 7383db069607eb94c806b093f6e9644e, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -1001,7 +1005,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8873822057796559323, guid: 377f5a5642dee8f44ba764182d30527a, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8873822057796559323, guid: 377f5a5642dee8f44ba764182d30527a, type: 3}
       propertyPath: m_LocalPosition.x
