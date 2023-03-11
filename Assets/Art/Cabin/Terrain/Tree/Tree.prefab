@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 193130286060608118}
   - component: {fileID: 33646903602520902}
   - component: {fileID: 23115458399820802}
-  - component: {fileID: 6368252059818291788}
+  - component: {fileID: 9188769921856959349}
+  - component: {fileID: 8480333999287627194}
+  - component: {fileID: 444461478197234909}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Untagged
@@ -84,7 +86,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -93,8 +95,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &6368252059818291788
-CapsuleCollider:
+--- !u!65 &9188769921856959349
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,10 +105,49 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 4.75
-  m_Direction: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8, y: 4, z: 0.8}
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &8480333999287627194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549382250593944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bee0091845e9a4fa531f8a0560f968, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startValue: 20
+  maxValue: 20
+  drainMult: 0
+  drainDelay: 0
+  regainMult: 0
+  regainDelay: 0
+  isDebugging: 0
+  itemToDrop: {fileID: 6698066347075909765, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
+  quantityToDrop: 4
+--- !u!114 &444461478197234909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549382250593944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85f84fcd04a42214aac6dd3b8de88f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startValue: 0
+  maxValue: 1
+  drainMult: 0
+  drainDelay: 0
+  regainMult: 0
+  regainDelay: 0
+  isDebugging: 0
 --- !u!21 &21093035886076208
 Material:
   serializedVersion: 6

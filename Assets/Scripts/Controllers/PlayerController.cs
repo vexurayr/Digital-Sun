@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode pickUpKey = KeyCode.E;
     [SerializeField] private KeyCode inventoryKey = KeyCode.Tab;
+    [SerializeField] private KeyCode escapeKey = KeyCode.Escape;
     // Left-click to use items in hotbar
     [SerializeField] private KeyCode leftClickKey = KeyCode.Mouse0;
     // Right-click to use items inventory
@@ -267,6 +268,11 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown("4") || Input.GetKeyDown(numpadFourKey))
         {
             ChangeSelectedHandSlot(3);
+        }
+
+        if (Input.GetKeyDown(escapeKey))
+        {
+            LevelLoader.instance.LoadMainMenu();
         }
     }
 
