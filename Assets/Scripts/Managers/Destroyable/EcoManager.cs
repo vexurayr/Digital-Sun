@@ -10,6 +10,7 @@ public class EcoManager : MonoBehaviour
 
     [SerializeField] private GameObject sun;
     [SerializeField] private bool isStartingTimeRandom;
+    [SerializeField] private bool isTimeChanging;
     [SerializeField] private float startingTimeOfDay;
     [SerializeField] private float maxTemperature;
     [SerializeField] private float minTemperature;
@@ -47,7 +48,10 @@ public class EcoManager : MonoBehaviour
 
     private void Update()
     {
-        PassTime();
+        if (isTimeChanging)
+        {
+            PassTime();
+        }
 
         if (isDebugging)
         {

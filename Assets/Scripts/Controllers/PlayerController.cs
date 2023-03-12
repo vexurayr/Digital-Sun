@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode pickUpKey = KeyCode.E;
     [SerializeField] private KeyCode inventoryKey = KeyCode.Tab;
+    [SerializeField] private KeyCode escapeKey = KeyCode.Escape;
     // Left-click to use items in hotbar
     [SerializeField] private KeyCode leftClickKey = KeyCode.Mouse0;
     // Right-click to use items inventory
@@ -220,7 +221,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(selfKillKey))
         {
-            GetComponent<Health>().DecCurrentValue(10f);
+            GetComponent<Health>().DecCurrentValue(10f - GetComponent<Defense>().GetCurrentValue() * 10f);
         }
         else if (Input.GetKeyDown(selfLiveKey))
         {
@@ -268,54 +269,77 @@ public class PlayerController : MonoBehaviour
         {
             ChangeSelectedHandSlot(3);
         }
+
+        if (Input.GetKeyDown(escapeKey))
+        {
+            LevelLoader.instance.LoadMainMenu();
+        }
     }
 
     public void ChangeSelectedHandSlot(int slotIndex)
     {
-        // Get currently selected slot
-        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        PlayerInventory playerInventory = GetComponent<PlayerInventory>();
+
+        // Get the currently selected slot
+        int oldInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
         // Make currently selected slot lose its highlight
-        Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
-        inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
+        Color background = inventoryUI.GetInvHandSelectedSlotUI()[oldInvHandSlot].GetComponent<RawImage>().color;
+        inventoryUI.GetInvHandSelectedSlotUI()[oldInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, 0f);
 
         // Change selected slot
-        GetComponent<PlayerInventory>().SetSelectedInvHandSlot(slotIndex);
+        playerInventory.SetSelectedInvHandSlot(slotIndex);
 
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[slotIndex].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, .8f);
+
+        // Update the scene with the player's currently held object
+        playerInventory.CreateItemInHand(playerInventory.GetInvHandItemList()[slotIndex]);
     }
 
     public void ChangeSelectedHandSlot(bool isMovingRight)
     {
+        PlayerInventory playerInventory = GetComponent<PlayerInventory>();
+
         // Get currently selected slot
-        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
         // Make currently selected slot lose its highlight
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, 0f);
 
-        if (!isMovingRight)
+        if (!isMovingRight && !isInvHandSlotSelectReverse)
         {
             // Change selected slot
-            GetComponent<PlayerInventory>().MoveSelectedInvHandSlotLeft();
+            playerInventory.MoveSelectedInvHandSlotLeft();
         }
-        else
+        else if (isMovingRight && !isInvHandSlotSelectReverse)
         {
-            GetComponent<PlayerInventory>().MoveSelectedInvHandSlotRight();
+            playerInventory.MoveSelectedInvHandSlotRight();
+        }
+        else if (isMovingRight && isInvHandSlotSelectReverse)
+        {
+            playerInventory.MoveSelectedInvHandSlotRight();
+        }
+        else if (!isMovingRight && isInvHandSlotSelectReverse)
+        {
+            playerInventory.MoveSelectedInvHandSlotLeft();
         }
 
         // Get newly selected slot
-        selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
-        
+        selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
+
         // Make new selected slot highlighted
         background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, .8f);
+
+        // Update the scene with the player's currently held object
+        playerInventory.CreateItemInHand(playerInventory.GetInvHandItemList()[selectedInvHandSlot]);
     }
 
     #endregion KeyboardAndMouse
@@ -394,6 +418,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(pickUpKey))
         {
             hitInventoryItem.PickItemUp(inventory);
+
             Destroy(hitInventoryItem.gameObject);
 
             inventory.RefreshInventoryVisuals();
@@ -511,7 +536,7 @@ public class PlayerController : MonoBehaviour
         // Right click to use consumables
         if (Input.GetKeyDown(rightClickKey) && invItem.GetItemType() == InventoryItem.ItemType.Consumable)
         {
-            bool wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+            bool wasConsumed = invItem.PrimaryAction(this.gameObject);
             int itemCount = invItem.GetItemCount();
 
             if (wasConsumed == false)
@@ -553,7 +578,7 @@ public class PlayerController : MonoBehaviour
             // Use the inventory item's primary action
             if (invItem.GetItemType() == InventoryItem.ItemType.Consumable)
             {
-                wasConsumed = invItem.PrimaryAction(GetComponent<PowerupManager>());
+                wasConsumed = invItem.PrimaryAction(this.gameObject);
                 int itemCount = invItem.GetItemCount();
 
                 if (wasConsumed == false)
@@ -563,6 +588,9 @@ public class PlayerController : MonoBehaviour
                 else if (itemCount <= 1)
                 {
                     playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
+
+                    // Update the scene with the player's currently held object
+                    playerInventory.CreateItemInHand(invHandItemList[selectedInvHandSlot]);
                 }
                 else
                 {
@@ -573,7 +601,11 @@ public class PlayerController : MonoBehaviour
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Weapon)
             {
-                invItem.PrimaryAction();
+                playerInventory.GetActivePlayerItem().GetComponent<Weapon>().PrimaryAction(this.gameObject);
+            }
+            else if (invItem.GetItemType() == InventoryItem.ItemType.Axe)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
             }
         }
 
@@ -662,6 +694,11 @@ public class PlayerController : MonoBehaviour
     public float GetPickupMaxDropDistance()
     { 
         return pickupMaxDropDistance;
+    }
+
+    public Camera GetPlayerCamera()
+    {
+        return playerCamera;
     }
 
     #endregion GetSet
