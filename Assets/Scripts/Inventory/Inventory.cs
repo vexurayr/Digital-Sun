@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -52,6 +51,13 @@ public class Inventory : MonoBehaviour
     public virtual List<InventoryItem> GetInvItemArmorList()
     {
         return invItemArmorList;
+    }
+
+    public virtual GameObject GetEmptyInventoryItem()
+    {
+        GameObject obj = InvItemManager.instance.GetPrefabForInvItem(emptyInvItem);
+
+        return obj;
     }
 
     #endregion GetSet
@@ -152,6 +158,7 @@ public class Inventory : MonoBehaviour
     {
         invItemList.Clear();
         invHandItemList.Clear();
+        invItemArmorList.Clear();
 
         for (int i = 0; i < invSlots; i++)
         {

@@ -679,11 +679,17 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: 93b2a456ef0ee694382fa43d5a861414, type: 3}
   itemCount: 0
   maxStackSize: 20
+  transformInHandX: 1.25
+  transformInHandY: -0.85
+  transformInHandZ: 1
+  rotationInHandX: 0
+  rotationInHandY: 90
+  rotationInHandZ: 0
   primaryEffect: 2
   secondEffect: 0
   primaryStatChangeAmount: 5
   secondStatChangeAmount: 0
-  powerupDuration: 0
+  maxPowerupDuration: 0
   isStackable: 0
   isPrimaryEffectPermanent: 1
   isSecondEffectPermanent: 0

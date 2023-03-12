@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,6 +38,12 @@ public class PlayerInventory : Inventory
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
 
         RefreshInventoryVisuals();
+    }
+
+    public void Start()
+    {
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
     }
 
     #endregion MonoBehaviours
@@ -181,6 +186,9 @@ public class PlayerInventory : Inventory
         invHandItemList[first] = secondInvHandItem;
         invHandItemList[second] = firstInvHandItem;
 
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
+
         RefreshInventoryVisuals();
     }
 
@@ -191,6 +199,9 @@ public class PlayerInventory : Inventory
 
         invItemList[firstFromInv] = invHandItem;
         invHandItemList[secondFromHandInv] = invItem;
+
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
 
         RefreshInventoryVisuals();
     }
@@ -227,21 +238,21 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(this.gameObject);
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(this.gameObject);
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invItem.PrimaryAction(this.gameObject);
             }
         }
         // Attempting to remove armor and place in an empty slot
@@ -250,7 +261,7 @@ public class PlayerInventory : Inventory
             invItemArmorList[firstFromArmorInv] = invItem;
             invItemList[secondFromInv] = invArmorItem;
 
-            invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
+            invArmorItem.SecondaryAction(this.gameObject);
         }
         // Attempting to remove armor and add something else to the armor slot
         else
@@ -261,8 +272,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invArmorItem.SecondaryAction(this.gameObject);
+                invItem.PrimaryAction(this.gameObject);
             }
             // Replace chestplate with different chestplate
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
@@ -270,8 +281,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invArmorItem.SecondaryAction(this.gameObject);
+                invItem.PrimaryAction(this.gameObject);
             }
             // Replace leggings with different leggings
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
@@ -279,8 +290,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(GetComponent<PowerupManager>());
-                invItem.PrimaryAction(GetComponent<PowerupManager>());
+                invArmorItem.SecondaryAction(this.gameObject);
+                invItem.PrimaryAction(this.gameObject);
             }
         }
 
@@ -348,4 +359,30 @@ public class PlayerInventory : Inventory
     }
 
     #endregion SelectHotbarSlot
+
+    public void CreateItemInHand(InventoryItem newItem)
+    {
+        // There will only be one object in the scene with this name
+        Destroy(GameObject.Find("ActivePlayerItem"));
+
+        // Get the prefab of the new item that will be in the scene
+        GameObject itemPrefab = InvItemManager.instance.GetPrefabForInvItem(newItem);
+
+        // Instantiate and make this new item a child of the player's camera
+        GameObject itemInScene = Instantiate(itemPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
+        itemInScene.transform.parent = this.GetComponent<PlayerController>().GetPlayerCamera().transform;
+
+        // Adjust the item so it appears to be held
+        itemInScene.gameObject.transform.localPosition = newItem.GetTransformInHand();
+        itemInScene.gameObject.transform.localEulerAngles = newItem.GetRotationInHand();
+        itemInScene.GetComponent<InventoryItem>().SetItemCount(newItem.GetItemCount());
+
+        // Give the item in the scene the unique name
+        itemInScene.gameObject.name = "ActivePlayerItem";
+    }
+
+    public GameObject GetActivePlayerItem()
+    {
+        return GameObject.Find("ActivePlayerItem");
+    }
 }
