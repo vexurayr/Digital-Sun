@@ -469,10 +469,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: 8
-  itemType: 7
+  itemType: 8
   itemSprite: {fileID: 21300000, guid: 064395e4e5bde224d928f0530d12ff81, type: 3}
   itemCount: 0
   maxStackSize: 1
+  transformInHandX: 0
+  transformInHandY: 0
+  transformInHandZ: 0
+  rotationInHandX: 0
+  rotationInHandY: 0
+  rotationInHandZ: 0
   defenseProtection: 0.03
   coldTemperatureProtection: 1
   hotTemperatureProtection: 2

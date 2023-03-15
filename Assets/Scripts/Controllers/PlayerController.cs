@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDelta = Vector2.zero;
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+    private CraftBench lastOpenedCraftBench;
+
     #endregion Variables
 
     #region MonoBehaviours
@@ -370,7 +372,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
+        
         worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
 
         // If there is not a single empty slot in the player's inventory
@@ -406,6 +408,20 @@ public class PlayerController : MonoBehaviour
                 inventory.RefreshInventoryVisuals();
                 return;
             }
+            // Special cases like looking at a Craft Bench
+            else if (Input.GetKeyDown(rightClickKey) && itemToTransferTo.GetItem() == InventoryItem.Item.Craft_Bench)
+            {
+                lastOpenedCraftBench = itemToTransferTo.GetComponent<CraftBench>();
+                itemToTransferTo.SecondaryAction(this.gameObject);
+                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+                else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+            }
         }
 
         // Player can pick the item up no problem
@@ -416,6 +432,20 @@ public class PlayerController : MonoBehaviour
             Destroy(hitInventoryItem.gameObject);
 
             inventory.RefreshInventoryVisuals();
+        }
+        // Special cases like looking at a Craft Bench
+        else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
+        {
+            lastOpenedCraftBench = hitInventoryItem.GetComponent<CraftBench>();
+            hitInventoryItem.SecondaryAction(this.gameObject);
+            if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+            else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
         }
     }
 
@@ -473,6 +503,14 @@ public class PlayerController : MonoBehaviour
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
             survivalUI.gameObject.SetActive(false);
+
+            if (lastOpenedCraftBench != null)
+            {
+                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy)
+                {
+                    lastOpenedCraftBench.GetCraftBenchUI().SetActive(false);
+                }
+            }
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

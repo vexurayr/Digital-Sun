@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2123454642528224414}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBench, Assembly-CSharp
+        m_MethodName: CraftStonePickaxe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &897390666944305501
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +382,7 @@ GameObject:
   - component: {fileID: 5533948970080126100}
   - component: {fileID: 8420503555613333052}
   - component: {fileID: 37069018394315584}
+  - component: {fileID: 2685832722296687752}
   m_Layer: 0
   m_Name: CraftBenchUI
   m_TagString: Untagged
@@ -459,6 +472,26 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2685832722296687752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340951585422833364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed12a46e6ee8eb945b44560cda464d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipes:
+  - {fileID: 5565410986209553919, guid: f429cb765e70fc149a20f7fbfd77ed3b, type: 3}
+  - {fileID: 7316409454639847294, guid: 9ac82ad82dbb99644824eec5c432b220, type: 3}
+  - {fileID: 1708293756095680716, guid: ee825c1bb6614c94aa88eec7bb8b8208, type: 3}
+  - {fileID: 828299544452852291, guid: 23c9dc45c9ea0b2408eaf26dc010f4bc, type: 3}
+  - {fileID: 4358999470978487015, guid: 8f8cc265744456e4ca7dc308b08cb93f, type: 3}
+  - {fileID: 5444096197691004468, guid: bf79df656e545b44a9763bd86da99d50, type: 3}
+  emptyRecipe: {fileID: 1708293756095680716, guid: 70f2dfb29cc9d9e4eae5f831d67a4ae2, type: 3}
 --- !u!1 &1456918085784501765
 GameObject:
   m_ObjectHideFlags: 0
@@ -896,7 +929,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 651288100455615926}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBench, Assembly-CSharp
+        m_MethodName: CraftStoneAxe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3397209523895075856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,7 +1219,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6744264397062599077}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBench, Assembly-CSharp
+        m_MethodName: CraftWoodSpear
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4827752941628994352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,7 +1352,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6180179742788850637}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBench, Assembly-CSharp
+        m_MethodName: CraftWoodenLeggings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4859157683581359842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2203,7 +2272,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6105278404056681212}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBench, Assembly-CSharp
+        m_MethodName: CraftClothBandana
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7542653265806107345
 GameObject:
   m_ObjectHideFlags: 0
@@ -2557,7 +2638,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7792426133789929053}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBench, Assembly-CSharp
+        m_MethodName: CraftWoodenChestplate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8743060763271173412
 GameObject:
   m_ObjectHideFlags: 0

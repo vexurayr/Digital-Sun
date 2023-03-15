@@ -154,7 +154,7 @@ public class Inventory : MonoBehaviour
         int remainder = itemToRemove.GetItemCount();
 
         // Check each slot of the player's inventory from last to first
-        for(int i = invItemList.Count; i < 0; i--)
+        for(int i = invItemList.Count - 1; i >= 0; i--)
         {
             // If they have the item
             if (invItemList[i].GetItem() == itemToRemove.GetItem())

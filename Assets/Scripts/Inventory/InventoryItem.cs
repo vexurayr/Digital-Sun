@@ -18,7 +18,9 @@ public class InventoryItem : MonoBehaviour
         Wood_Chestplate,
         Wood_Leggings,
         Wood_Spear,
-        Stone_Axe
+        Stone_Axe,
+        Stone_Pickaxe,
+        Craft_Bench
     }
 
     public enum ItemType

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9056071704933549230}
   - component: {fileID: 8643852438676258284}
   - component: {fileID: 7099299017922727069}
-  - component: {fileID: 843436471058825159}
   m_Layer: 0
   m_Name: Top
   m_TagString: Untagged
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &843436471058825159
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003160756918201279}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2577786982433827750
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,7 +92,6 @@ GameObject:
   - component: {fileID: 4929613955327120322}
   - component: {fileID: 4421689623941101151}
   - component: {fileID: 2766870337921919012}
-  - component: {fileID: 8474274999100621844}
   m_Layer: 0
   m_Name: Leg (1)
   m_TagString: Untagged
@@ -177,19 +162,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8474274999100621844
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2577786982433827750}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4003832128247973143
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +171,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3965720492232101430}
+  - component: {fileID: 6515460654470572443}
+  - component: {fileID: 3354869350708504001}
   m_Layer: 0
   m_Name: CraftBench
   m_TagString: Untagged
@@ -225,6 +199,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6515460654470572443
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003832128247973143}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.2, y: 1.7, z: 1}
+  m_Center: {x: 0, y: 0.85, z: 0}
+--- !u!114 &3354869350708504001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003832128247973143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4d4e904d35d34740a21eb1e241d9679, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: 13
+  itemType: 3
+  itemSprite: {fileID: 21300000, guid: 3fe984ed808ff1e48be74f1e49de5b27, type: 3}
+  itemCount: 0
+  maxStackSize: 1
+  transformInHandX: 0
+  transformInHandY: 0
+  transformInHandZ: 0
+  rotationInHandX: 0
+  rotationInHandY: 0
+  rotationInHandZ: 0
+  craftBenchUI: {fileID: 5232314024643511224}
 --- !u!1 &7932522611239056889
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +247,6 @@ GameObject:
   - component: {fileID: 1324285046941689530}
   - component: {fileID: 2151667059992815669}
   - component: {fileID: 1532067337646664900}
-  - component: {fileID: 2865877137691076255}
   m_Layer: 0
   m_Name: Leg (3)
   m_TagString: Untagged
@@ -307,19 +317,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2865877137691076255
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7932522611239056889}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8488030675330623498
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +328,6 @@ GameObject:
   - component: {fileID: 8572459717152407323}
   - component: {fileID: 937757605665070848}
   - component: {fileID: 2799468914306997186}
-  - component: {fileID: 2646700364770656829}
   m_Layer: 0
   m_Name: Leg (2)
   m_TagString: Untagged
@@ -402,19 +398,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2646700364770656829
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8488030675330623498}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &6485444866233087340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -425,6 +408,10 @@ PrefabInstance:
     - target: {fileID: 1340951585422833364, guid: edb385a7b729125499fb0247acd68669, type: 3}
       propertyPath: m_Name
       value: CraftBenchUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 1340951585422833364, guid: edb385a7b729125499fb0247acd68669, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7176194873208625486, guid: edb385a7b729125499fb0247acd68669, type: 3}
       propertyPath: m_Pivot.x
@@ -512,6 +499,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edb385a7b729125499fb0247acd68669, type: 3}
+--- !u!1 &5232314024643511224 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1340951585422833364, guid: edb385a7b729125499fb0247acd68669, type: 3}
+  m_PrefabInstance: {fileID: 6485444866233087340}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4149533285713734690 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7176194873208625486, guid: edb385a7b729125499fb0247acd68669, type: 3}
