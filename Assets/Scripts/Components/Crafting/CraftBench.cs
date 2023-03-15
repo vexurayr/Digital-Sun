@@ -6,7 +6,7 @@ public class CraftBench : InventoryItem
 {
     [SerializeField] private GameObject craftBenchUI;
 
-    public override bool SecondaryAction(GameObject player)
+    public override bool PrimaryAction(GameObject player)
     {
         craftBenchUI.GetComponent<CraftBenchUI>().SetInteractingObject(player.GetComponent<PlayerInventory>());
         ToggleUI();

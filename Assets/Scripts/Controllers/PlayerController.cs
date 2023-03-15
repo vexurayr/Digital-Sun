@@ -412,7 +412,7 @@ public class PlayerController : MonoBehaviour
             else if (Input.GetKeyDown(rightClickKey) && itemToTransferTo.GetItem() == InventoryItem.Item.Craft_Bench)
             {
                 lastOpenedCraftBench = itemToTransferTo.GetComponent<CraftBench>();
-                itemToTransferTo.SecondaryAction(this.gameObject);
+                itemToTransferTo.PrimaryAction(this.gameObject);
                 if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
                 {
                     ToggleInventoryUI();
@@ -437,7 +437,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
         {
             lastOpenedCraftBench = hitInventoryItem.GetComponent<CraftBench>();
-            hitInventoryItem.SecondaryAction(this.gameObject);
+            hitInventoryItem.PrimaryAction(this.gameObject);
             if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
             {
                 ToggleInventoryUI();
