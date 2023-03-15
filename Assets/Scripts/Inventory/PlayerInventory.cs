@@ -65,6 +65,11 @@ public class PlayerInventory : Inventory
         selectedInvHandSlot = slotIndex;
     }
 
+    public GameObject GetActivePlayerItem()
+    {
+        return GameObject.Find("ActivePlayerItem");
+    }
+
     #endregion GetSet
 
     #region RefreshInventoryVisuals
@@ -330,7 +335,7 @@ public class PlayerInventory : Inventory
             firstInvItem.SetItemCount(newAmount);
 
             // Remove second item from the player's inventory
-            RemoveFromInventory(secondInvItemIndex, isSecondInvHandItem, false);
+            RemoveItemFromInventory(secondInvItemIndex, isSecondInvHandItem, false);
 
             return true;
         }
@@ -361,6 +366,7 @@ public class PlayerInventory : Inventory
 
     #endregion SelectHotbarSlot
 
+    #region ChangeInvHandItemInScene
     public void CreateItemInHand(InventoryItem newItem)
     {
         // There will only be one object in the scene with this name
@@ -382,8 +388,5 @@ public class PlayerInventory : Inventory
         itemInScene.gameObject.name = "ActivePlayerItem";
     }
 
-    public GameObject GetActivePlayerItem()
-    {
-        return GameObject.Find("ActivePlayerItem");
-    }
+    #endregion ChangeInvHandItemInScene
 }

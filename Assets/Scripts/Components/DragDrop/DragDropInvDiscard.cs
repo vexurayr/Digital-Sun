@@ -152,7 +152,7 @@ public class DragDropInvDiscard : DragAndDrop
             Instantiate(itemToDiscard, spawnLocation, player.gameObject.transform.rotation);
 
             // Remove InvItem from playerInventory's list of InvItems using index
-            playerInventory.RemoveFromInventory(index, isInvHandItem, isInvArmorItem);
+            playerInventory.RemoveItemFromInventory(index, isInvHandItem, isInvArmorItem);
 
             // Update the scene with the player's currently held object
             playerInventory.CreateItemInHand(playerInventory.GetInvHandItemList()[playerInventory.GetSelectedInvHandSlot()]);

@@ -539,7 +539,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (itemCount <= 1)
             {
-                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
+                playerInventory.RemoveItemFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
             }
             else
             {
@@ -581,7 +581,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (itemCount <= 1)
                 {
-                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
+                    playerInventory.RemoveItemFromInventory(selectedInvHandSlot, true, false);
 
                     // Update the scene with the player's currently held object
                     playerInventory.CreateItemInHand(invHandItemList[selectedInvHandSlot]);
