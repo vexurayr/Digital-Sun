@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour
 
     private CraftBench lastOpenedCraftBench;
 
+    private InventoryItem currentItemBeingObserved;
+
     #endregion Variables
 
     #region MonoBehaviours
@@ -360,19 +362,24 @@ public class PlayerController : MonoBehaviour
 
         worldToolTipUI.text = "";
 
+        PlayerInventory inventory = this.gameObject.GetComponent<PlayerInventory>();
+
         if (!isHitSuccess)
         {
+            currentItemBeingObserved = inventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
             return;
         }
 
         InventoryItem hitInventoryItem = hit.collider.gameObject.GetComponent<InventoryItem>();
-        PlayerInventory inventory = this.gameObject.GetComponent<PlayerInventory>();
 
-        if (hitInventoryItem == null || inventory == null)
+        if (hitInventoryItem == null)
         {
+            currentItemBeingObserved = inventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
             return;
         }
-        
+
+        currentItemBeingObserved = hitInventoryItem;
+
         // Don't display the count of the item if there is only 1 of it
         if (hitInventoryItem.GetItemCount() > 1)
         {
@@ -597,6 +604,10 @@ public class PlayerController : MonoBehaviour
 
             playerInventory.RefreshInventoryVisuals();
         }
+        else if (Input.GetKeyDown(rightClickKey) && invItem.GetItem() == InventoryItem.Item.Canteen)
+        {
+            invItem.PrimaryAction(this.gameObject);
+        }
     }
 
     // Only runs when Inventory is not open, handles using items in inventory hand slots
@@ -650,11 +661,30 @@ public class PlayerController : MonoBehaviour
             {
                 playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
             }
+            else if (invItem.GetItem() == InventoryItem.Item.Canteen)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().PrimaryAction(this.gameObject);
+            }
         }
 
         if (Input.GetKeyDown(rightClickKey))
         {
+            // Get player inventory
+            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
 
+            // Get the index of the selected inv hand slot
+            int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
+
+            // Get the player's InvHandItemList
+            List<InventoryItem> invHandItemList = playerInventory.GetInvHandItemList();
+
+            // Get the item at that index in the player's InvHandItemList
+            InventoryItem invItem = invHandItemList[selectedInvHandSlot];
+
+            if (invItem.GetItem() == InventoryItem.Item.Canteen && currentItemBeingObserved.GetItem() == InventoryItem.Item.Water)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().SecondaryAction();
+            }
         }
     }
 
