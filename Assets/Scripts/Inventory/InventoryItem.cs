@@ -20,7 +20,15 @@ public class InventoryItem : MonoBehaviour
         Wood_Spear,
         Stone_Axe,
         Stone_Pickaxe,
-        Craft_Bench
+        Craft_Bench,
+        Grass,
+        Stick,
+        Fish,
+        Canteen,
+        Uncooked_Meat,
+        Cooked_Meat,
+        Boulder,
+        Firepit
     }
 
     public enum ItemType
@@ -72,9 +80,11 @@ public class InventoryItem : MonoBehaviour
         return false;
     }
 
-    public void PickItemUp(Inventory targetInv)
+    public virtual void PickItemUp(Inventory targetInv)
     {
         targetInv.AddToInventory(this.gameObject);
+
+        Destroy(this.gameObject);
     }
 
     #endregion Actions

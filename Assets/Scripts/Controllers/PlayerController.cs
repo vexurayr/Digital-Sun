@@ -373,7 +373,15 @@ public class PlayerController : MonoBehaviour
             return;
         }
         
-        worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
+        // Don't display the count of the item if there is only 1 of it
+        if (hitInventoryItem.GetItemCount() > 1)
+        {
+            worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
+        }
+        else
+        {
+            worldToolTipUI.text = "" + hitInventoryItem.GetItem();
+        }
 
         // If there is not a single empty slot in the player's inventory
         if (GetComponent<PlayerInventory>().IsInventoryFull())
@@ -429,11 +437,9 @@ public class PlayerController : MonoBehaviour
         {
             hitInventoryItem.PickItemUp(inventory);
 
-            Destroy(hitInventoryItem.gameObject);
-
             inventory.RefreshInventoryVisuals();
         }
-        // Special cases like looking at a Craft Bench
+        // Special case for using a Craft Bench
         else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
         {
             lastOpenedCraftBench = hitInventoryItem.GetComponent<CraftBench>();
@@ -446,6 +452,11 @@ public class PlayerController : MonoBehaviour
             {
                 ToggleInventoryUI();
             }
+        }
+        // Special case for consuming water from a source while the inventory is not open
+        else if (Input.GetKeyDown(leftClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Water && !isInventoryActive)
+        {
+            hitInventoryItem.PrimaryAction(this.gameObject);
         }
     }
 
