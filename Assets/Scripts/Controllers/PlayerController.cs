@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDelta = Vector2.zero;
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
+    private CraftBench lastOpenedCraftBench;
+
     #endregion Variables
 
     #region MonoBehaviours
@@ -376,8 +378,16 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
-        worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
+        
+        // Don't display the count of the item if there is only 1 of it
+        if (hitInventoryItem.GetItemCount() > 1)
+        {
+            worldToolTipUI.text = hitInventoryItem.GetItemCount() + " " + hitInventoryItem.GetItem();
+        }
+        else
+        {
+            worldToolTipUI.text = "" + hitInventoryItem.GetItem();
+        }
 
         // If there is not a single empty slot in the player's inventory
         if (GetComponent<PlayerInventory>().IsInventoryFull())
@@ -412,6 +422,20 @@ public class PlayerController : MonoBehaviour
                 inventory.RefreshInventoryVisuals();
                 return;
             }
+            // Special cases like looking at a Craft Bench
+            else if (Input.GetKeyDown(rightClickKey) && itemToTransferTo.GetItem() == InventoryItem.Item.Craft_Bench)
+            {
+                lastOpenedCraftBench = itemToTransferTo.GetComponent<CraftBench>();
+                itemToTransferTo.PrimaryAction(this.gameObject);
+                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+                else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+            }
         }
 
         // Player can pick the item up no problem
@@ -419,9 +443,26 @@ public class PlayerController : MonoBehaviour
         {
             hitInventoryItem.PickItemUp(inventory);
 
-            Destroy(hitInventoryItem.gameObject);
-
             inventory.RefreshInventoryVisuals();
+        }
+        // Special case for using a Craft Bench
+        else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
+        {
+            lastOpenedCraftBench = hitInventoryItem.GetComponent<CraftBench>();
+            hitInventoryItem.PrimaryAction(this.gameObject);
+            if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+            else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+        }
+        // Special case for consuming water from a source while the inventory is not open
+        else if (Input.GetKeyDown(leftClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Water && !isInventoryActive)
+        {
+            hitInventoryItem.PrimaryAction(this.gameObject);
         }
     }
 
@@ -479,6 +520,14 @@ public class PlayerController : MonoBehaviour
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
             survivalUI.gameObject.SetActive(false);
+
+            if (lastOpenedCraftBench != null)
+            {
+                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy)
+                {
+                    lastOpenedCraftBench.GetCraftBenchUI().SetActive(false);
+                }
+            }
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -545,7 +594,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (itemCount <= 1)
             {
-                playerInventory.RemoveFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
+                playerInventory.RemoveItemFromInventory(invItemIndex, isInvItemIndexInvHand, isInvArmorItem);
             }
             else
             {
@@ -587,7 +636,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (itemCount <= 1)
                 {
-                    playerInventory.RemoveFromInventory(selectedInvHandSlot, true, false);
+                    playerInventory.RemoveItemFromInventory(selectedInvHandSlot, true, false);
 
                     // Update the scene with the player's currently held object
                     playerInventory.CreateItemInHand(invHandItemList[selectedInvHandSlot]);
