@@ -124,7 +124,7 @@ public class Inventory : MonoBehaviour
     #endregion AddItemToInventory
 
     #region RemoveItemFromInventory
-    public virtual void RemoveFromInventory(int itemAtIndexToRemove, bool isInvHandItem, bool isInvArmorItem)
+    public virtual void RemoveItemFromInventory(int itemAtIndexToRemove, bool isInvHandItem, bool isInvArmorItem)
     {
         if (itemAtIndexToRemove < 0 || itemAtIndexToRemove > invItemList.Count)
         {
@@ -145,10 +145,71 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // Will be used to remove items for crafting recipes
-    public virtual void RemoveAmountFromInventory(List<InventoryItem> itemsToRemove)
+    // Will be used to remove items from the core inventory for crafting recipes
+    public virtual bool RemoveItemFromInventory(InventoryItem itemToRemove)
     {
-        
+        List<int> itemsWithLowCount = new List<int>();
+        int totalItemCount = 0;
+        int remainder = itemToRemove.GetItemCount();
+
+        // Check each slot of the player's inventory from last to first
+        for(int i = invItemList.Count - 1; i >= 0; i--)
+        {
+            // If they have the item
+            if (invItemList[i].GetItem() == itemToRemove.GetItem())
+            {
+                // If they have more than enough items
+                if (invItemList[i].GetItemCount() > itemToRemove.GetItemCount() && itemsWithLowCount.Count == 0)
+                {
+                    invItemList[i].SetItemCount(invItemList[i].GetItemCount() - itemToRemove.GetItemCount());
+                    return true;
+                }
+                // If they have just enough items
+                else if (invItemList[i].GetItemCount() == itemToRemove.GetItemCount() && itemsWithLowCount.Count == 0)
+                {
+                    RemoveItemFromInventory(i, false, false);
+                    return true;
+                }
+                // Have to check for any other same items
+                else
+                {
+                    itemsWithLowCount.Add(i);
+                    totalItemCount += invItemList[i].GetItemCount();
+                }
+            }
+        }
+
+        // Don't proceed if the total item count still isn't enough
+        if (totalItemCount < itemToRemove.GetItemCount())
+        {
+            return false;
+        }
+
+        // Go through the items until there are enough to remove
+        foreach (int index in itemsWithLowCount)
+        {
+            remainder -= invItemList[index].GetItemCount();
+
+            // More items are needed
+            if (remainder > 0)
+            {
+                RemoveItemFromInventory(index, false, false);
+            }
+            // Gathered the last items needed
+            else if (remainder == 0)
+            {
+                RemoveItemFromInventory(index, false, false);
+                return true;
+            }
+            // More than enough items were found
+            else
+            {
+                invItemList[index].SetItemCount(Mathf.Abs(remainder));
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion RemoveItemFromInventory
@@ -202,6 +263,66 @@ public class Inventory : MonoBehaviour
         }
 
         return emptyInvItem;
+    }
+
+    public bool HasItemForRecipe(InventoryItem itemForRecipe)
+    {
+        List<InventoryItem> itemsWithLowCount = new List<InventoryItem>();
+        int totalItemCount = 0;
+        int remainder = itemForRecipe.GetItemCount();
+
+        // Check each slot of the player's inventory
+        foreach (InventoryItem item in invItemList)
+        {
+            // If they have the item
+            if (item.GetItem() == itemForRecipe.GetItem())
+            {
+                // If they have more than enough items
+                if (item.GetItemCount() > itemForRecipe.GetItemCount() && itemsWithLowCount.Count == 0)
+                {
+                    return true;
+                }
+                // If they have just enough items
+                else if (item.GetItemCount() == itemForRecipe.GetItemCount() && itemsWithLowCount.Count == 0)
+                {
+                    return true;
+                }
+                // Have to check for any other same items
+                else
+                {
+                    itemsWithLowCount.Add(item);
+                    totalItemCount += item.GetItemCount();
+                }
+            }
+        }
+
+        // Don't proceed if the total item count still isn't enough
+        if (totalItemCount < itemForRecipe.GetItemCount())
+        {
+            return false;
+        }
+
+        // Go through the items until there are enough to remove
+        foreach (InventoryItem item in itemsWithLowCount)
+        {
+            remainder -= item.GetItemCount();
+
+            // More items are needed
+            if (remainder > 0)
+            { }
+            // Gathered the last items needed
+            else if (remainder == 0)
+            {
+                return true;
+            }
+            // More than enough items were found
+            else
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public virtual void DisplayInventoryDebug()
