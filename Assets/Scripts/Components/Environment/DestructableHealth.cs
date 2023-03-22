@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
-public class TreeHealth : Health
+public class DestructableHealth : Health
 {
     [SerializeField] private GameObject itemToDrop;
     [SerializeField] private int quantityToDrop;
+    [SerializeField] private InventoryItem.ItemType destroyedBy;
 
     public override void OnTriggerEnter(Collider collider)
     {
-        // Check if an axe's hitbox has collided with the pawn
+        // Check if the hitbox that collided with the pawn is intended to deal damage
         if (collider.gameObject.GetComponent<DamageSource>() && collider.gameObject.GetComponentInParent<Tool>())
         {
-            if (collider.gameObject.GetComponentInParent<Tool>().GetItemType() != InventoryItem.ItemType.Axe)
+            if (collider.gameObject.GetComponentInParent<Tool>().GetItemType() != destroyedBy)
             {
                 return;
             }
@@ -30,7 +31,7 @@ public class TreeHealth : Health
 
     public override void Die()
     {
-        // Drop wood before being destroyed
+        // Drop its item before being destroyed
         GameObject newResource = Instantiate(itemToDrop, this.gameObject.transform.position, this.gameObject.transform.rotation);
         newResource.GetComponent<InventoryItem>().SetItemCount(quantityToDrop);
 

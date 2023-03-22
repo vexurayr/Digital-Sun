@@ -396,6 +396,23 @@ public class PlayerController : MonoBehaviour
             // If they have a non-max stack of the same item, pick up as much as possible
             InventoryItem itemToTransferTo = GetComponent<PlayerInventory>().HasSameItemOfNonMaxStackSize(hitInventoryItem);
 
+            // Let the player interact with the Craft Bench even if they can't pick it up
+            if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
+            {
+                lastOpenedCraftBench = hitInventoryItem.GetComponent<CraftBench>();
+                hitInventoryItem.PrimaryAction(this.gameObject);
+                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+                else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+
+                return;
+            }
+
             // Must recieve empty InvItem because itemToTransferTo == null will always equal null
             if (itemToTransferTo.GetItem() == InventoryItem.Item.None)
             {
@@ -423,22 +440,8 @@ public class PlayerController : MonoBehaviour
                 inventory.RefreshInventoryVisuals();
                 return;
             }
-            // Special cases like looking at a Craft Bench
-            else if (Input.GetKeyDown(rightClickKey) && itemToTransferTo.GetItem() == InventoryItem.Item.Craft_Bench)
-            {
-                lastOpenedCraftBench = itemToTransferTo.GetComponent<CraftBench>();
-                itemToTransferTo.PrimaryAction(this.gameObject);
-                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
-                {
-                    ToggleInventoryUI();
-                }
-                else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
-                {
-                    ToggleInventoryUI();
-                }
-            }
         }
-
+        
         // Player can pick the item up no problem
         if (Input.GetKeyDown(pickUpKey))
         {

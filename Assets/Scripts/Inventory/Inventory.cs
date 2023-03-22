@@ -262,7 +262,7 @@ public class Inventory : MonoBehaviour
                 return item;
             }
         }
-
+        
         return emptyInvItem;
     }
 

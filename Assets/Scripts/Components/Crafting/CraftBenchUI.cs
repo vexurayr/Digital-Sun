@@ -59,12 +59,6 @@ public class CraftBenchUI : MonoBehaviour
 
     public void CraftItem(InventoryItem.Item targetItem)
     {
-        // Bail right away if the player doesn't have enough space
-        if (player.IsInventoryFull())
-        {
-            return;
-        }
-
         Recipe targetRecipe = emptyRecipe;
 
         // Get the desired recipe
@@ -83,6 +77,20 @@ public class CraftBenchUI : MonoBehaviour
         }
 
         targetRecipe.SetItemsRequiredCount();
+
+        // Bail right away if the player doesn't have enough space
+        if (player.IsInventoryFull())
+        {
+            // HasSameItemOfNonMaxStackSize returns an empty inventory item if there is no room
+            if (player.HasSameItemOfNonMaxStackSize(targetRecipe.GetItemOutput()).GetItem() != emptyRecipe.GetRecipeName())
+            {
+                // In this case the play has room for that specific item
+            }
+            else
+            {
+                return;
+            }
+        }
 
         // Check all the requirements of the recipe
         for (int i = 0; i < targetRecipe.GetRequiredItems().Count; i++)
