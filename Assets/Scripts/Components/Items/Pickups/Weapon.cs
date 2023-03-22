@@ -52,7 +52,7 @@ public class Weapon : InventoryItem
 
     #endregion PrimaryAction
 
-    public float GetDamageToEnemy()
+    public override float GetDamageToEnemy()
     {
         return damageToEnemy;
     }

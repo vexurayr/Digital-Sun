@@ -171,5 +171,15 @@ public class InventoryItem : MonoBehaviour
     public virtual void SetChargesStored(int value)
     {}
 
+    public virtual float GetDamageToEnemy()
+    {
+        return 0;
+    }
+
+    public virtual float GetDamageToSpecialty()
+    {
+        return 0;
+    }
+
     #endregion ObjectSpecific
 }
