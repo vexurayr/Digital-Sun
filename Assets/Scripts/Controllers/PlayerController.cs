@@ -661,6 +661,10 @@ public class PlayerController : MonoBehaviour
             {
                 playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
             }
+            else if (invItem.GetItemType() == InventoryItem.ItemType.Pickaxe)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
+            }
             else if (invItem.GetItem() == InventoryItem.Item.Canteen)
             {
                 playerInventory.GetActivePlayerItem().GetComponent<Canteen>().PrimaryAction(this.gameObject, invItem);
