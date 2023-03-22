@@ -386,6 +386,12 @@ public class PlayerInventory : Inventory
 
         // Give the item in the scene the unique name
         itemInScene.gameObject.name = "ActivePlayerItem";
+
+        // Special cases for data transfer
+        if (itemInScene.GetComponent<Canteen>())
+        {
+            itemInScene.GetComponent<Canteen>().SetChargesStored(newItem.GetChargesStored());
+        }
     }
 
     #endregion ChangeInvHandItemInScene

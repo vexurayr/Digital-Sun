@@ -20,8 +20,8 @@ public class Canteen : InventoryItem
         animator.speed = animationSpeed;
     }
 
-    // This function will drink aka lose a charge
-    public override bool PrimaryAction(GameObject player)
+    // This function will drink aka lose a charge from a hand slot
+    public override bool PrimaryAction(GameObject player, InventoryItem otherCanteen)
     {
         if (!player.GetComponent<Thirst>() || chargesStored <= 0)
         {
@@ -34,22 +34,40 @@ public class Canteen : InventoryItem
 
             if (!thirst.IsCurrentValueAtMaxValue())
             {
-                Debug.Log("Drinking water!");
                 animator.SetTrigger(animationPrimaryTriggerName);
+
+                thirst.IncCurrentValue(thirstRestored);
+
+                chargesStored--;
+
+                otherCanteen.SetChargesStored(chargesStored);
+
+                return true;
             }
-
-            thirst.IncCurrentValue(thirstRestored);
-
-            chargesStored--;
-
-            return true;
         }
 
         return false;
     }
 
+    // This function will drink aka lose a charge from an inventory slot
+    public override bool PrimaryAction(GameObject player)
+    {
+        if (!player.GetComponent<Thirst>() || chargesStored <= 0)
+        {
+            return false;
+        }
+
+        Thirst thirst = player.GetComponent<Thirst>();
+
+        thirst.IncCurrentValue(thirstRestored);
+
+        chargesStored--;
+
+        return true;
+    }
+
     // This function will fill the canteen aka gain all charges
-    public override bool SecondaryAction()
+    public override bool SecondaryAction(GameObject player, InventoryItem otherCanteen)
     {
         if (chargesStored >= maxCharges)
         {
@@ -58,14 +76,25 @@ public class Canteen : InventoryItem
 
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
         {
-            Debug.Log("Canteen refilled!");
             animator.SetTrigger(animationSecondaryTriggerName);
 
             chargesStored = maxCharges;
+
+            otherCanteen.SetChargesStored(chargesStored);
 
             return true;
         }
 
         return false;
+    }
+
+    public override int GetChargesStored()
+    {
+        return chargesStored;
+    }
+
+    public override void SetChargesStored(int value)
+    {
+        chargesStored = value;
     }
 }

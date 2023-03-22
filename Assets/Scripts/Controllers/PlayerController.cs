@@ -663,7 +663,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (invItem.GetItem() == InventoryItem.Item.Canteen)
             {
-                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().PrimaryAction(this.gameObject);
+                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().PrimaryAction(this.gameObject, invItem);
             }
         }
 
@@ -683,7 +683,7 @@ public class PlayerController : MonoBehaviour
 
             if (invItem.GetItem() == InventoryItem.Item.Canteen && currentItemBeingObserved.GetItem() == InventoryItem.Item.Water)
             {
-                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().SecondaryAction();
+                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().SecondaryAction(this.gameObject, invItem);
             }
         }
     }
