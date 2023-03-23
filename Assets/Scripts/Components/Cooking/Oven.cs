@@ -105,76 +105,7 @@ public class Oven : InventoryItem
     {
         isHoldingItems = false;
 
-        // Move UI inventory items to the correct location
-        fuelInputItem.transform.position = fuelInputSlot.transform.position;
-        convertInputItem.transform.position = convertInputSlot.transform.position;
-        outputItem.transform.position = outputSlot.transform.position;
-
-        // Set correct sprites and text for Fuel Input stack size and adjust IndexValue
-        if (fuelInput.GetItemSprite() == null)
-        {
-            fuelInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-            fuelInputItem.GetComponent<RawImage>().texture = null;
-        }
-        else
-        {
-            fuelInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            fuelInputItem.GetComponent<RawImage>().texture = fuelInput.GetItemSprite().texture;
-            isHoldingItems = true;
-        }
-
-        if (fuelInput.GetItemCount() > 1)
-        {
-            fuelInputCounter.GetComponent<Text>().text = fuelInput.GetItemCount().ToString();
-        }
-        else
-        {
-            fuelInputCounter.GetComponent<Text>().text = "";
-        }
-
-        // For Convert Input
-        if (convertInput.GetItemSprite() == null)
-        {
-            convertInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-            convertInputItem.GetComponent<RawImage>().texture = null;
-        }
-        else
-        {
-            convertInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            convertInputItem.GetComponent<RawImage>().texture = convertInput.GetItemSprite().texture;
-            isHoldingItems = true;
-        }
-
-        if (convertInput.GetItemCount() > 1)
-        {
-            convertInputCounter.GetComponent<Text>().text = convertInput.GetItemCount().ToString();
-        }
-        else
-        {
-            convertInputCounter.GetComponent<Text>().text = "";
-        }
-
-        // For Output
-        if (output.GetItemSprite() == null)
-        {
-            outputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-            outputItem.GetComponent<RawImage>().texture = null;
-        }
-        else
-        {
-            outputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            outputItem.GetComponent<RawImage>().texture = output.GetItemSprite().texture;
-            isHoldingItems = true;
-        }
-
-        if (output.GetItemCount() > 1)
-        {
-            outputCounter.GetComponent<Text>().text = output.GetItemCount().ToString();
-        }
-        else
-        {
-            outputCounter.GetComponent<Text>().text = "";
-        }
+        
     }
 
     #endregion RefreshInventoryVisuals
