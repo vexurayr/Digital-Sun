@@ -18,6 +18,7 @@ public class Oven : InventoryItem
     private PlayerInventory player;
     private bool isHoldingItems = false;
     private float timeRemaining;
+    private bool hasUpdated;
 
     #endregion Variables
 

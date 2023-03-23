@@ -8,6 +8,7 @@ public class PlayerInventory : Inventory
 {
     #region Variables
     [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private OvenUI ovenUI;
 
     private List<GameObject> invSlotsUI;
     private List<GameObject> invItemsUI;
@@ -28,9 +29,6 @@ public class PlayerInventory : Inventory
     private GameObject fuelInputCounterUI;
     private GameObject convertInputCounterUI;
     private GameObject outputCounterUI;
-    private InventoryItem ovenFuelInput;
-    private InventoryItem ovenConvertInput;
-    private InventoryItem ovenOutput;
 
     private int selectedInvHandSlot = 0;
 
@@ -50,9 +48,7 @@ public class PlayerInventory : Inventory
         invArmorSlotsUI = inventoryUI.GetInvArmorSlotsUI();
         invArmorItemsUI = inventoryUI.GetInvArmorItemsUI();
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
-
-        OvenUI ovenUI = inventoryUI.gameObject.GetComponent<OvenUI>();
-
+        
         fuelInputSlotUI = ovenUI.GetFuelInputSlot();
         convertInputSlotUI = ovenUI.GetConvertInputSlot();
         outputSlotUI = ovenUI.GetOutputSlot();
@@ -205,7 +201,7 @@ public class PlayerInventory : Inventory
         convertInputItemUI.transform.position = convertInputSlotUI.transform.position;
         outputItemUI.transform.position = outputSlotUI.transform.position;
 
-        // Set correct sprites and text for Fuel Input stack size and adjust IndexValue
+        // Set correct sprites and text for Fuel Input
         if (ovenFuelInput.GetItemSprite() == null)
         {
             fuelInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
@@ -227,47 +223,45 @@ public class PlayerInventory : Inventory
         }
 
         // For Convert Input
-        if (convertInput.GetItemSprite() == null)
+        if (ovenConvertInput.GetItemSprite() == null)
         {
-            convertInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-            convertInputItem.GetComponent<RawImage>().texture = null;
+            convertInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            convertInputItemUI.GetComponent<RawImage>().texture = null;
         }
         else
         {
-            convertInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            convertInputItem.GetComponent<RawImage>().texture = convertInput.GetItemSprite().texture;
-            isHoldingItems = true;
+            convertInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            convertInputItemUI.GetComponent<RawImage>().texture = ovenConvertInput.GetItemSprite().texture;
         }
 
-        if (convertInput.GetItemCount() > 1)
+        if (ovenConvertInput.GetItemCount() > 1)
         {
-            convertInputCounter.GetComponent<Text>().text = convertInput.GetItemCount().ToString();
+            convertInputCounterUI.GetComponent<Text>().text = ovenConvertInput.GetItemCount().ToString();
         }
         else
         {
-            convertInputCounter.GetComponent<Text>().text = "";
+            convertInputCounterUI.GetComponent<Text>().text = "";
         }
 
         // For Output
-        if (output.GetItemSprite() == null)
+        if (ovenOutput.GetItemSprite() == null)
         {
-            outputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
-            outputItem.GetComponent<RawImage>().texture = null;
+            outputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            outputItemUI.GetComponent<RawImage>().texture = null;
         }
         else
         {
-            outputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
-            outputItem.GetComponent<RawImage>().texture = output.GetItemSprite().texture;
-            isHoldingItems = true;
+            outputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            outputItemUI.GetComponent<RawImage>().texture = ovenOutput.GetItemSprite().texture;
         }
 
-        if (output.GetItemCount() > 1)
+        if (ovenOutput.GetItemCount() > 1)
         {
-            outputCounter.GetComponent<Text>().text = output.GetItemCount().ToString();
+            outputCounterUI.GetComponent<Text>().text = ovenOutput.GetItemCount().ToString();
         }
         else
         {
-            outputCounter.GetComponent<Text>().text = "";
+            outputCounterUI.GetComponent<Text>().text = "";
         }
     }
 

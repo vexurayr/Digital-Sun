@@ -14,6 +14,10 @@ public class Inventory : MonoBehaviour
     protected List<InventoryItem> invHandItemList;
     protected List<InventoryItem> invItemArmorList;
 
+    protected InventoryItem ovenFuelInput;
+    protected InventoryItem ovenConvertInput;
+    protected InventoryItem ovenOutput;
+
     #endregion Variables
 
     #region MonoBehaviours
@@ -236,6 +240,10 @@ public class Inventory : MonoBehaviour
         {
             invItemArmorList.Add(emptyInvItem);
         }
+
+        ovenFuelInput = emptyInvItem;
+        ovenConvertInput = emptyInvItem;
+        ovenOutput = emptyInvItem;
     }
 
     // Only checks invItemList because items will never be placed directly into the hotbar
