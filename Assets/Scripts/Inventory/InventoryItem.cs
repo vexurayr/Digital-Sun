@@ -28,7 +28,7 @@ public class InventoryItem : MonoBehaviour
         Uncooked_Meat,
         Cooked_Meat,
         Boulder,
-        Firepit
+        Oven
     }
 
     public enum ItemType

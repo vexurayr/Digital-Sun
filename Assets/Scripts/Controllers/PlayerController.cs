@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
     private CraftBench lastOpenedCraftBench;
+    private Oven lastOpenedOven;
 
     private InventoryItem currentItemBeingObserved;
 
@@ -412,6 +413,20 @@ public class PlayerController : MonoBehaviour
 
                 return;
             }
+            // Let the player interact with the Oven even if they can't pick it up
+            else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
+            {
+                lastOpenedOven = hitInventoryItem.GetComponent<Oven>();
+                hitInventoryItem.PrimaryAction(this.gameObject);
+                if (lastOpenedOven.GetOvenUI().activeInHierarchy && !isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+                else if (!lastOpenedOven.GetOvenUI().activeInHierarchy && isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+            }
 
             // Must recieve empty InvItem because itemToTransferTo == null will always equal null
             if (itemToTransferTo.GetItem() == InventoryItem.Item.None)
@@ -459,6 +474,19 @@ public class PlayerController : MonoBehaviour
                 ToggleInventoryUI();
             }
             else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+        }
+        else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
+        {
+            lastOpenedOven = hitInventoryItem.GetComponent<Oven>();
+            hitInventoryItem.PrimaryAction(this.gameObject);
+            if (lastOpenedOven.GetOvenUI().activeInHierarchy && !isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+            else if (!lastOpenedOven.GetOvenUI().activeInHierarchy && isInventoryActive)
             {
                 ToggleInventoryUI();
             }
@@ -530,6 +558,13 @@ public class PlayerController : MonoBehaviour
                 if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy)
                 {
                     lastOpenedCraftBench.GetCraftBenchUI().SetActive(false);
+                }
+            }
+            else if (lastOpenedOven != null)
+            {
+                if (lastOpenedOven.GetOvenUI().activeInHierarchy)
+                {
+                    lastOpenedOven.GetOvenUI().SetActive(false);
                 }
             }
 
