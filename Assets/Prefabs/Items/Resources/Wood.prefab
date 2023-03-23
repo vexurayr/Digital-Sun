@@ -335,7 +335,7 @@ GameObject:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 4522038204363956159}
   - component: {fileID: 4886127773041000980}
-  - component: {fileID: 7583387101623532494}
+  - component: {fileID: 2932632484771738849}
   m_Layer: 0
   m_Name: Wood
   m_TagString: Untagged
@@ -398,7 +398,7 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 0
   rotationInHandZ: 0
---- !u!114 &7583387101623532494
+--- !u!114 &2932632484771738849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,9 +407,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6698066347075909765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2023c7b634563d44b159ae1691b7352, type: 3}
+  m_Script: {fileID: 11500000, guid: 2fce2c9688c22fc4baf2ed68056f16b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  classification: 1
 --- !u!1 &6887401647210166972
 GameObject:
   m_ObjectHideFlags: 0

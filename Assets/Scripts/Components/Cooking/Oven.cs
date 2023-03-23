@@ -9,7 +9,6 @@ public class Oven : InventoryItem
     [SerializeField] private float secondsToConvertItem;
     [SerializeField] private int sticksPerConvert;
     [SerializeField] private int woodPerConvert;
-    [SerializeField] private GameObject ovenUI;
     [SerializeField] private InventoryItem emptyInvItem;
     [SerializeField] private InventoryItem cookedMeat;
 
@@ -20,15 +19,6 @@ public class Oven : InventoryItem
     private bool isHoldingItems = false;
     private float timeRemaining;
 
-    private GameObject fuelInputSlot;
-    private GameObject convertInputSlot;
-    private GameObject outputSlot;
-    private GameObject fuelInputCounter;
-    private GameObject convertInputCounter;
-    private GameObject outputCounter;
-    private GameObject fuelInputItem;
-    private GameObject convertInputItem;
-    private GameObject outputItem;
     #endregion Variables
 
     #region MonoBehaviours
@@ -36,23 +26,9 @@ public class Oven : InventoryItem
     {
         timeRemaining = secondsToConvertItem;
 
-        OvenUI ui = ovenUI.GetComponent<OvenUI>();
-
         fuelInput = emptyInvItem;
         convertInput = emptyInvItem;
         output = emptyInvItem;
-
-        fuelInputSlot = ui.GetFuelInputSlot();
-        convertInputSlot = ui.GetConvertInputSlot();
-        outputSlot = ui.GetOutputSlot();
-        fuelInputCounter = ui.GetFuelInputCounter();
-        convertInputCounter = ui.GetConvertInputCounter();
-        outputCounter = ui.GetOutputCounter();
-        fuelInputItem = ui.GetFuelInputItem();
-        convertInputItem = ui.GetConvertInputItem();
-        outputItem = ui.GetOutputItem();
-
-        RefreshInventoryVisuals();
     }
 
     public void Update()
@@ -78,6 +54,20 @@ public class Oven : InventoryItem
     #endregion MonoBehaviours
 
     #region GetSet
+    public void SetOvenInventoryFromPlayer(GameObject player)
+    {
+        fuelInput = player.GetComponent<PlayerInventory>().GetOvenFuelInput();
+        convertInput = player.GetComponent<PlayerInventory>().GetOvenConvertInput();
+        output = player.GetComponent<PlayerInventory>().GetOvenOutput();
+    }
+
+    public void SetPlayerInventoryFromOven(GameObject player)
+    {
+        player.GetComponent<PlayerInventory>().SetOvenFuelInput(fuelInput);
+        player.GetComponent<PlayerInventory>().SetOvenConvertInput(convertInput);
+        player.GetComponent<PlayerInventory>().SetOvenOutput(output);
+    }
+
     public InventoryItem GetFuelInput()
     {
         return fuelInput;
@@ -86,7 +76,6 @@ public class Oven : InventoryItem
     public void SetFuelInput(InventoryItem transferItem)
     {
         fuelInput = transferItem;
-        RefreshInventoryVisuals();
     }
 
     public InventoryItem GetConvertInput()
@@ -107,21 +96,6 @@ public class Oven : InventoryItem
     public void SetOutput(InventoryItem transferItem)
     {
         output = transferItem;
-    }
-
-    public GameObject GetOvenUI()
-    {
-        return ovenUI;
-    }
-
-    public PlayerInventory GetInteractingObject()
-    {
-        return player;
-    }
-
-    public void SetInteractingObject(PlayerInventory player)
-    {
-        this.player = player;
     }
 
     #endregion GetSet
@@ -227,7 +201,7 @@ public class Oven : InventoryItem
     public InventoryItem SwapPlayerItemWithFuelInputItem(InventoryItem newFuelInput)
     {
         // Only let the player add fuel to this input
-        if (!newFuelInput.gameObject.GetComponent<IsFuelSource>())
+        if (newFuelInput.gameObject.GetComponent<Classify>().GetClassification() != Classify.Classification.IsFuelSource)
         {
             return emptyInvItem;
         }
@@ -243,7 +217,7 @@ public class Oven : InventoryItem
     public InventoryItem SwapPlayerItemWithConvertInputItem(InventoryItem newConvertInput)
     {
         // Only let the player add items that are meant to go into the oven
-        if (!newConvertInput.gameObject.GetComponent<IsConvertable>())
+        if (newConvertInput.gameObject.GetComponent<Classify>().GetClassification() != Classify.Classification.IsConvertable)
         {
             return emptyInvItem;
         }
@@ -322,8 +296,8 @@ public class Oven : InventoryItem
     #region InventoryItemFunctions
     public override bool PrimaryAction(GameObject player)
     {
-        SetInteractingObject(player.GetComponent<PlayerInventory>());
-        ToggleUI();
+        // Update the player's Oven UI with whatever this oven is holding
+        SetPlayerInventoryFromOven(player);
         return true;
     }
 
@@ -332,18 +306,6 @@ public class Oven : InventoryItem
         if (!isHoldingItems)
         {
             base.PickItemUp(targetInv);
-        }
-    }
-
-    public void ToggleUI()
-    {
-        if (ovenUI.activeInHierarchy)
-        {
-            ovenUI.SetActive(false);
-        }
-        else
-        {
-            ovenUI.SetActive(true);
         }
     }
 

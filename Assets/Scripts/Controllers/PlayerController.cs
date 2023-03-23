@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     #region Variables
     [SerializeField] private Text worldToolTipUI;
     [SerializeField] private Text inventoryToolTipUI;
+    [SerializeField] private OvenUI ovenUI;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float mouseSensitivityX;
     [SerializeField] private float mouseSensitivityY;
@@ -65,7 +66,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
     private CraftBench lastOpenedCraftBench;
-    private Oven lastOpenedOven;
 
     private InventoryItem currentItemBeingObserved;
 
@@ -416,13 +416,14 @@ public class PlayerController : MonoBehaviour
             // Let the player interact with the Oven even if they can't pick it up
             else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
             {
-                lastOpenedOven = hitInventoryItem.GetComponent<Oven>();
                 hitInventoryItem.PrimaryAction(this.gameObject);
-                if (lastOpenedOven.GetOvenUI().activeInHierarchy && !isInventoryActive)
+                ToggleOvenUI();
+
+                if (ovenUI.gameObject.activeInHierarchy && !isInventoryActive)
                 {
                     ToggleInventoryUI();
                 }
-                else if (!lastOpenedOven.GetOvenUI().activeInHierarchy && isInventoryActive)
+                else if (!ovenUI.gameObject.activeInHierarchy && isInventoryActive)
                 {
                     ToggleInventoryUI();
                 }
@@ -478,15 +479,17 @@ public class PlayerController : MonoBehaviour
                 ToggleInventoryUI();
             }
         }
+        // Special case for using an oven
         else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
         {
-            lastOpenedOven = hitInventoryItem.GetComponent<Oven>();
             hitInventoryItem.PrimaryAction(this.gameObject);
-            if (lastOpenedOven.GetOvenUI().activeInHierarchy && !isInventoryActive)
+            ToggleOvenUI();
+
+            if (ovenUI.gameObject.activeInHierarchy && !isInventoryActive)
             {
                 ToggleInventoryUI();
             }
-            else if (!lastOpenedOven.GetOvenUI().activeInHierarchy && isInventoryActive)
+            else if (!ovenUI.gameObject.activeInHierarchy && isInventoryActive)
             {
                 ToggleInventoryUI();
             }
@@ -560,12 +563,9 @@ public class PlayerController : MonoBehaviour
                     lastOpenedCraftBench.GetCraftBenchUI().SetActive(false);
                 }
             }
-            else if (lastOpenedOven != null)
+            if (ovenUI.gameObject.activeInHierarchy)
             {
-                if (lastOpenedOven.GetOvenUI().activeInHierarchy)
-                {
-                    lastOpenedOven.GetOvenUI().SetActive(false);
-                }
+                ToggleOvenUI();
             }
 
             Cursor.lockState = CursorLockMode.Locked;
@@ -573,6 +573,30 @@ public class PlayerController : MonoBehaviour
 
             isCameraMovementLocked = false;
         }    
+    }
+
+    public void ToggleOvenUI()
+    {
+        if (ovenUI.enabled)
+        {
+            ovenUI.enabled = false;
+            ovenUI.GetFuelInputSlot().SetActive(false);
+            ovenUI.GetFuelInputItem().SetActive(false);
+            ovenUI.GetConvertInputSlot().SetActive(false);
+            ovenUI.GetConvertInputItem().SetActive(false);
+            ovenUI.GetOutputSlot().SetActive(false);
+            ovenUI.GetOutputItem().SetActive(false);
+        }
+        else
+        {
+            ovenUI.enabled = true;
+            ovenUI.GetFuelInputSlot().SetActive(true);
+            ovenUI.GetFuelInputItem().SetActive(true);
+            ovenUI.GetConvertInputSlot().SetActive(true);
+            ovenUI.GetConvertInputItem().SetActive(true);
+            ovenUI.GetOutputSlot().SetActive(true);
+            ovenUI.GetOutputItem().SetActive(true);
+        }
     }
     
     // This function updates the Inventory tooltip and lets the player use items from their inventory

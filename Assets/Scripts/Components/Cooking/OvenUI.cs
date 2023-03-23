@@ -5,6 +5,8 @@ using UnityEngine;
 public class OvenUI : MonoBehaviour
 {
     #region Variables
+    [SerializeField] private GameObject ovenUI;
+
     [SerializeField] private GameObject fuelInputSlot;
     [SerializeField] private GameObject convertInputSlot;
     [SerializeField] private GameObject outputSlot;
@@ -20,6 +22,11 @@ public class OvenUI : MonoBehaviour
     #endregion Variables
 
     #region GetSet
+    public GameObject GetOvenUI()
+    {
+        return ovenUI;
+    }
+
     public GameObject GetFuelInputSlot()
     {
         return fuelInputSlot;

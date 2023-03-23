@@ -139,7 +139,7 @@ public class DragDropInvItem : DragAndDrop
             {
                 return;
             }
-            
+
             // Prevent armor from entering the invHand
             if (playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Helmet ||
                 playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Chestplate ||
@@ -147,7 +147,7 @@ public class DragDropInvItem : DragAndDrop
             {
                 return;
             }
-            
+
             playerInventory.SwapInvItemWithHandItem(firstInvIndex, secondInvIndex);
         }
         // Other item is in invHandUI, this item is in invUI
@@ -158,7 +158,7 @@ public class DragDropInvItem : DragAndDrop
             {
                 return;
             }
-            
+
             // Prevent armor from entering the invHand
             if (playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Helmet ||
                 playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Chestplate ||

@@ -19,6 +19,19 @@ public class PlayerInventory : Inventory
     private List<GameObject> invArmorItemsUI;
     private List<GameObject> invArmorItemCountersUI;
 
+    private GameObject fuelInputSlotUI;
+    private GameObject convertInputSlotUI;
+    private GameObject outputSlotUI;
+    private GameObject fuelInputItemUI;
+    private GameObject convertInputItemUI;
+    private GameObject outputItemUI;
+    private GameObject fuelInputCounterUI;
+    private GameObject convertInputCounterUI;
+    private GameObject outputCounterUI;
+    private InventoryItem ovenFuelInput;
+    private InventoryItem ovenConvertInput;
+    private InventoryItem ovenOutput;
+
     private int selectedInvHandSlot = 0;
 
     #endregion Variables
@@ -37,6 +50,18 @@ public class PlayerInventory : Inventory
         invArmorSlotsUI = inventoryUI.GetInvArmorSlotsUI();
         invArmorItemsUI = inventoryUI.GetInvArmorItemsUI();
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
+
+        OvenUI ovenUI = inventoryUI.gameObject.GetComponent<OvenUI>();
+
+        fuelInputSlotUI = ovenUI.GetFuelInputSlot();
+        convertInputSlotUI = ovenUI.GetConvertInputSlot();
+        outputSlotUI = ovenUI.GetOutputSlot();
+        fuelInputItemUI = ovenUI.GetFuelInputItem();
+        convertInputItemUI = ovenUI.GetConvertInputItem();
+        outputItemUI = ovenUI.GetOutputItem();
+        fuelInputCounterUI = ovenUI.GetFuelInputCounter();
+        convertInputCounterUI = ovenUI.GetConvertInputCounter();
+        outputCounterUI = ovenUI.GetOutputCounter();
 
         RefreshInventoryVisuals();
     }
@@ -166,9 +191,87 @@ public class PlayerInventory : Inventory
 
             invArmorItemsUI[i].GetComponent<IndexValue>().SetIndexValue(i);
         }
+
+        RefreshOvenVisuals();
     }
 
     #endregion RefreshInventoryVisuals
+
+    #region RefreshOvenVisuals
+    public void RefreshOvenVisuals()
+    {
+        // Move UI inventory items to the correct location
+        fuelInputItemUI.transform.position = fuelInputSlotUI.transform.position;
+        convertInputItemUI.transform.position = convertInputSlotUI.transform.position;
+        outputItemUI.transform.position = outputSlotUI.transform.position;
+
+        // Set correct sprites and text for Fuel Input stack size and adjust IndexValue
+        if (ovenFuelInput.GetItemSprite() == null)
+        {
+            fuelInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            fuelInputItemUI.GetComponent<RawImage>().texture = null;
+        }
+        else
+        {
+            fuelInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            fuelInputItemUI.GetComponent<RawImage>().texture = ovenFuelInput.GetItemSprite().texture;
+        }
+
+        if (ovenFuelInput.GetItemCount() > 1)
+        {
+            fuelInputCounterUI.GetComponent<Text>().text = ovenFuelInput.GetItemCount().ToString();
+        }
+        else
+        {
+            fuelInputCounterUI.GetComponent<Text>().text = "";
+        }
+
+        // For Convert Input
+        if (convertInput.GetItemSprite() == null)
+        {
+            convertInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            convertInputItem.GetComponent<RawImage>().texture = null;
+        }
+        else
+        {
+            convertInputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            convertInputItem.GetComponent<RawImage>().texture = convertInput.GetItemSprite().texture;
+            isHoldingItems = true;
+        }
+
+        if (convertInput.GetItemCount() > 1)
+        {
+            convertInputCounter.GetComponent<Text>().text = convertInput.GetItemCount().ToString();
+        }
+        else
+        {
+            convertInputCounter.GetComponent<Text>().text = "";
+        }
+
+        // For Output
+        if (output.GetItemSprite() == null)
+        {
+            outputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            outputItem.GetComponent<RawImage>().texture = null;
+        }
+        else
+        {
+            outputItem.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            outputItem.GetComponent<RawImage>().texture = output.GetItemSprite().texture;
+            isHoldingItems = true;
+        }
+
+        if (output.GetItemCount() > 1)
+        {
+            outputCounter.GetComponent<Text>().text = output.GetItemCount().ToString();
+        }
+        else
+        {
+            outputCounter.GetComponent<Text>().text = "";
+        }
+    }
+
+    #endregion RefreshOvenVisuals
 
     #region SwapInvItems
     // Called whenever the player adjusts Inventory through the UI
@@ -395,4 +498,37 @@ public class PlayerInventory : Inventory
     }
 
     #endregion ChangeInvHandItemInScene
+
+    #region OvenFunctions
+    public InventoryItem GetOvenFuelInput()
+    {
+        return ovenFuelInput;
+    }
+
+    public void SetOvenFuelInput(InventoryItem newFuelInput)
+    {
+        ovenFuelInput = newFuelInput;
+    }
+
+    public InventoryItem GetOvenConvertInput()
+    {
+        return ovenConvertInput;
+    }
+
+    public void SetOvenConvertInput(InventoryItem newConvertInput)
+    {
+        ovenConvertInput = newConvertInput;
+    }
+
+    public InventoryItem GetOvenOutput()
+    {
+        return ovenOutput;
+    }
+
+    public void SetOvenOutput(InventoryItem newOutput)
+    {
+        ovenOutput = newOutput;
+    }
+
+    #endregion OvenFunctions
 }
