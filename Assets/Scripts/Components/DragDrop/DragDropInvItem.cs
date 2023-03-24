@@ -51,37 +51,88 @@ public class DragDropInvItem : DragAndDrop
     #region OnDropEvent
     public override void OnDrop(PointerEventData eventData)
     {
-        // Determine which InventoryItems need to swap
         GameObject otherItem = eventData.pointerDrag;
-        int firstInvIndex = otherItem.GetComponent<IndexValue>().GetIndexValue();
-        int secondInvIndex = GetComponent<IndexValue>().GetIndexValue();
-        bool isFirstItemInvHand;
-        bool isFirstItemInvArmor;
-        bool isSecondItemInvHand;
-        bool isSecondItemInvArmor;
+
+        // Determine which InventoryItems need to swap
+        int firstInvIndex = 0;
+        int secondInvIndex = 0;
+        bool isFirstItemInv = false;
+        bool isFirstItemInvHand = false;
+        bool isFirstItemInvArmor = false;
+        bool isSecondItemInv = false;
+        bool isSecondItemInvHand = false;
+        bool isSecondItemInvArmor = false;
+        bool isFirstItemFuelInput = false;
+        bool isSecondItemFuelInput = false;
+        bool isFirstItemConvertInput = false;
+        bool isSecondItemConvertInput = false;
+        bool isFirstItemOutput = false;
+        bool isSecondItemOutput = false;
         bool isCombineSuccessful = false;
         InventoryItem otherInvItem;
         InventoryItem thisInvItem;
 
+        if (otherItem.GetComponent<IndexValue>())
+        {
+            firstInvIndex = otherItem.GetComponent<IndexValue>().GetIndexValue();
+        }
+        if (GetComponent<IndexValue>())
+        {
+            secondInvIndex = GetComponent<IndexValue>().GetIndexValue();
+        }
+        if (otherItem.GetComponent<Classify>())
+        {
+            if (otherItem.GetComponent<Classify>().GetClassification() == Classify.Classification.IsOvenFuelInput)
+            {
+                isFirstItemFuelInput = true;
+                otherInvItem = playerInventory.GetOvenFuelInput();
+            }
+            else if (otherItem.GetComponent<Classify>().GetClassification() == Classify.Classification.IsOvenConvertInput)
+            {
+                isFirstItemConvertInput = true;
+                otherInvItem = playerInventory.GetOvenConvertInput();
+            }
+            else if (otherItem.GetComponent<Classify>().GetClassification() == Classify.Classification.IsOvenOutput)
+            {
+                isFirstItemOutput = true;
+                otherInvItem = playerInventory.GetOvenOutput();
+            }
+        }
+        if (GetComponent<Classify>())
+        {
+            if (GetComponent<Classify>().GetClassification() == Classify.Classification.IsOvenFuelInput)
+            {
+                isSecondItemFuelInput = true;
+                thisInvItem = playerInventory.GetOvenFuelInput();
+            }
+            else if (GetComponent<Classify>().GetClassification() == Classify.Classification.IsOvenConvertInput)
+            {
+                isSecondItemConvertInput = true;
+                thisInvItem = playerInventory.GetOvenConvertInput();
+            }
+            else if (GetComponent<Classify>().GetClassification() == Classify.Classification.IsOvenOutput)
+            {
+                isSecondItemOutput = true;
+                thisInvItem = playerInventory.GetOvenOutput();
+            }
+        }
+
         // Other InvItem is in invHandUI
         if (otherItem.GetComponent<IsInvHandItem>())
         {
-            isFirstItemInvArmor = false;
             isFirstItemInvHand = true;
             otherInvItem = playerInventory.GetInvHandItemList()[firstInvIndex];
         }
         // Other InvItem is in invArmorUI
         else if (otherItem.GetComponent<IsInvArmorItem>())
         {
-            isFirstItemInvHand = false;
             isFirstItemInvArmor = true;
             otherInvItem = playerInventory.GetInvItemArmorList()[firstInvIndex];
         }
         // Other InvItem is in invUI
         else
         {
-            isFirstItemInvHand = false;
-            isFirstItemInvArmor = false;
+            isFirstItemInv = true;
             otherInvItem = playerInventory.GetInvItemList()[firstInvIndex];
         }
 
@@ -94,22 +145,19 @@ public class DragDropInvItem : DragAndDrop
         // This InvItem is in invHandUI
         if (GetComponent<IsInvHandItem>())
         {
-            isSecondItemInvArmor = false;
             isSecondItemInvHand = true;
             thisInvItem = playerInventory.GetInvHandItemList()[secondInvIndex];
         }
         // This InvItem is in invArmorUI
         else if (GetComponent<IsInvArmorItem>())
         {
-            isSecondItemInvHand = false;
             isSecondItemInvArmor = true;
             thisInvItem = playerInventory.GetInvItemArmorList()[secondInvIndex];
         }
         // This InvItem is in invUI
         else
         {
-            isSecondItemInvHand = false;
-            isSecondItemInvArmor = false;
+            isSecondItemInv = true;
             thisInvItem = playerInventory.GetInvItemList()[secondInvIndex];
         }
 
@@ -126,13 +174,53 @@ public class DragDropInvItem : DragAndDrop
             return;
         }
 
+        // Other item is inv, this item is fuelInput
+        if (isFirstItemInv && isSecondItemFuelInput)
+        {
+            Debug.Log("Inv - Fuel Input");
+        }
+        // Other item is fuelInput, this item is inv
+        else if (isFirstItemFuelInput && isSecondItemInv)
+        {
+            Debug.Log("Fuel Input - Inv");
+        }
+        // Other item is inv, this item is convertInput
+        else if (isFirstItemInv && isSecondItemConvertInput)
+        {
+            Debug.Log("Inv - Convert Input");
+        }
+        // Other item is convertInput, this item is inv
+        else if (isFirstItemConvertInput && isSecondItemInv)
+        {
+            Debug.Log("Convert Input - Inv");
+        }
+        // Other item is invHand, this item is convertInput
+        else if (isFirstItemInvHand && isSecondItemConvertInput)
+        {
+            Debug.Log("Inv Hand - Convert Input");
+        }
+        // Other item is convertInput, this item is invHand
+        else if (isFirstItemConvertInput && isSecondItemInvHand)
+        {
+            Debug.Log("Convert Input - Inv Hand");
+        }
+        // Other item is inv, this item is output
+        else if (isFirstItemInv && isSecondItemOutput)
+        {
+            Debug.Log("Inv - Output");
+        }
+        // Other item is output, this item is inv
+        else if (isFirstItemOutput && isSecondItemInv)
+        {
+            Debug.Log("Output - Inv");
+        }
         // Both items are in invHandUI
-        if (isFirstItemInvHand && isSecondItemInvHand)
+        else if (isFirstItemInvHand && isSecondItemInvHand)
         {
             playerInventory.SwapTwoInvHandItems(firstInvIndex, secondInvIndex);
         }
         // Other item is in invUI, this item is in invHandUI
-        else if (!isFirstItemInvHand && isSecondItemInvHand)
+        else if (isFirstItemInv && isSecondItemInvHand)
         {
             // Prevent resources from entering the invHand
             if (playerInventory.GetInvItemList()[firstInvIndex].GetItemType() == InventoryItem.ItemType.Resource)
@@ -151,7 +239,7 @@ public class DragDropInvItem : DragAndDrop
             playerInventory.SwapInvItemWithHandItem(firstInvIndex, secondInvIndex);
         }
         // Other item is in invHandUI, this item is in invUI
-        else if (isFirstItemInvHand && !isSecondItemInvHand)
+        else if (isFirstItemInvHand && isSecondItemInv)
         {
             // Prevent resources from entering the invHand
             if (playerInventory.GetInvItemList()[secondInvIndex].GetItemType() == InventoryItem.ItemType.Resource)
@@ -180,12 +268,12 @@ public class DragDropInvItem : DragAndDrop
             // Armor shouldn't be in the hotbar
         }
         // Other item is in invArmorUI, this item is in invUI
-        else if (isFirstItemInvArmor && !isSecondItemInvArmor)
+        else if (isFirstItemInvArmor && isSecondItemInv)
         {
             playerInventory.SwapArmorItemWithInvItem(firstInvIndex, secondInvIndex);
         }
         // Other item is in invUI, this item is in invArmorUI
-        else if (!isFirstItemInvArmor && isSecondItemInvArmor)
+        else if (isFirstItemInv && isSecondItemInvArmor)
         {
             playerInventory.SwapArmorItemWithInvItem(secondInvIndex, firstInvIndex);
         }

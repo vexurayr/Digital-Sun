@@ -16,9 +16,7 @@ public class Oven : InventoryItem
     private InventoryItem convertInput;
     private InventoryItem output;
     private PlayerInventory player;
-    private bool isHoldingItems = false;
     private float timeRemaining;
-    private bool hasUpdated;
 
     #endregion Variables
 
@@ -101,85 +99,6 @@ public class Oven : InventoryItem
 
     #endregion GetSet
 
-    #region RefreshInventoryVisuals
-    public void RefreshInventoryVisuals()
-    {
-        isHoldingItems = false;
-
-        
-    }
-
-    #endregion RefreshInventoryVisuals
-
-    #region SwapInvItems
-    // Called whenever the player adjusts Inventory through the UI
-    // index = 0 -> fuelInput, index = 1 -> convertInput, index = 2 -> output
-    public void SwapItems(InventoryItem newOvenItem, int index)
-    {
-        if (index == 0)
-        {
-            SwapPlayerItemWithFuelInputItem(newOvenItem);
-        }
-        else if (index == 1)
-        {
-            SwapPlayerItemWithConvertInputItem(newOvenItem);
-        }
-        else if (index == 2)
-        {
-            SwapPlayerItemWithOutputItem(newOvenItem);
-        }
-    }
-
-    public InventoryItem SwapPlayerItemWithFuelInputItem(InventoryItem newFuelInput)
-    {
-        // Only let the player add fuel to this input
-        if (newFuelInput.gameObject.GetComponent<Classify>().GetClassification() != Classify.Classification.IsFuelSource)
-        {
-            return emptyInvItem;
-        }
-
-        InventoryItem oldFuelInput = fuelInput;
-        fuelInput = newFuelInput;
-
-        RefreshInventoryVisuals();
-
-        return oldFuelInput;
-    }
-
-    public InventoryItem SwapPlayerItemWithConvertInputItem(InventoryItem newConvertInput)
-    {
-        // Only let the player add items that are meant to go into the oven
-        if (newConvertInput.gameObject.GetComponent<Classify>().GetClassification() != Classify.Classification.IsConvertable)
-        {
-            return emptyInvItem;
-        }
-
-        InventoryItem oldConvertInput = convertInput;
-        convertInput = newConvertInput;
-
-        RefreshInventoryVisuals();
-
-        return oldConvertInput;
-    }
-
-    public InventoryItem SwapPlayerItemWithOutputItem(InventoryItem newOutput)
-    {
-        // Only let the player remove items from output
-        if (newOutput.GetItem() != Item.None)
-        {
-            return emptyInvItem;
-        }
-
-        InventoryItem oldOutput = output;
-        output = newOutput;
-
-        RefreshInventoryVisuals();
-
-        return oldOutput;
-    }
-
-    #endregion SwapInvItems
-
     #region CookFunctions
     public void ConvertItem()
     {
@@ -231,14 +150,6 @@ public class Oven : InventoryItem
         // Update the player's Oven UI with whatever this oven is holding
         SetPlayerInventoryFromOven(player);
         return true;
-    }
-
-    public override void PickItemUp(Inventory targetInv)
-    {
-        if (!isHoldingItems)
-        {
-            base.PickItemUp(targetInv);
-        }
     }
 
     #endregion InventoryItemFunctions

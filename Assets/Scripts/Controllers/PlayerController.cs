@@ -577,9 +577,9 @@ public class PlayerController : MonoBehaviour
 
     public void ToggleOvenUI()
     {
-        if (ovenUI.enabled)
+        if (ovenUI.isActiveAndEnabled)
         {
-            ovenUI.enabled = false;
+            ovenUI.gameObject.SetActive(false);
             ovenUI.GetFuelInputSlot().SetActive(false);
             ovenUI.GetFuelInputItem().SetActive(false);
             ovenUI.GetConvertInputSlot().SetActive(false);
@@ -589,7 +589,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            ovenUI.enabled = true;
+            ovenUI.gameObject.SetActive(true);
             ovenUI.GetFuelInputSlot().SetActive(true);
             ovenUI.GetFuelInputItem().SetActive(true);
             ovenUI.GetConvertInputSlot().SetActive(true);
