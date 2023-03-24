@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerInventory : Inventory
 {
@@ -522,6 +523,63 @@ public class PlayerInventory : Inventory
     public void SetOvenOutput(InventoryItem newOutput)
     {
         ovenOutput = newOutput;
+    }
+
+    public void SwapInvItemWithOvenItem(int invItemIndex, InventoryItem ovenItem,
+        bool isOvenFuelInput, bool isOvenConvertInput, bool isOvenOutput)
+    {
+        // Swap Inventory Items
+        InventoryItem firstInvItem = invItemList[invItemIndex];
+
+        invItemList[invItemIndex] = ovenItem;
+
+        if (isOvenFuelInput)
+        {
+            ovenFuelInput = firstInvItem;
+        }
+        else if (isOvenConvertInput)
+        {
+            ovenConvertInput = firstInvItem;
+        }
+        else if (isOvenOutput)
+        {
+            ovenOutput = firstInvItem;
+        }
+
+        Oven lastOpenedOven = gameObject.GetComponent<PlayerController>().GetLastOpenedOven();
+
+        lastOpenedOven.SetOvenInventoryFromPlayer(gameObject);
+        
+        RefreshInventoryVisuals();
+    }
+
+    public void SwapInvHandItemWithOvenItem(int invItemIndex, InventoryItem ovenItem,
+        bool isOvenFuelInput, bool isOvenConvertInput, bool isOvenOutput)
+    {
+        // Swap Inventory Items
+        InventoryItem firstInvItem = invHandItemList[invItemIndex];
+        Debug.Log(firstInvItem.GetItem() + ", " + ovenItem.GetItem());
+
+        invHandItemList[invItemIndex] = ovenItem;
+        
+        if (isOvenFuelInput)
+        {
+            ovenFuelInput = firstInvItem;
+        }
+        else if (isOvenConvertInput)
+        {
+            ovenConvertInput = firstInvItem;
+        }
+        else if (isOvenOutput)
+        {
+            ovenOutput = firstInvItem;
+        }
+
+        Oven lastOpenedOven = gameObject.GetComponent<PlayerController>().GetLastOpenedOven();
+
+        lastOpenedOven.SetOvenInventoryFromPlayer(gameObject);
+
+        RefreshInventoryVisuals();
     }
 
     #endregion OvenFunctions

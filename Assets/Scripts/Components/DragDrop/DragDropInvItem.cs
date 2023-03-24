@@ -69,8 +69,9 @@ public class DragDropInvItem : DragAndDrop
         bool isFirstItemOutput = false;
         bool isSecondItemOutput = false;
         bool isCombineSuccessful = false;
-        InventoryItem otherInvItem;
-        InventoryItem thisInvItem;
+        InventoryItem otherInvItem = playerInventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
+        InventoryItem thisInvItem = playerInventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
+        GameObject prefabFromInvItemManager;
 
         if (otherItem.GetComponent<IndexValue>())
         {
@@ -117,8 +118,12 @@ public class DragDropInvItem : DragAndDrop
             }
         }
 
+        if (otherItem.GetComponent<Classify>())
+        {
+            // Skip this block to avoid overwriting thisInvItem
+        }
         // Other InvItem is in invHandUI
-        if (otherItem.GetComponent<IsInvHandItem>())
+        else if (otherItem.GetComponent<IsInvHandItem>())
         {
             isFirstItemInvHand = true;
             otherInvItem = playerInventory.GetInvHandItemList()[firstInvIndex];
@@ -142,8 +147,12 @@ public class DragDropInvItem : DragAndDrop
             return;
         }
 
+        if (GetComponent<Classify>())
+        {
+            // Skip this block to avoid overwriting thisInvItem
+        }
         // This InvItem is in invHandUI
-        if (GetComponent<IsInvHandItem>())
+        else if (GetComponent<IsInvHandItem>())
         {
             isSecondItemInvHand = true;
             thisInvItem = playerInventory.GetInvHandItemList()[secondInvIndex];
@@ -174,45 +183,97 @@ public class DragDropInvItem : DragAndDrop
             return;
         }
 
+        // If either is -1, the swap happened above
+        if (firstInvIndex < 0 || secondInvIndex < 0)
+        {
+            return;
+        }
+
         // Other item is inv, this item is fuelInput
         if (isFirstItemInv && isSecondItemFuelInput)
         {
-            Debug.Log("Inv - Fuel Input");
+            prefabFromInvItemManager = InvItemManager.instance.GetPrefabForInvItem(otherInvItem);
+
+            if (!prefabFromInvItemManager.GetComponent<Classify>())
+            {
+                return;
+            }
+            // Only allow if the inventory item is a fuel source
+            if (prefabFromInvItemManager.GetComponent<Classify>().GetClassification() == Classify.Classification.IsFuelSource)
+            {
+                playerInventory.SwapInvItemWithOvenItem(firstInvIndex, thisInvItem,
+                    isSecondItemFuelInput, isSecondItemConvertInput, isSecondItemOutput);
+            }
         }
         // Other item is fuelInput, this item is inv
         else if (isFirstItemFuelInput && isSecondItemInv)
         {
-            Debug.Log("Fuel Input - Inv");
+            // Dragging fuel back into the inventory should be completely fine
+            playerInventory.SwapInvItemWithOvenItem(secondInvIndex, otherInvItem,
+                isFirstItemFuelInput, isFirstItemConvertInput, isFirstItemOutput);
         }
         // Other item is inv, this item is convertInput
         else if (isFirstItemInv && isSecondItemConvertInput)
         {
-            Debug.Log("Inv - Convert Input");
+            prefabFromInvItemManager = InvItemManager.instance.GetPrefabForInvItem(otherInvItem);
+
+            if (!prefabFromInvItemManager.gameObject.GetComponent<Classify>())
+            {
+                return;
+            }
+            // Only allow if the inventory item is a convertable item
+            if (prefabFromInvItemManager.gameObject.GetComponent<Classify>().GetClassification() == Classify.Classification.IsConvertable)
+            {
+                playerInventory.SwapInvItemWithOvenItem(firstInvIndex, thisInvItem,
+                    isSecondItemFuelInput, isSecondItemConvertInput, isSecondItemOutput);
+            }
         }
         // Other item is convertInput, this item is inv
         else if (isFirstItemConvertInput && isSecondItemInv)
         {
-            Debug.Log("Convert Input - Inv");
+            // Dragging non-converted item back into the inventory should be fine
+            playerInventory.SwapInvItemWithOvenItem(secondInvIndex, otherInvItem,
+                isFirstItemFuelInput, isFirstItemConvertInput, isFirstItemOutput);
         }
         // Other item is invHand, this item is convertInput
         else if (isFirstItemInvHand && isSecondItemConvertInput)
         {
-            Debug.Log("Inv Hand - Convert Input");
+            prefabFromInvItemManager = InvItemManager.instance.GetPrefabForInvItem(otherInvItem);
+
+            if (!prefabFromInvItemManager.gameObject.GetComponent<Classify>())
+            {
+                return;
+            }
+            // Player could be holding an item like uncooked meat in their hand
+            if (prefabFromInvItemManager.gameObject.GetComponent<Classify>().GetClassification() == Classify.Classification.IsConvertable)
+            {
+                playerInventory.SwapInvHandItemWithOvenItem(firstInvIndex, thisInvItem,
+                    isSecondItemFuelInput, isSecondItemConvertInput, isSecondItemOutput);
+            }
         }
         // Other item is convertInput, this item is invHand
         else if (isFirstItemConvertInput && isSecondItemInvHand)
         {
-            Debug.Log("Convert Input - Inv Hand");
+            // Don't allow resources to be dragged into the hand
+            if (otherInvItem.GetItemType() == InventoryItem.ItemType.Resource)
+            {
+                return;
+            }
+
+            playerInventory.SwapInvHandItemWithOvenItem(secondInvIndex, otherInvItem,
+                isFirstItemFuelInput, isFirstItemConvertInput, isFirstItemOutput);
         }
         // Other item is inv, this item is output
         else if (isFirstItemInv && isSecondItemOutput)
         {
-            Debug.Log("Inv - Output");
+            // For simplicity sake, don't allow items to be dragged into the output
         }
         // Other item is output, this item is inv
         else if (isFirstItemOutput && isSecondItemInv)
         {
-            Debug.Log("Output - Inv");
+            // Dragging an output item into the player's inventory should be fine
+            playerInventory.SwapInvItemWithOvenItem(secondInvIndex, otherInvItem,
+                isFirstItemFuelInput, isFirstItemConvertInput, isFirstItemOutput);
         }
         // Both items are in invHandUI
         else if (isFirstItemInvHand && isSecondItemInvHand)

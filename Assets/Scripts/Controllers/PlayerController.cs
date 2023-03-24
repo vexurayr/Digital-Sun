@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
     private CraftBench lastOpenedCraftBench;
+    private Oven lastOpenedOven;
 
     private InventoryItem currentItemBeingObserved;
 
@@ -482,6 +483,7 @@ public class PlayerController : MonoBehaviour
         // Special case for using an oven
         else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
         {
+            lastOpenedOven = hitInventoryItem.GetComponent<Oven>();
             hitInventoryItem.PrimaryAction(this.gameObject);
             ToggleOvenUI();
 
@@ -838,6 +840,16 @@ public class PlayerController : MonoBehaviour
     public Camera GetPlayerCamera()
     {
         return playerCamera;
+    }
+
+    public Oven GetLastOpenedOven()
+    {
+        return lastOpenedOven;
+    }
+
+    public OvenUI GetOvenUI()
+    {
+        return ovenUI;
     }
 
     #endregion GetSet
