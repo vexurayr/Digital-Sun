@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerInventory : Inventory
 {
     #region Variables
     [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private OvenUI ovenUI;
 
     private List<GameObject> invSlotsUI;
     private List<GameObject> invItemsUI;
@@ -17,6 +19,16 @@ public class PlayerInventory : Inventory
     private List<GameObject> invArmorSlotsUI;
     private List<GameObject> invArmorItemsUI;
     private List<GameObject> invArmorItemCountersUI;
+
+    private GameObject fuelInputSlotUI;
+    private GameObject convertInputSlotUI;
+    private GameObject outputSlotUI;
+    private GameObject fuelInputItemUI;
+    private GameObject convertInputItemUI;
+    private GameObject outputItemUI;
+    private GameObject fuelInputCounterUI;
+    private GameObject convertInputCounterUI;
+    private GameObject outputCounterUI;
 
     private int selectedInvHandSlot = 0;
 
@@ -36,6 +48,16 @@ public class PlayerInventory : Inventory
         invArmorSlotsUI = inventoryUI.GetInvArmorSlotsUI();
         invArmorItemsUI = inventoryUI.GetInvArmorItemsUI();
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
+        
+        fuelInputSlotUI = ovenUI.GetFuelInputSlot();
+        convertInputSlotUI = ovenUI.GetConvertInputSlot();
+        outputSlotUI = ovenUI.GetOutputSlot();
+        fuelInputItemUI = ovenUI.GetFuelInputItem();
+        convertInputItemUI = ovenUI.GetConvertInputItem();
+        outputItemUI = ovenUI.GetOutputItem();
+        fuelInputCounterUI = ovenUI.GetFuelInputCounter();
+        convertInputCounterUI = ovenUI.GetConvertInputCounter();
+        outputCounterUI = ovenUI.GetOutputCounter();
 
         RefreshInventoryVisuals();
     }
@@ -165,9 +187,85 @@ public class PlayerInventory : Inventory
 
             invArmorItemsUI[i].GetComponent<IndexValue>().SetIndexValue(i);
         }
+
+        RefreshOvenVisuals();
     }
 
     #endregion RefreshInventoryVisuals
+
+    #region RefreshOvenVisuals
+    public void RefreshOvenVisuals()
+    {
+        // Move UI inventory items to the correct location
+        fuelInputItemUI.transform.position = fuelInputSlotUI.transform.position;
+        convertInputItemUI.transform.position = convertInputSlotUI.transform.position;
+        outputItemUI.transform.position = outputSlotUI.transform.position;
+
+        // Set correct sprites and text for Fuel Input
+        if (ovenFuelInput.GetItemSprite() == null)
+        {
+            fuelInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            fuelInputItemUI.GetComponent<RawImage>().texture = null;
+        }
+        else
+        {
+            fuelInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            fuelInputItemUI.GetComponent<RawImage>().texture = ovenFuelInput.GetItemSprite().texture;
+        }
+
+        if (ovenFuelInput.GetItemCount() > 1)
+        {
+            fuelInputCounterUI.GetComponent<Text>().text = ovenFuelInput.GetItemCount().ToString();
+        }
+        else
+        {
+            fuelInputCounterUI.GetComponent<Text>().text = "";
+        }
+
+        // For Convert Input
+        if (ovenConvertInput.GetItemSprite() == null)
+        {
+            convertInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            convertInputItemUI.GetComponent<RawImage>().texture = null;
+        }
+        else
+        {
+            convertInputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            convertInputItemUI.GetComponent<RawImage>().texture = ovenConvertInput.GetItemSprite().texture;
+        }
+
+        if (ovenConvertInput.GetItemCount() > 1)
+        {
+            convertInputCounterUI.GetComponent<Text>().text = ovenConvertInput.GetItemCount().ToString();
+        }
+        else
+        {
+            convertInputCounterUI.GetComponent<Text>().text = "";
+        }
+
+        // For Output
+        if (ovenOutput.GetItemSprite() == null)
+        {
+            outputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 0);
+            outputItemUI.GetComponent<RawImage>().texture = null;
+        }
+        else
+        {
+            outputItemUI.GetComponent<RawImage>().color = new Color(255, 255, 255, 255);
+            outputItemUI.GetComponent<RawImage>().texture = ovenOutput.GetItemSprite().texture;
+        }
+
+        if (ovenOutput.GetItemCount() > 1)
+        {
+            outputCounterUI.GetComponent<Text>().text = ovenOutput.GetItemCount().ToString();
+        }
+        else
+        {
+            outputCounterUI.GetComponent<Text>().text = "";
+        }
+    }
+
+    #endregion RefreshOvenVisuals
 
     #region SwapInvItems
     // Called whenever the player adjusts Inventory through the UI
@@ -385,7 +483,103 @@ public class PlayerInventory : Inventory
 
         // Give the item in the scene the unique name
         itemInScene.gameObject.name = "ActivePlayerItem";
+
+        // Special cases for data transfer
+        if (itemInScene.GetComponent<Canteen>())
+        {
+            itemInScene.GetComponent<Canteen>().SetChargesStored(newItem.GetChargesStored());
+        }
     }
 
     #endregion ChangeInvHandItemInScene
+
+    #region OvenFunctions
+    public InventoryItem GetOvenFuelInput()
+    {
+        return ovenFuelInput;
+    }
+
+    public void SetOvenFuelInput(InventoryItem newFuelInput)
+    {
+        ovenFuelInput = newFuelInput;
+    }
+
+    public InventoryItem GetOvenConvertInput()
+    {
+        return ovenConvertInput;
+    }
+
+    public void SetOvenConvertInput(InventoryItem newConvertInput)
+    {
+        ovenConvertInput = newConvertInput;
+    }
+
+    public InventoryItem GetOvenOutput()
+    {
+        return ovenOutput;
+    }
+
+    public void SetOvenOutput(InventoryItem newOutput)
+    {
+        ovenOutput = newOutput;
+    }
+
+    public void SwapInvItemWithOvenItem(int invItemIndex, InventoryItem ovenItem,
+        bool isOvenFuelInput, bool isOvenConvertInput, bool isOvenOutput)
+    {
+        // Swap Inventory Items
+        InventoryItem firstInvItem = invItemList[invItemIndex];
+
+        invItemList[invItemIndex] = ovenItem;
+
+        if (isOvenFuelInput)
+        {
+            ovenFuelInput = firstInvItem;
+        }
+        else if (isOvenConvertInput)
+        {
+            ovenConvertInput = firstInvItem;
+        }
+        else if (isOvenOutput)
+        {
+            ovenOutput = firstInvItem;
+        }
+
+        Oven lastOpenedOven = gameObject.GetComponent<PlayerController>().GetLastOpenedOven();
+
+        lastOpenedOven.SetOvenInventoryFromPlayer(gameObject);
+        
+        RefreshInventoryVisuals();
+    }
+
+    public void SwapInvHandItemWithOvenItem(int invItemIndex, InventoryItem ovenItem,
+        bool isOvenFuelInput, bool isOvenConvertInput, bool isOvenOutput)
+    {
+        // Swap Inventory Items
+        InventoryItem firstInvItem = invHandItemList[invItemIndex];
+        Debug.Log(firstInvItem.GetItem() + ", " + ovenItem.GetItem());
+
+        invHandItemList[invItemIndex] = ovenItem;
+        
+        if (isOvenFuelInput)
+        {
+            ovenFuelInput = firstInvItem;
+        }
+        else if (isOvenConvertInput)
+        {
+            ovenConvertInput = firstInvItem;
+        }
+        else if (isOvenOutput)
+        {
+            ovenOutput = firstInvItem;
+        }
+
+        Oven lastOpenedOven = gameObject.GetComponent<PlayerController>().GetLastOpenedOven();
+
+        lastOpenedOven.SetOvenInventoryFromPlayer(gameObject);
+
+        RefreshInventoryVisuals();
+    }
+
+    #endregion OvenFunctions
 }

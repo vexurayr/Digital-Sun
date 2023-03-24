@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: 13
-  itemType: 3
+  itemType: 1
   itemSprite: {fileID: 21300000, guid: 3fe984ed808ff1e48be74f1e49de5b27, type: 3}
   itemCount: 0
   maxStackSize: 1

@@ -131,7 +131,7 @@ MonoBehaviour:
   rotationInHandZ: 300
   damageToEnemy: 1
   damageToSpecialty: 10
-  staminaCost: 3
+  staminaCost: 0.5
   animationTriggerName: Chop Begin
   animationSpeed: 2
   hitbox: {fileID: 0}
