@@ -28,7 +28,7 @@ public class InventoryItem : MonoBehaviour
         Uncooked_Meat,
         Cooked_Meat,
         Boulder,
-        Firepit
+        Oven
     }
 
     public enum ItemType
@@ -60,12 +60,22 @@ public class InventoryItem : MonoBehaviour
     #endregion Variables
 
     #region Actions
+    public virtual bool PrimaryAction(GameObject player, InventoryItem affectedItem)
+    {
+        return false;
+    }
+
     public virtual bool PrimaryAction(GameObject player)
     { 
         return false;
     }
 
     public virtual bool PrimaryAction()
+    {
+        return false;
+    }
+
+    public virtual bool SecondaryAction(GameObject player, InventoryItem affectedItem)
     {
         return false;
     }
@@ -151,4 +161,25 @@ public class InventoryItem : MonoBehaviour
     }
 
     #endregion GetSet
+
+    #region ObjectSpecific
+    public virtual int GetChargesStored()
+    {
+        return 0;
+    }
+
+    public virtual void SetChargesStored(int value)
+    {}
+
+    public virtual float GetDamageToEnemy()
+    {
+        return 0;
+    }
+
+    public virtual float GetDamageToSpecialty()
+    {
+        return 0;
+    }
+
+    #endregion ObjectSpecific
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Powerup;
 
 public class Tool : InventoryItem
 {
@@ -54,12 +53,12 @@ public class Tool : InventoryItem
 
     #endregion PrimaryAction
 
-    public float GetDamageToEnemy()
+    public override float GetDamageToEnemy()
     {
         return damageToEnemy;
     }
 
-    public float GetDamageToSpecialty()
+    public override float GetDamageToSpecialty()
     {
         return damageToSpecialty;
     }

@@ -132,8 +132,8 @@ MonoBehaviour:
   rotationInHandZ: 300
   damageToEnemy: 1
   damageToSpecialty: 10
-  staminaCost: 3
-  animationTriggerName: Chop Begin
+  staminaCost: 0.5
+  animationTriggerName: Mine Begin
   animationSpeed: 2
   hitbox: {fileID: 6991271744405806973}
 --- !u!95 &7065035659137537068
@@ -146,7 +146,7 @@ Animator:
   m_GameObject: {fileID: 4060971287917659530}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5f35bc9144a70ab42a66e6b37d86f840, type: 2}
+  m_Controller: {fileID: 9100000, guid: e58c717dd1b2fc842b9adc4a2ce02c6b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

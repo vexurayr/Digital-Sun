@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     #region Variables
     [SerializeField] private Text worldToolTipUI;
     [SerializeField] private Text inventoryToolTipUI;
+    [SerializeField] private OvenUI ovenUI;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float mouseSensitivityX;
     [SerializeField] private float mouseSensitivityY;
@@ -66,6 +67,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 currentMouseDeltaVelocity = Vector2.zero;
 
     private CraftBench lastOpenedCraftBench;
+    private Oven lastOpenedOven;
+
+    private InventoryItem currentItemBeingObserved;
 
     #endregion Variables
 
@@ -366,19 +370,24 @@ public class PlayerController : MonoBehaviour
 
         worldToolTipUI.text = "";
 
+        PlayerInventory inventory = this.gameObject.GetComponent<PlayerInventory>();
+
         if (!isHitSuccess)
         {
+            currentItemBeingObserved = inventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
             return;
         }
 
         InventoryItem hitInventoryItem = hit.collider.gameObject.GetComponent<InventoryItem>();
-        PlayerInventory inventory = this.gameObject.GetComponent<PlayerInventory>();
 
-        if (hitInventoryItem == null || inventory == null)
+        if (hitInventoryItem == null)
         {
+            currentItemBeingObserved = inventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
             return;
         }
-        
+
+        currentItemBeingObserved = hitInventoryItem;
+
         // Don't display the count of the item if there is only 1 of it
         if (hitInventoryItem.GetItemCount() > 1)
         {
@@ -394,6 +403,38 @@ public class PlayerController : MonoBehaviour
         {
             // If they have a non-max stack of the same item, pick up as much as possible
             InventoryItem itemToTransferTo = GetComponent<PlayerInventory>().HasSameItemOfNonMaxStackSize(hitInventoryItem);
+
+            // Let the player interact with the Craft Bench even if they can't pick it up
+            if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
+            {
+                lastOpenedCraftBench = hitInventoryItem.GetComponent<CraftBench>();
+                hitInventoryItem.PrimaryAction(this.gameObject);
+                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+                else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+
+                return;
+            }
+            // Let the player interact with the Oven even if they can't pick it up
+            else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
+            {
+                hitInventoryItem.PrimaryAction(this.gameObject);
+                ToggleOvenUI();
+
+                if (ovenUI.gameObject.activeInHierarchy && !isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+                else if (!ovenUI.gameObject.activeInHierarchy && isInventoryActive)
+                {
+                    ToggleInventoryUI();
+                }
+            }
 
             // Must recieve empty InvItem because itemToTransferTo == null will always equal null
             if (itemToTransferTo.GetItem() == InventoryItem.Item.None)
@@ -422,22 +463,8 @@ public class PlayerController : MonoBehaviour
                 inventory.RefreshInventoryVisuals();
                 return;
             }
-            // Special cases like looking at a Craft Bench
-            else if (Input.GetKeyDown(rightClickKey) && itemToTransferTo.GetItem() == InventoryItem.Item.Craft_Bench)
-            {
-                lastOpenedCraftBench = itemToTransferTo.GetComponent<CraftBench>();
-                itemToTransferTo.PrimaryAction(this.gameObject);
-                if (lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && !isInventoryActive)
-                {
-                    ToggleInventoryUI();
-                }
-                else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
-                {
-                    ToggleInventoryUI();
-                }
-            }
         }
-
+        
         // Player can pick the item up no problem
         if (Input.GetKeyDown(pickUpKey))
         {
@@ -455,6 +482,22 @@ public class PlayerController : MonoBehaviour
                 ToggleInventoryUI();
             }
             else if (!lastOpenedCraftBench.GetCraftBenchUI().activeInHierarchy && isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+        }
+        // Special case for using an oven
+        else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Oven)
+        {
+            lastOpenedOven = hitInventoryItem.GetComponent<Oven>();
+            hitInventoryItem.PrimaryAction(this.gameObject);
+            ToggleOvenUI();
+
+            if (ovenUI.gameObject.activeInHierarchy && !isInventoryActive)
+            {
+                ToggleInventoryUI();
+            }
+            else if (!ovenUI.gameObject.activeInHierarchy && isInventoryActive)
             {
                 ToggleInventoryUI();
             }
@@ -528,12 +571,40 @@ public class PlayerController : MonoBehaviour
                     lastOpenedCraftBench.GetCraftBenchUI().SetActive(false);
                 }
             }
+            if (ovenUI.gameObject.activeInHierarchy)
+            {
+                ToggleOvenUI();
+            }
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
             isCameraMovementLocked = false;
         }    
+    }
+
+    public void ToggleOvenUI()
+    {
+        if (ovenUI.isActiveAndEnabled)
+        {
+            ovenUI.gameObject.SetActive(false);
+            ovenUI.GetFuelInputSlot().SetActive(false);
+            ovenUI.GetFuelInputItem().SetActive(false);
+            ovenUI.GetConvertInputSlot().SetActive(false);
+            ovenUI.GetConvertInputItem().SetActive(false);
+            ovenUI.GetOutputSlot().SetActive(false);
+            ovenUI.GetOutputItem().SetActive(false);
+        }
+        else
+        {
+            ovenUI.gameObject.SetActive(true);
+            ovenUI.GetFuelInputSlot().SetActive(true);
+            ovenUI.GetFuelInputItem().SetActive(true);
+            ovenUI.GetConvertInputSlot().SetActive(true);
+            ovenUI.GetConvertInputItem().SetActive(true);
+            ovenUI.GetOutputSlot().SetActive(true);
+            ovenUI.GetOutputItem().SetActive(true);
+        }
     }
     
     // This function updates the Inventory tooltip and lets the player use items from their inventory
@@ -603,6 +674,10 @@ public class PlayerController : MonoBehaviour
 
             playerInventory.RefreshInventoryVisuals();
         }
+        else if (Input.GetKeyDown(rightClickKey) && invItem.GetItem() == InventoryItem.Item.Canteen)
+        {
+            invItem.PrimaryAction(this.gameObject);
+        }
     }
 
     // Only runs when Inventory is not open, handles using items in inventory hand slots
@@ -656,11 +731,34 @@ public class PlayerController : MonoBehaviour
             {
                 playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
             }
+            else if (invItem.GetItemType() == InventoryItem.ItemType.Pickaxe)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Tool>().PrimaryAction(this.gameObject);
+            }
+            else if (invItem.GetItem() == InventoryItem.Item.Canteen)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().PrimaryAction(this.gameObject, invItem);
+            }
         }
 
         if (Input.GetKeyDown(rightClickKey))
         {
+            // Get player inventory
+            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
 
+            // Get the index of the selected inv hand slot
+            int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
+
+            // Get the player's InvHandItemList
+            List<InventoryItem> invHandItemList = playerInventory.GetInvHandItemList();
+
+            // Get the item at that index in the player's InvHandItemList
+            InventoryItem invItem = invHandItemList[selectedInvHandSlot];
+
+            if (invItem.GetItem() == InventoryItem.Item.Canteen && currentItemBeingObserved.GetItem() == InventoryItem.Item.Water)
+            {
+                playerInventory.GetActivePlayerItem().GetComponent<Canteen>().SecondaryAction(this.gameObject, invItem);
+            }
         }
     }
 
@@ -748,6 +846,16 @@ public class PlayerController : MonoBehaviour
     public Camera GetPlayerCamera()
     {
         return playerCamera;
+    }
+
+    public Oven GetLastOpenedOven()
+    {
+        return lastOpenedOven;
+    }
+
+    public OvenUI GetOvenUI()
+    {
+        return ovenUI;
     }
 
     #endregion GetSet
