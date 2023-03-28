@@ -766,10 +766,10 @@ public class PlayerController : MonoBehaviour
     {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
-
+        
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerEventData, raycastResults);
-
+        
         for (int i = 0; i < raycastResults.Count; i++)
         {
             if (raycastResults[i].gameObject.GetComponent<IndexValue>() != null)
