@@ -23,7 +23,7 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadForestLevel()
     {
-        SceneManager.LoadScene("Forest");
+        SceneManager.LoadScene("Forest - Build");
     }
 
     public void LoadMainMenu()
