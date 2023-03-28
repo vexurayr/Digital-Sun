@@ -6,53 +6,20 @@ using static Powerup;
 public class Consumable : InventoryItem
 {
     #region Variables
-    [Tooltip("Which survival system should the consumable effect?")] [SerializeField] private PrimaryEffect primaryEffect;
-    [Tooltip("Set to None if the consumable won't have a second effect.")] [SerializeField] private SecondEffect secondEffect;
-    [Tooltip("Being a flat amount versus a percent changes what this number means.")] [SerializeField] private float primaryStatChangeAmount;
-    [Tooltip("Being a flat amount versus a percent changes what this number means.")] [SerializeField] private float secondStatChangeAmount;
-    [Tooltip("Leave duration at 0 if the effect is instant.")] [SerializeField] private float maxPowerupDuration;
-    [Tooltip("If true, the effects will stack on top of their duration being reset.")] [SerializeField] private bool isStackable;
-    [Tooltip("If true, the effect will never wear off.")] [SerializeField] private bool isPrimaryEffectPermanent;
-    [Tooltip("If true, the effect will never wear off.")] [SerializeField] private bool isSecondEffectPermanent;
-    [Tooltip("If it's not a percent change, the stat change is a flat amount.")] [SerializeField] private bool isPrimaryStatPercentChange;
-    [Tooltip("If it's not a percent change, the stat change is a flat amount.")] [SerializeField] private bool isSecondStatPercentChange;
-    [Tooltip("Force primary effect to always apply to the target.")] [SerializeField] private bool isPrimaryEffectAlwaysApplied;
-    [Tooltip("Force second effect to always apply to the target.")] [SerializeField] private bool isSecondEffectAlwaysApplied;
-
-    private Powerup powerup;
+    
+    [Tooltip("Create a new powerup prefab and provide it here.")] [SerializeField] private Powerup powerup;
 
     #endregion Variables
-
-    #region MonoBehaviours
-    private void Start()
-    {
-        powerup = new Powerup();
-        powerup.SetPrimaryEffect(primaryEffect);
-        powerup.SetSecondEffect(secondEffect);
-        powerup.SetPrimaryStatChangeAmount(primaryStatChangeAmount);
-        powerup.SetSecondStatChangeAmount(secondStatChangeAmount);
-        powerup.SetMaxPowerupDuration(maxPowerupDuration);
-        powerup.SetCurrentPowerupDuration(maxPowerupDuration);
-        powerup.SetIsStackable(isStackable);
-        powerup.SetIsPrimaryPermanent(isPrimaryEffectPermanent);
-        powerup.SetIsSecondPermanent(isSecondEffectPermanent);
-        powerup.SetIsPrimaryPercentChange(isPrimaryStatPercentChange);
-        powerup.SetIsSecondPercentChange(isSecondStatPercentChange);
-        powerup.SetIsPrimaryEffectAlwaysApplied(isPrimaryEffectAlwaysApplied);
-        powerup.SetIsSecondEffectAlwaysApplied(isSecondEffectAlwaysApplied);
-    }
-
-    #endregion MonoBehaviours
 
     #region PrimaryAction
     public override bool PrimaryAction(GameObject player)
     {
-        if (primaryEffect == PrimaryEffect.None)
+        if (powerup.GetPrimaryEffect() == PrimaryEffect.None)
         {
             // Do Nothing
             return false;
         }
-        else if (primaryEffect == PrimaryEffect.Health)
+        else if (powerup.GetPrimaryEffect() == PrimaryEffect.Health)
         {
             // Checks if object is not already at max health
             if (!player.GetComponent<Health>().IsCurrentValueAtMaxValue())
@@ -61,7 +28,7 @@ public class Consumable : InventoryItem
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
-            else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
+            else if (powerup.GetIsPrimaryEffectAlwaysApplied() || powerup.GetIsSecondEffectAlwaysApplied())
             {
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
@@ -71,14 +38,14 @@ public class Consumable : InventoryItem
                 return false;
             }
         }
-        else if (primaryEffect == PrimaryEffect.Hunger)
+        else if (powerup.GetPrimaryEffect() == PrimaryEffect.Hunger)
         {
             if (!player.GetComponent<Hunger>().IsCurrentValueAtMaxValue())
             {
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
-            else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
+            else if (powerup.GetIsPrimaryEffectAlwaysApplied() || powerup.GetIsSecondEffectAlwaysApplied())
             {
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
@@ -88,7 +55,7 @@ public class Consumable : InventoryItem
                 return false;
             }
         }
-        else if (primaryEffect == PrimaryEffect.Thirst)
+        else if (powerup.GetPrimaryEffect() == PrimaryEffect.Thirst)
         {
             // Checks if object is not already at max health
             if (!player.GetComponent<Thirst>().IsCurrentValueAtMaxValue())
@@ -97,7 +64,7 @@ public class Consumable : InventoryItem
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
-            else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
+            else if (powerup.GetIsPrimaryEffectAlwaysApplied() || powerup.GetIsSecondEffectAlwaysApplied())
             {
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
@@ -107,14 +74,14 @@ public class Consumable : InventoryItem
                 return false;
             }
         }
-        else if (primaryEffect == PrimaryEffect.Stamina)
+        else if (powerup.GetPrimaryEffect() == PrimaryEffect.Stamina)
         {
             if (!player.GetComponent<Stamina>().IsCurrentValueAtMaxValue())
             {
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
             }
-            else if (isPrimaryEffectAlwaysApplied || isSecondEffectAlwaysApplied)
+            else if (powerup.GetIsPrimaryEffectAlwaysApplied() || powerup.GetIsSecondEffectAlwaysApplied())
             {
                 player.GetComponent<PowerupManager>().Add(powerup);
                 return true;
@@ -124,7 +91,7 @@ public class Consumable : InventoryItem
                 return false;
             }
         }
-        else if (primaryEffect == PrimaryEffect.StaminaRegen)
+        else if (powerup.GetPrimaryEffect() == PrimaryEffect.StaminaRegen)
         {
             player.GetComponent<PowerupManager>().Add(powerup);
             return true;
