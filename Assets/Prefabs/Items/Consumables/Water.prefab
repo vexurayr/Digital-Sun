@@ -150,15 +150,4 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 90
   rotationInHandZ: 0
-  primaryEffect: 3
-  secondEffect: 0
-  primaryStatChangeAmount: 15
-  secondStatChangeAmount: 0
-  maxPowerupDuration: 0
-  isStackable: 0
-  isPrimaryEffectPermanent: 1
-  isSecondEffectPermanent: 0
-  isPrimaryStatPercentChange: 0
-  isSecondStatPercentChange: 0
-  isPrimaryEffectAlwaysApplied: 0
-  isSecondEffectAlwaysApplied: 0
+  powerup: {fileID: 7832075205278941582, guid: 93586daebe530024187ca4d0b3778537, type: 3}

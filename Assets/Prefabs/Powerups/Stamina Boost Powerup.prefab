@@ -46,7 +46,7 @@ MonoBehaviour:
   primaryEffect: 4
   secondEffect: 5
   primaryStatChangeAmount: 0.5
-  secondStatChangeAmount: 2
+  secondStatChangeAmount: 10
   maxPowerupDuration: 60
   isStackable: 0
   isPrimaryEffectPermanent: 1

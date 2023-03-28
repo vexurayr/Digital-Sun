@@ -69,18 +69,7 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 0
   rotationInHandZ: 0
-  primaryEffect: 2
-  secondEffect: 3
-  primaryStatChangeAmount: 25
-  secondStatChangeAmount: 5
-  maxPowerupDuration: 0
-  isStackable: 0
-  isPrimaryEffectPermanent: 1
-  isSecondEffectPermanent: 1
-  isPrimaryStatPercentChange: 0
-  isSecondStatPercentChange: 0
-  isPrimaryEffectAlwaysApplied: 0
-  isSecondEffectAlwaysApplied: 0
+  powerup: {fileID: 8372859131683887786, guid: c1ce1b706c8c9194cba17a9e9aa6c63f, type: 3}
 --- !u!1 &8873545563881288852
 GameObject:
   m_ObjectHideFlags: 0

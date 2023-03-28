@@ -70,18 +70,7 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 0
   rotationInHandZ: 0
-  primaryEffect: 2
-  secondEffect: 1
-  primaryStatChangeAmount: 10
-  secondStatChangeAmount: -0.01
-  maxPowerupDuration: 0
-  isStackable: 0
-  isPrimaryEffectPermanent: 1
-  isSecondEffectPermanent: 1
-  isPrimaryStatPercentChange: 0
-  isSecondStatPercentChange: 1
-  isPrimaryEffectAlwaysApplied: 0
-  isSecondEffectAlwaysApplied: 0
+  powerup: {fileID: 2170254445529403826, guid: f26f27493cc5b8b48bf039f70e0fae87, type: 3}
 --- !u!114 &6899302978167407157
 MonoBehaviour:
   m_ObjectHideFlags: 0
