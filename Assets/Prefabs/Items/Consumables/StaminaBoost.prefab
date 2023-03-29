@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 7140448938702028141}
   - component: {fileID: 1395908859388813191}
+  - component: {fileID: 1927086936796891773}
   m_Layer: 0
   m_Name: StaminaBoost
   m_TagString: Untagged
@@ -151,3 +152,24 @@ MonoBehaviour:
   rotationInHandY: 90
   rotationInHandZ: 0
   powerup: {fileID: 3254680571256628179, guid: b67462fe9d643ac4ba6d564b0ebeff4b, type: 3}
+  animationPrimaryTriggerName: Use
+  animationSpeed: 1
+--- !u!95 &1927086936796891773
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6698066347075909765}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf00fd603668ce34b99d4f266c9a7b50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6406594853542792104}
   - component: {fileID: 9147091384146610542}
   - component: {fileID: 6899302978167407157}
+  - component: {fileID: 6105845522239038770}
   m_Layer: 0
   m_Name: UncookedMeat
   m_TagString: Untagged
@@ -71,6 +72,8 @@ MonoBehaviour:
   rotationInHandY: 0
   rotationInHandZ: 0
   powerup: {fileID: 2170254445529403826, guid: f26f27493cc5b8b48bf039f70e0fae87, type: 3}
+  animationPrimaryTriggerName: Use
+  animationSpeed: 1
 --- !u!114 &6899302978167407157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,6 +87,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   classification: 2
+--- !u!95 &6105845522239038770
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499167627189174359}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf00fd603668ce34b99d4f266c9a7b50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8873545563881288852
 GameObject:
   m_ObjectHideFlags: 0

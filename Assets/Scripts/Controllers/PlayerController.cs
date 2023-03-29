@@ -702,7 +702,7 @@ public class PlayerController : MonoBehaviour
             // Use the inventory item's primary action
             if (invItem.GetItemType() == InventoryItem.ItemType.Consumable)
             {
-                wasConsumed = invItem.PrimaryAction(this.gameObject);
+                wasConsumed = playerInventory.GetActivePlayerItem().GetComponent<Consumable>().PrimaryActionWithAnimation(this.gameObject);
                 int itemCount = invItem.GetItemCount();
 
                 if (wasConsumed == false)

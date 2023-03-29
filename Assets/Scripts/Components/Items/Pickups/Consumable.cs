@@ -26,14 +26,15 @@ public class Consumable : InventoryItem
     #endregion MonoBehaviours
 
     #region PrimaryAction
-    public override bool PrimaryAction(GameObject player, InventoryItem emptyItem)
+    // This will act as performing the action with an animation
+    public bool PrimaryActionWithAnimation(GameObject player)
     {
         if (powerup.GetPrimaryEffect() == PrimaryEffect.None)
         {
             // Do Nothing
             return false;
         }
-
+        
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1 && !animator.IsInTransition(0))
         {
             if (powerup.GetPrimaryEffect() == PrimaryEffect.Health)

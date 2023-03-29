@@ -152,6 +152,8 @@ MonoBehaviour:
   rotationInHandY: 90
   rotationInHandZ: 0
   powerup: {fileID: 4995217752367377673, guid: dd432483b4aa7a34abad8ddeab5f5ad4, type: 3}
+  animationPrimaryTriggerName: Use
+  animationSpeed: 1
 --- !u!95 &6231271992353819286
 Animator:
   serializedVersion: 3
