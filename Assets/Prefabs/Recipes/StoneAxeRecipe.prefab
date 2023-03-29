@@ -45,8 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeName: 11
   requiredItems:
-  - {fileID: 4886127773041000980, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
+  - {fileID: 6730088782378839336, guid: de1d47d2ee385104086540c3fef487a6, type: 3}
   - {fileID: 6306669123841676038, guid: 2e17799e546f67d4fb13dd853ce2fb5a, type: 3}
-  requiredItemCounts: 0100000002000000
+  - {fileID: 6399851417700859847, guid: 3d074e6171e2f224b8e378878cfdb133, type: 3}
+  requiredItemCounts: 010000000200000001000000
   itemOutput: {fileID: 6537479424598553769, guid: f1bcbd55fb9ad9d46aeced9a18e5a09a, type: 3}
   itemCountOutput: 1
