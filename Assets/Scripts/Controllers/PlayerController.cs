@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
 
     private InventoryUI inventoryUI;
     private SurvivalUI survivalUI;
+    private GameObject basicCraftingUI;
     private Health health;
     private Stamina stamina;
     private Hunger hunger;
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
 
         inventoryUI = GetComponent<PlayerInventory>().GetInventoryUI();
         survivalUI = inventoryUI.GetSurvivalUI();
+        basicCraftingUI = inventoryUI.GetBasicCraftingUI();
         health = GetComponent<Health>();
         stamina = GetComponent<Stamina>();
         hunger = GetComponent<Hunger>();
@@ -540,6 +542,7 @@ public class PlayerController : MonoBehaviour
 
             inventoryUI.GetInvItemDiscardUI().SetActive(true);
             survivalUI.gameObject.SetActive(true);
+            basicCraftingUI.SetActive(true);
 
             UseMouseToNavigate();
         }
@@ -566,6 +569,7 @@ public class PlayerController : MonoBehaviour
 
             inventoryUI.GetInvItemDiscardUI().SetActive(false);
             survivalUI.gameObject.SetActive(false);
+            basicCraftingUI.SetActive(false);
 
             if (lastOpenedCraftBench != null)
             {

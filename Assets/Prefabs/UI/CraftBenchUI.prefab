@@ -4548,9 +4548,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Cost:
 
-    4 Wood
+    10 Sticks
 
-    4 Sticks'
+    4 Rope'
 --- !u!1 &5507514734073198936
 GameObject:
   m_ObjectHideFlags: 0
