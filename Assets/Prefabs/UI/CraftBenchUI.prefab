@@ -197,7 +197,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2631388026833559307}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftBandage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8156096930259566205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +503,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1031962627692972816}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftOven
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1674883939102843214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,7 +810,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6385314217126676542}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftWoodenLeggings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6110921797608717359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,12 +1111,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recipes:
+  - {fileID: 4201893647009906157, guid: 1a07a23df18ef6a46bad1f6d2bcc41bc, type: 3}
+  - {fileID: 1066108659979955142, guid: 4e850cec6b844654d9e8af2bfc98edd5, type: 3}
+  - {fileID: 828299544452852291, guid: 23c9dc45c9ea0b2408eaf26dc010f4bc, type: 3}
+  - {fileID: 5231945666178200100, guid: 18c8b2ffee760e24d8c85c9bcfa3e89c, type: 3}
+  - {fileID: 1233267892395060716, guid: ab21fc1378b4b634ab619fac316f8feb, type: 3}
+  - {fileID: 4500444619687570012, guid: 3961d5151628cd24caaca98ed84a3d39, type: 3}
+  - {fileID: 4247242595497623063, guid: 7bb27b910c96c9945bd25086ae661a8c, type: 3}
   - {fileID: 5565410986209553919, guid: f429cb765e70fc149a20f7fbfd77ed3b, type: 3}
   - {fileID: 7316409454639847294, guid: 9ac82ad82dbb99644824eec5c432b220, type: 3}
-  - {fileID: 1708293756095680716, guid: ee825c1bb6614c94aa88eec7bb8b8208, type: 3}
-  - {fileID: 828299544452852291, guid: 23c9dc45c9ea0b2408eaf26dc010f4bc, type: 3}
   - {fileID: 4358999470978487015, guid: 8f8cc265744456e4ca7dc308b08cb93f, type: 3}
   - {fileID: 5444096197691004468, guid: bf79df656e545b44a9763bd86da99d50, type: 3}
+  - {fileID: 1708293756095680716, guid: ee825c1bb6614c94aa88eec7bb8b8208, type: 3}
+  - {fileID: 8579666358366016460, guid: 5a3664a4b3fa90f42ab27060d9e8a1b7, type: 3}
   emptyRecipe: {fileID: 1708293756095680716, guid: 70f2dfb29cc9d9e4eae5f831d67a4ae2, type: 3}
 --- !u!1 &1523214719565227382
 GameObject:
@@ -1523,7 +1566,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1601941591713150306}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftStoneAxe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2658492239166371742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1739,7 +1794,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5950198918676207914}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftCanteen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2407267960273373322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,7 +1941,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8870141706845316186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftWoodSpear
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3330468602520427725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2325,7 +2404,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2682569650657935668}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftCraftBench
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3231228770062056545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3726,7 +3817,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4865624189631711595}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftWoodenChestplate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3210008440294326393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4258,7 +4361,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8183414606958389692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftStick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5745833717099219795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4790,7 +4905,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2029874230575031012}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftStonePickaxe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2553019494635465816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5593,7 +5720,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7589508976773522647}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftStaminaBoost
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4032455468238238141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5728,7 +5867,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7303079181167792016}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftClothBandana
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8319655296422414025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6324,7 +6475,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7945468406122162010}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2685832722296687752}
+        m_TargetAssemblyTypeName: CraftBenchUI, Assembly-CSharp
+        m_MethodName: CraftRope
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6846968419664753477
 MonoBehaviour:
   m_ObjectHideFlags: 0

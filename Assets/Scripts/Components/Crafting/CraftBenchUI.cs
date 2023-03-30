@@ -27,6 +27,41 @@ public class CraftBenchUI : MonoBehaviour
         this.player = player;
     }
 
+    public void CraftStick()
+    {
+        CraftItem(InventoryItem.Item.Stick);
+    }
+
+    public void CraftRope()
+    {
+        CraftItem(InventoryItem.Item.Rope);
+    }
+
+    public void CraftBandage()
+    {
+        CraftItem(InventoryItem.Item.Bandage);
+    }
+
+    public void CraftStaminaBoost()
+    {
+        CraftItem(InventoryItem.Item.Stamina_Boost);
+    }
+
+    public void CraftCraftBench()
+    {
+        CraftItem(InventoryItem.Item.Craft_Bench);
+    }
+
+    public void CraftOven()
+    {
+        CraftItem(InventoryItem.Item.Oven);
+    }
+
+    public void CraftCanteen()
+    {
+        CraftItem(InventoryItem.Item.Canteen);
+    }
+
     public void CraftWoodSpear()
     {
         CraftItem(InventoryItem.Item.Wood_Spear);
@@ -85,9 +120,11 @@ public class CraftBenchUI : MonoBehaviour
             if (player.HasSameItemOfNonMaxStackSize(targetRecipe.GetItemOutput()).GetItem() != emptyRecipe.GetRecipeName())
             {
                 // In this case the play has room for that specific item
+                Debug.Log("Player has room to make more of this item");
             }
             else
             {
+                Debug.Log("Player does not have room to make more of this item");
                 return;
             }
         }
@@ -101,6 +138,7 @@ public class CraftBenchUI : MonoBehaviour
 
             if (!isSuccessful)
             {
+                Debug.Log("Player is missing an item for this recipe");
                 return;
             }
         }
@@ -108,10 +146,12 @@ public class CraftBenchUI : MonoBehaviour
         // The player has enough resources
         foreach (InventoryItem itemRequired in targetRecipe.GetRequiredItems())
         {
+            Debug.Log("Player has the required items, removing them");
             player.RemoveItemFromInventory(itemRequired);
         }
 
         // Give the player the item
+        Debug.Log("Player is gaining the item from the recipe");
         targetRecipe.SetItemOutputRequiredCount();
         player.AddToInventory(targetRecipe.GetItemOutput());
         player.RefreshInventoryVisuals();

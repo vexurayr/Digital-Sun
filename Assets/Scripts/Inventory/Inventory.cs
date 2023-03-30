@@ -29,6 +29,13 @@ public class Inventory : MonoBehaviour
         InitializeInventory();
     }
 
+    public void Update()
+    {
+        int i = 1;
+
+        Debug.Log("InvItem: " + invItemList[i].GetItem() + "\nInvItem Count: " + invItemList[i].GetItemCount());
+    }
+
     #endregion MonoBehaviours
 
     #region GetSet
@@ -73,7 +80,7 @@ public class Inventory : MonoBehaviour
         {
             return;
         }
-
+        
         if (newItem.GetItemType() == InventoryItem.ItemType.Resource || newItem.GetItemType() == InventoryItem.ItemType.Consumable)
         {
             // Check if incoming item can be added to an existing stack
@@ -86,13 +93,17 @@ public class Inventory : MonoBehaviour
                     int invCurrenSize = invItemList[i].GetItemCount();
                     int amountToAdd = newItem.GetItemCount();
                     int newAmount = invCurrenSize + amountToAdd;
+                    Debug.Log("HASH CODE: " + invItemList[i].GetHashCode() + "\nInvMaxSize: " + invMaxSize + "\nInvCurrentSize: " + invCurrenSize + "\nAmountToAdd: " + amountToAdd);
 
                     // Skip slots that are already at capacity
                     if (invCurrenSize == invMaxSize)
-                    {}
+                    {
+                        Debug.Log("Inv slot at capacity");
+                    }
                     // Adding this will exceed max stack size, will add remainder to different stack or slot
                     else if (newAmount > invMaxSize)
                     {
+                        Debug.Log("Add to this inv slot, add remainder to different inv slot");
                         int remainder = newAmount - invMaxSize;
                         invItemList[i].SetItemCount(invMaxSize);
                         newItem.SetItemCount(remainder);
@@ -100,7 +111,9 @@ public class Inventory : MonoBehaviour
                     // Whole stack can fit in this slot
                     else
                     {
+                        Debug.Log("Everything fits in this inv slot. NewAmount: " + newAmount);
                         invItemList[i].SetItemCount(newAmount);
+                        Debug.Log("HASH CODE: " + invItemList[i].GetHashCode() + "\nNew item count: " + invItemList[i].GetItemCount());
                         return;
                     }
                 }
@@ -112,6 +125,7 @@ public class Inventory : MonoBehaviour
         {
             if (invItemList[i].GetItemType() == InventoryItem.ItemType.Empty)
             {
+                Debug.Log("Putting incoming item in new inv slot");
                 invItemList[i] = newItem;
                 // Break out of the loop
                 i = invItemList.Count;
@@ -121,8 +135,12 @@ public class Inventory : MonoBehaviour
 
     public virtual void AddToInventory(GameObject newObj)
     {
-        InventoryItem newItem = newObj.GetComponent<InventoryItem>();
-        AddToInventory(newItem);
+        if (newObj.GetComponent<InventoryItem>() != null)
+        {
+            Debug.Log("Incoming game object has inventory item component");
+            InventoryItem newItem = newObj.GetComponent<InventoryItem>();
+            AddToInventory(newItem);
+        }
     }
 
     #endregion AddItemToInventory
