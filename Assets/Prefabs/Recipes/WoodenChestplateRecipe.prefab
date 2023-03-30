@@ -46,6 +46,7 @@ MonoBehaviour:
   recipeName: 8
   requiredItems:
   - {fileID: 4886127773041000980, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
-  requiredItemCounts: 06000000
+  - {fileID: 6399851417700859847, guid: 3d074e6171e2f224b8e378878cfdb133, type: 3}
+  requiredItemCounts: 0600000004000000
   itemOutput: {fileID: 1855701510136485319, guid: 597abf8511473a740aa3f8cf4a438de7, type: 3}
   itemCountOutput: 1
