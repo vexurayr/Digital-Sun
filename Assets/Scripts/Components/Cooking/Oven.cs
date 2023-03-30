@@ -33,9 +33,6 @@ public class Oven : InventoryItem
 
     public void Update()
     {
-        Debug.Log("FuelInput: " + fuelInput.GetItem() + ", ConvertInput: " + convertInput.GetItem() + ", Output: " + output.GetItem() +
-            "\ntimeRemaining: " + timeRemaining);
-
         // Nothing to convert or no fuel
         if (convertInput.GetItem() == Item.None || fuelInput.GetItem() == Item.None)
         {

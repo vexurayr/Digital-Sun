@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text worldToolTipUI;
     [SerializeField] private Text inventoryToolTipUI;
     [SerializeField] private OvenUI ovenUI;
+    [SerializeField] private GameObject menuUI;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float mouseSensitivityX;
     [SerializeField] private float mouseSensitivityY;
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private bool isMovementLocked = false;
     private bool isCameraMovementLocked = false;
     private bool isInventoryActive = false;
+    private bool areInputsRegistered = true;
 
     private bool isCursorLocked = true;
     private float cameraPitch = 0.0f;
@@ -111,17 +113,21 @@ public class PlayerController : MonoBehaviour
         {
             UpdateMovement();
         }
-        if (isInventoryActive)
+        if (isInventoryActive && areInputsRegistered)
         {
             RefreshSurvivalUI();
             UpdateInventoryInteractions();
         }
-        else
+        else if (!isInventoryActive && areInputsRegistered)
         {
             UpdateHotbarInteractions();
         }
-        CheckForPickups();
-        CheckOtherInputs();
+        if (areInputsRegistered)
+        {
+            RefreshHealthAndStaminaUI();
+            CheckForPickups();
+            CheckOtherInputs();
+        }
     }
 
     #endregion MonoBehaviours
@@ -278,7 +284,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(escapeKey))
         {
-            LevelLoader.instance.LoadMainMenu();
+            ToggleMenuUI();
         }
     }
 
@@ -535,10 +541,7 @@ public class PlayerController : MonoBehaviour
             inventoryUI.GetInvItemDiscardUI().SetActive(true);
             survivalUI.gameObject.SetActive(true);
 
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-            isCameraMovementLocked = true;
+            UseMouseToNavigate();
         }
         else
         {
@@ -576,10 +579,7 @@ public class PlayerController : MonoBehaviour
                 ToggleOvenUI();
             }
 
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            isCameraMovementLocked = false;
+            UseMouseToObserve();
         }    
     }
 
@@ -766,10 +766,10 @@ public class PlayerController : MonoBehaviour
     {
         PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
         pointerEventData.position = Input.mousePosition;
-
+        
         List<RaycastResult> raycastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(pointerEventData, raycastResults);
-
+        
         for (int i = 0; i < raycastResults.Count; i++)
         {
             if (raycastResults[i].gameObject.GetComponent<IndexValue>() != null)
@@ -819,10 +819,14 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void RefreshSurvivalUI()
+    public void RefreshHealthAndStaminaUI()
     {
         survivalUI.RefreshHealthUI(health.GetCurrentValue(), health.GetMaxValue());
         survivalUI.RefreshStaminaUI(stamina.GetCurrentValue(), stamina.GetMaxValue());
+    }
+
+    public void RefreshSurvivalUI()
+    {
         survivalUI.RefreshHungerUI(hunger.GetCurrentValue(), hunger.GetMaxValue());
         survivalUI.RefreshThirstUI(thirst.GetCurrentValue(), thirst.GetMaxValue());
         survivalUI.RefreshTimeOfDayUI(EcoManager.instance.GetCurrentHour(), EcoManager.instance.GetCurrentMinute());
@@ -859,4 +863,56 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion GetSet
+
+    #region MenuUIFunctions
+    public void ToggleMenuUI()
+    {
+        if (menuUI.activeInHierarchy)
+        {
+            if (!isInventoryActive)
+            {
+                UseMouseToObserve();
+            }
+            
+            menuUI.SetActive(false);
+            Time.timeScale = 1.0f;
+
+            areInputsRegistered = true;
+        }
+        else
+        {
+            areInputsRegistered = false;
+            UseMouseToNavigate();
+            menuUI.SetActive(true);
+            Time.timeScale = 0.0f;
+        }
+    }
+
+    public void ExitToMainMenu()
+    {
+        Time.timeScale = 1.0f;
+
+        LevelLoader.instance.LoadMainMenu();
+    }
+
+    #endregion MenuUIFunctions
+
+    #region HelperFunctions
+    public void UseMouseToNavigate()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        isCameraMovementLocked = true;
+    }
+
+    public void UseMouseToObserve()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        isCameraMovementLocked = false;
+    }
+
+    #endregion HelperFunctions
 }
