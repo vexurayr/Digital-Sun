@@ -34,4 +34,17 @@ public class InvItemManager : MonoBehaviour
 
         return null;
     }
+
+    public GameObject GetPrefabForItem(InventoryItem.Item item)
+    {
+        foreach (GameObject obj in invItemPrefabs)
+        {
+            if (obj.GetComponent<InventoryItem>().GetItem() == item)
+            {
+                return obj;
+            }
+        }
+
+        return null;
+    }
 }

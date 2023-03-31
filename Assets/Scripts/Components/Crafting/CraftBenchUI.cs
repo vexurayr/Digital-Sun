@@ -119,7 +119,7 @@ public class CraftBenchUI : MonoBehaviour
             return;
         }
 
-        //targetRecipe.SetItemsRequiredCount();
+        targetRecipe.SetItemsRequiredCount();
 
         // Bail right away if the player doesn't have enough space
         if (player.IsInventoryFull())
@@ -158,7 +158,7 @@ public class CraftBenchUI : MonoBehaviour
         }
 
         // Give the player the item
-        //targetRecipe.SetItemOutputRequiredCount();
+        targetRecipe.SetItemOutputRequiredCount();
         player.AddToInventory(targetRecipe.GetItemOutput());
         player.RefreshInventoryVisuals();
     }
