@@ -7,15 +7,15 @@ public class Recipe : MonoBehaviour
     [SerializeField] private InventoryItem.Item recipeName;
     [SerializeField] private List<InventoryItem> requiredItems;
     [SerializeField] private List<int> requiredItemCounts;
-    [SerializeField] private InventoryItem itemToCreate;
+    [SerializeField] private InventoryItem itemOutput;
     [SerializeField] private int itemCountOutput;
 
-    private InventoryItem itemOutput;
+    //private InventoryItem itemOutput;
 
     private void Start()
     {
         Debug.Log("ANything");
-        itemOutput = itemToCreate;
+        //itemOutput = itemToCreate;
     }
 
     private void Update()

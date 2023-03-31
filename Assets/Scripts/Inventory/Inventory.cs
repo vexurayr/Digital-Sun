@@ -73,7 +73,9 @@ public class Inventory : MonoBehaviour
         {
             return;
         }
-        
+
+        Debug.Log("Hash code of newItem: " + newItem.GetHashCode());
+
         if (newItem.GetItemType() == InventoryItem.ItemType.Resource || newItem.GetItemType() == InventoryItem.ItemType.Consumable)
         {
             // Check if incoming item can be added to an existing stack
@@ -100,6 +102,7 @@ public class Inventory : MonoBehaviour
                     // Whole stack can fit in this slot
                     else
                     {
+                        Debug.Log("Hash code of invItemList[i]: " + invItemList[i].GetHashCode());
                         invItemList[i].SetItemCount(newAmount);
                         return;
                     }
@@ -113,6 +116,7 @@ public class Inventory : MonoBehaviour
             if (invItemList[i].GetItemType() == InventoryItem.ItemType.Empty)
             {
                 invItemList[i] = newItem;
+                Debug.Log("Hash code of invItemList[i]: " + invItemList[i].GetHashCode());
                 // Break out of the loop
                 i = invItemList.Count;
             }

@@ -47,5 +47,5 @@ MonoBehaviour:
   requiredItems:
   - {fileID: 4886127773041000980, guid: 56198cbea8d5cc44a80b8a1e4adcab04, type: 3}
   requiredItemCounts: 
-  itemToCreate: {fileID: 6730088782378839336, guid: 4967489e438af0746aaa364eb3a29b4c, type: 3}
+  itemOutput: {fileID: 6730088782378839336, guid: 4967489e438af0746aaa364eb3a29b4c, type: 3}
   itemCountOutput: 2
