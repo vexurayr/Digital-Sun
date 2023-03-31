@@ -9,6 +9,14 @@ public class CraftBenchUI : MonoBehaviour
 
     private PlayerInventory player;
 
+    public void Start()
+    {
+        if (GetComponentInParent<PlayerInventory>() != null)
+        {
+            player = GetComponentInParent<PlayerInventory>();
+        }
+    }
+
     public Recipe GetRecipe(InventoryItem.Item recipeName)
     { 
         foreach (Recipe recipe in recipes)
@@ -111,7 +119,7 @@ public class CraftBenchUI : MonoBehaviour
             return;
         }
 
-        targetRecipe.SetItemsRequiredCount();
+        //targetRecipe.SetItemsRequiredCount();
 
         // Bail right away if the player doesn't have enough space
         if (player.IsInventoryFull())
@@ -146,13 +154,11 @@ public class CraftBenchUI : MonoBehaviour
         // The player has enough resources
         foreach (InventoryItem itemRequired in targetRecipe.GetRequiredItems())
         {
-            Debug.Log("Player has the required items, removing them");
             player.RemoveItemFromInventory(itemRequired);
         }
 
         // Give the player the item
-        Debug.Log("Player is gaining the item from the recipe");
-        targetRecipe.SetItemOutputRequiredCount();
+        //targetRecipe.SetItemOutputRequiredCount();
         player.AddToInventory(targetRecipe.GetItemOutput());
         player.RefreshInventoryVisuals();
     }

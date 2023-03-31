@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeName: 15
   requiredItems:
-  - {fileID: 4886127773041000980, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
-  requiredItemCounts: 01000000
-  itemOutput: {fileID: 6730088782378839336, guid: de1d47d2ee385104086540c3fef487a6, type: 3}
+  - {fileID: 4886127773041000980, guid: 56198cbea8d5cc44a80b8a1e4adcab04, type: 3}
+  requiredItemCounts: 
+  itemToCreate: {fileID: 6730088782378839336, guid: 4967489e438af0746aaa364eb3a29b4c, type: 3}
   itemCountOutput: 2
