@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    #region Variables
+    public static AudioManager instance { get; private set; }
 
     // Audio is at times buggy
-    public Sound[] sounds;
+    [SerializeField] private Sound[] sounds;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     private void Awake()
     {
         // Singleton
@@ -26,21 +30,24 @@ public class AudioManager : MonoBehaviour
         foreach (Sound sound in sounds)
         {
             GameObject audioSource = new GameObject();
-            audioSource.name = sound.audioName;
+            audioSource.name = sound.GetAudioName();
             audioSource.transform.parent = transform;
 
-            sound.source = audioSource.AddComponent<AudioSource>();
-            sound.source.clip = sound.clip;
+            sound.SetAudioSource(audioSource.AddComponent<AudioSource>());
+            sound.GetAudioSource().clip = sound.GetAudioClip();
 
-            sound.source.mute = sound.isAudioMuted;
-            sound.source.volume = sound.volume;
-            sound.source.pitch = sound.pitch;
-            sound.source.spatialBlend = sound.spacialBlend;
-            sound.source.loop = sound.isLooping;
-            sound.source.outputAudioMixerGroup = sound.mixerGroup;
+            sound.GetAudioSource().mute = sound.GetIsAudioMuted();
+            sound.GetAudioSource().volume = sound.GetVolume();
+            sound.GetAudioSource().pitch = sound.GetPitch();
+            sound.GetAudioSource().spatialBlend = sound.GetSpacialBlend();
+            sound.GetAudioSource().loop = sound.GetIsLooping();
+            sound.GetAudioSource().outputAudioMixerGroup = sound.GetAudioMixerGroup();
         }
     }
 
+    #endregion MonoBehaviours
+
+    #region PlaySounds
     public void PlayButtonSound()
     {
         PlaySound2D("Button Press");
@@ -48,12 +55,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound2D(string audioName)
     {
-        Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
 
         try
         {
-            Debug.Log("Audio Mixer: " + sound.mixerGroup + "\nVolume: " + sound.volume);
-            AudioSource.PlayClipAtPoint(sound.clip, Vector3.zero);
+            sound.GetAudioSource().Play();
         }
         catch (Exception)
         { }
@@ -61,18 +67,18 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound3D(string audioName, Transform soundTransform)
     {
-        Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
         
         try
         {
-            if (sound.source.loop)
+            if (sound.GetAudioSource().loop)
             {
                 PlayLoopingSound(audioName, soundTransform);
             }
             else
             {
                 // Without updating the transform, every source in 3D space would be (0, 0, 0)
-                AudioSource.PlayClipAtPoint(sound.clip, soundTransform.position);
+                AudioSource.PlayClipAtPoint(sound.GetAudioClip(), soundTransform.position);
             }
         }
         catch (Exception)
@@ -81,41 +87,47 @@ public class AudioManager : MonoBehaviour
 
     public void PlayLoopingSound(string audioName, Transform soundTransform)
     {
-        Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
 
         try
         {
-            sound.source.transform.position = soundTransform.position;
+            sound.GetAudioSource().transform.position = soundTransform.position;
 
             if (!IsSoundAlreadyPlaying(audioName))
             {
-                sound.source.Play();
+                sound.GetAudioSource().Play();
             }
         }
         catch (Exception)
         {}
     }
 
+    #endregion PlaySounds
+
+    #region StopSounds
     public void StopSound(string audioName)
     {
-        Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
 
         try
         {
-            sound.source.Stop();
+            sound.GetAudioSource().Stop();
         }
         catch (Exception)
         {}
     }
 
+    #endregion StopSounds
+
+    #region HelperFunctions
     // To handle looping sounds
     public bool IsSoundAlreadyPlaying(string audioName)
     {
-        Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
 
         try
         {
-            return sound.source.isPlaying;
+            return sound.GetAudioSource().isPlaying;
         }
         catch (Exception)
         {
@@ -125,16 +137,18 @@ public class AudioManager : MonoBehaviour
 
     public void StopSoundIfItsPlaying(string audioName)
     {
-        Sound sound = Array.Find(sounds, sound => sound.audioName == audioName);
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
 
         try
         {
             if (IsSoundAlreadyPlaying(audioName))
             {
-                sound.source.Stop();
+                sound.GetAudioSource().Stop();
             }
         }
         catch (Exception)
         {}
     }
+
+    #endregion HelperFunctions
 }

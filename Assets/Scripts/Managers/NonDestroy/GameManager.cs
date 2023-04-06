@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    #region Variables
     public static GameManager instance { get; private set; }
+
+    [SerializeField] private PlayerController currentPlayerController;
+
+    #endregion Variables
+
+    #region MonoBehaviours
 
     private void Awake()
     {
@@ -24,4 +31,19 @@ public class GameManager : MonoBehaviour
     {
         
     }
+
+    #endregion MonoBehaviours
+
+    #region GetSet
+    public PlayerController GetCurrentPlayerController()
+    {
+        return currentPlayerController;
+    }
+
+    public void SetCurrentPlayerController(PlayerController newController)
+    {
+        currentPlayerController = newController;
+    }
+
+    #endregion GetSet
 }

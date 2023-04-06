@@ -5,18 +5,22 @@ using UnityEngine.Audio;
 
 public class SettingsManager : MonoBehaviour, IDataPersistence
 {
+    #region Variables
     public static SettingsManager instance { get; private set; }
 
-    public float masterVolumeLevel;
-    public float musicVolumeLevel;
-    public float sFXVolumeLevel;
+    [SerializeField] private float masterVolumeLevel;
+    [SerializeField] private float musicVolumeLevel;
+    [SerializeField] private float sFXVolumeLevel;
 
-    public float masterSliderValue;
-    public float musicSliderValue;
-    public float sFXSliderValue;
+    [SerializeField] private float masterSliderValue;
+    [SerializeField] private float musicSliderValue;
+    [SerializeField] private float sFXSliderValue;
 
-    public AudioMixer mixer;
+    [SerializeField] private AudioMixer mixer;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     private void Awake()
     {
         // Singleton
@@ -31,6 +35,9 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
         }
     }
 
+    #endregion MonoBehaviours
+
+    #region GetSet
     // Allows these functions to work with both versions of the sliders
     public void SetMasterVolumeLevel(float sliderValue)
     {
@@ -109,6 +116,9 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
         return sFXSliderValue;
     }
 
+    #endregion GetSet
+
+    #region DataPersistence
     public void LoadData(GameData data)
     {
         this.masterVolumeLevel = data.masterVolumeLevel;
@@ -128,4 +138,6 @@ public class SettingsManager : MonoBehaviour, IDataPersistence
         data.musicSliderValue = this.musicSliderValue;
         data.sFXSliderValue = this.sFXSliderValue;
     }
+
+    #endregion DataPersistence
 }

@@ -6,28 +6,29 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    public static MenuManager instance;
+    #region Variables
+    public static MenuManager instance { get; private set; }
+
+    [SerializeField] private string mainMenuName;
+    [SerializeField] private string forestLevelName;
 
     // For in game menu
-    public GameObject inGameSettingsMenu;
-    public Slider inGameMasterVolumeLevel;
-    public Slider inGameMusicVolumeLevel;
-    public Slider inGameSFXVolumeLevel;
-    public GameObject deathScreen;
-    public Text deathText;
-    public Text finalBugsText;
-    public Text finalBugsNumber;
+    [SerializeField] private GameObject inGameSettingsMenu;
+    [SerializeField] private Slider inGameMasterVolumeLevel;
+    [SerializeField] private Slider inGameMusicVolumeLevel;
+    [SerializeField] private Slider inGameSFXVolumeLevel;
+    [SerializeField] private GameObject deathScreen;
+    [SerializeField] private Text finalBugsNumber;
 
     // For start screen menu
-    public GameObject startScreenBackground;
-    public GameObject gameNameText;
-    public GameObject mainMenu;
-    public Slider startScreenMasterVolumeLevel;
-    public Slider startScreenMusicVolumeLevel;
-    public Slider startScreenSFXVolumeLevel;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private Slider startScreenMasterVolumeLevel;
+    [SerializeField] private Slider startScreenMusicVolumeLevel;
+    [SerializeField] private Slider startScreenSFXVolumeLevel;
 
-    private bool isSettingsMenuActive;
+    #endregion Variables
 
+    #region MonoBehaviours
     private void Awake()
     {
         // Singleton
@@ -48,30 +49,47 @@ public class MenuManager : MonoBehaviour
         {
             UpdateAllAudioSliderValues();
         }
-
-        if (instance.startScreenBackground.activeInHierarchy == true)
-        {
-            PlayMainMenuMusic();
-        }
-        else if (instance.startScreenBackground.activeInHierarchy == false)
-        {
-            PlayBackgroundMusic();
-        }
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.activeInHierarchy && !deathScreen.activeInHierarchy)
         {
             ToggleInGameSettingsMenu();
         }
     }
 
-    public void PlayGame()
-    {
-        SceneManager.LoadScene("RandomMapTesting");
+    #endregion MonoBehaviours
 
+    #region LoadScenes
+    public void LoadForestScene()
+    {
+        Time.timeScale = 1.0f;
+
+        HideCursor();
+
+        inGameSettingsMenu.SetActive(false);
         deathScreen.SetActive(false);
+        mainMenu.SetActive(false);
+
+        SceneManager.LoadScene(forestLevelName);
+
+        UpdateAllAudioSliderValues();
+    }
+
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1.0f;
+
+        ShowCursor();
+
+        inGameSettingsMenu.SetActive(false);
+        deathScreen.SetActive(false);
+        mainMenu.SetActive(true);
+
+        SceneManager.LoadScene(mainMenuName);
+
+        UpdateAllAudioSliderValues();
     }
 
     public void QuitGame()
@@ -79,38 +97,53 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
+    #endregion LoadScenes
+
+    #region ChangeMenus
     public void ToggleInGameSettingsMenu()
     {
-        // Pressing ESC won't bring this menu up in the main menu or if the player has just died
-        if (startScreenBackground.activeInHierarchy || deathScreen.activeInHierarchy)
-        {
-            return;
-        }
-
         ToggleGamePaused();
 
         UpdateAllAudioSliderValues();
 
         // The settings menu is currently visible
-        if (isSettingsMenuActive)
+        if (inGameSettingsMenu.activeInHierarchy)
         {
-            isSettingsMenuActive = false;
-
             inGameSettingsMenu.SetActive(false);
 
-            HideCursor();
+            if (!GameManager.instance.GetCurrentPlayerController().GetIsInventoryActive())
+            {
+                GameManager.instance.GetCurrentPlayerController().UseMouseToObserve();
+            }
+
+            GameManager.instance.GetCurrentPlayerController().SetAreInputsRegistered(true);
         }
         // The settings menu is currently not visible
         else
         {
-            isSettingsMenuActive = true;
+            GameManager.instance.GetCurrentPlayerController().SetAreInputsRegistered(false);
 
             inGameSettingsMenu.SetActive(true);
 
-            ShowCursor();
+            GameManager.instance.GetCurrentPlayerController().UseMouseToNavigate();
         }
     }
 
+    public void ShowDeathScreen()
+    {
+        ShowCursor();
+
+        deathScreen.SetActive(true);
+    }
+
+    public void HideDeathScreen()
+    {
+        deathScreen.SetActive(false);
+    }
+
+    #endregion ChangeMenus
+
+    #region RefreshValues
     public void UpdateAllAudioSliderValues()
     {
         startScreenMasterVolumeLevel.value = SettingsManager.instance.GetMasterVolumeSliderValue();
@@ -122,6 +155,9 @@ public class MenuManager : MonoBehaviour
         inGameSFXVolumeLevel.value = SettingsManager.instance.GetSFXVolumeSliderValue();
     }
 
+    #endregion RefreshValues
+
+    #region HelperFunctions
     public void ShowCursor()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -138,88 +174,30 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void BackToMainMenu()
-    {
-        StartCoroutine(WaitToGoBackToMainMenu());
-    }
-
-    private void NowGoBackToMainMenu()
-    {
-        SceneManager.LoadScene("StartScreen");
-
-        startScreenBackground.SetActive(true);
-        gameNameText.SetActive(true);
-        mainMenu.SetActive(true);
-
-        ShowCursor();
-    }
-
-    public void ShowDeathScreen()
-    {
-        ShowCursor();
-
-        ToggleGamePaused();
-
-        deathScreen.SetActive(true);
-    }
-
-    public void HideDeathScreen()
-    {
-        deathScreen.SetActive(false);
-    }
-
-    public void PlayButtonPressedSound()
-    {
-        //AudioManager.instance.PlaySound("All Button Pressed", gameObject.transform);
-
-        StartCoroutine(WaitToReleaseButton());
-    }
-
-    public void PlayButtonReleasedSound()
-    {
-        //AudioManager.instance.PlaySound("All Button Released", gameObject.transform);
-    }
-
-    public void PlayMainMenuMusic()
-    {
-        if (AudioManager.instance.IsSoundAlreadyPlaying("All Background Music"))
-        {
-            AudioManager.instance.StopSound("All Background Music");
-        }
-        if (!AudioManager.instance.IsSoundAlreadyPlaying("All Main Menu Music"))
-        {
-            AudioManager.instance.PlayLoopingSound("All Main Menu Music", gameObject.transform);
-        }
-    }
-
-    public void PlayBackgroundMusic()
-    {
-        if (AudioManager.instance.IsSoundAlreadyPlaying("All Main Menu Music"))
-        {
-            AudioManager.instance.StopSound("All Main Menu Music");
-        }
-        if (!AudioManager.instance.IsSoundAlreadyPlaying("All Background Music"))
-        {
-            AudioManager.instance.PlayLoopingSound("All Background Music", gameObject.transform);
-        }
-    }
-
     public void ToggleGamePaused()
     {
-        //List<PlayerController> playerControllers = GameManager.instance.players;
+        if (Time.timeScale == 0.0f)
+        {
+            Time.timeScale = 1.0f;
+        }
+        else
+        {
+            Time.timeScale = 0.0f;
+        }
     }
 
-    private IEnumerator WaitToReleaseButton()
+    public bool IsInGameMenuActive()
     {
-        yield return new WaitForSeconds(0.2f);
-
-        PlayButtonReleasedSound();
+        return inGameSettingsMenu.activeInHierarchy;
     }
 
-    private IEnumerator WaitToGoBackToMainMenu()
+    #endregion HelperFunctions
+
+    #region AudioFunctions
+    public void PlayButtonPressedSound()
     {
-        yield return new WaitForEndOfFrame();
-
-        NowGoBackToMainMenu();
+        AudioManager.instance.PlaySound2D("Button Press");
     }
+
+    #endregion AudioFunctions
 }

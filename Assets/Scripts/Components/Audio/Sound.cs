@@ -5,22 +5,118 @@ using System;
 [System.Serializable]
 public class Sound
 {
+    #region Variables
     // The audio file this script will play
-    public AudioClip clip;
+    [SerializeField] private AudioClip clip;
 
-    public string audioName;
+    [SerializeField] private string audioName;
 
     // Audio controls
-    public bool isAudioMuted;
-    [Range(0f, 100f)] public float volume;
-    [Range(.1f, 4f)] public float pitch;
+    [SerializeField] private bool isAudioMuted;
+    [Range(0f, 100f)][SerializeField] private float volume;
+    [Range(.1f, 4f)][SerializeField] private float pitch;
 
     // 0 = 2D, 1 = 3D
-    [Range(0, 1)] public int spacialBlend;
+    [Range(0, 1)][SerializeField] private int spacialBlend;
 
-    public bool isLooping;
+    [SerializeField] private bool isLooping;
 
-    public AudioMixerGroup mixerGroup;
+    [SerializeField] private AudioMixerGroup mixerGroup;
 
-    [HideInInspector] public AudioSource source;
+    private AudioSource source;
+
+    #endregion Variables
+
+    #region GetSet
+    public AudioClip GetAudioClip()
+    { 
+        return clip;
+    }
+
+    public void SetAudioClip(AudioClip newClip)
+    {
+        clip = newClip;
+    }
+
+    public string GetAudioName()
+    {
+        return audioName;
+    }
+
+    public void SetAudioName(string newName)
+    {
+        audioName = newName;
+    }
+
+    public bool GetIsAudioMuted()
+    {
+        return isAudioMuted;
+    }
+
+    public void SetIsAudioMuted(bool newState)
+    {
+        isAudioMuted = newState;
+    }
+
+    public float GetVolume()
+    {
+        return volume;
+    }
+
+    public void SetVolume(float newVolume)
+    {
+        volume = newVolume;
+    }
+
+    public float GetPitch()
+    {
+        return pitch;
+    }
+
+    public void SetPitch(float newPitch)
+    {
+        pitch = newPitch;
+    }
+
+    public int GetSpacialBlend()
+    {
+        return spacialBlend;
+    }
+
+    public void SetSpacialBlend(int newBlend)
+    {
+        spacialBlend = newBlend;
+    }
+
+    public bool GetIsLooping()
+    {
+        return isLooping;
+    }
+
+    public void SetIsLooping(bool newState)
+    {
+        isLooping = newState;
+    }
+
+    public AudioMixerGroup GetAudioMixerGroup()
+    {
+        return mixerGroup;
+    }
+
+    public void SetAudioMixerGroup(AudioMixerGroup newGroup)
+    {
+        mixerGroup = newGroup;
+    }
+
+    public AudioSource GetAudioSource()
+    {
+        return source;
+    }
+
+    public void SetAudioSource(AudioSource newSource)
+    {
+        source = newSource;
+    }
+
+    #endregion GetSet
 }

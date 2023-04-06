@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text worldToolTipUI;
     [SerializeField] private Text inventoryToolTipUI;
     [SerializeField] private OvenUI ovenUI;
-    [SerializeField] private GameObject menuUI;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float mouseSensitivityX;
     [SerializeField] private float mouseSensitivityY;
@@ -30,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode pickUpKey = KeyCode.E;
     [SerializeField] private KeyCode inventoryKey = KeyCode.Tab;
-    [SerializeField] private KeyCode escapeKey = KeyCode.Escape;
+    //[SerializeField] private KeyCode escapeKey = KeyCode.Escape;
     // Left-click to use items in hotbar
     [SerializeField] private KeyCode leftClickKey = KeyCode.Mouse0;
     // Right-click to use items inventory
@@ -103,6 +102,8 @@ public class PlayerController : MonoBehaviour
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, .8f);
+
+        GameManager.instance.SetCurrentPlayerController(this);
     }
 
     private void Update()
@@ -282,11 +283,6 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown("4") || Input.GetKeyDown(numpadFourKey))
         {
             ChangeSelectedHandSlot(3);
-        }
-
-        if (Input.GetKeyDown(escapeKey))
-        {
-            ToggleMenuUI();
         }
     }
 
@@ -866,40 +862,12 @@ public class PlayerController : MonoBehaviour
         return ovenUI;
     }
 
+    public bool GetIsInventoryActive()
+    {
+        return isInventoryActive;
+    }
+
     #endregion GetSet
-
-    #region MenuUIFunctions
-    public void ToggleMenuUI()
-    {
-        if (menuUI.activeInHierarchy)
-        {
-            if (!isInventoryActive)
-            {
-                UseMouseToObserve();
-            }
-            
-            menuUI.SetActive(false);
-            Time.timeScale = 1.0f;
-
-            areInputsRegistered = true;
-        }
-        else
-        {
-            areInputsRegistered = false;
-            UseMouseToNavigate();
-            menuUI.SetActive(true);
-            Time.timeScale = 0.0f;
-        }
-    }
-
-    public void ExitToMainMenu()
-    {
-        Time.timeScale = 1.0f;
-
-        LevelLoader.instance.LoadMainMenu();
-    }
-
-    #endregion MenuUIFunctions
 
     #region HelperFunctions
     public void UseMouseToNavigate()
@@ -916,6 +884,11 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
 
         isCameraMovementLocked = false;
+    }
+
+    public void SetAreInputsRegistered(bool newState)
+    {
+        areInputsRegistered = newState;
     }
 
     #endregion HelperFunctions
