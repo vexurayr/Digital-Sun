@@ -46,15 +46,29 @@ public class Inventory : MonoBehaviour
     {
         return invItemList;
     }
+    public virtual void SetInvItemList(List<InventoryItem> newInvItemList)
+    {
+        invItemList = newInvItemList;
+    }
 
     public virtual List<InventoryItem> GetInvHandItemList()
     {
         return invHandItemList;
     }
 
+    public virtual void SetInvHandItemList(List<InventoryItem> newInvHandItemList)
+    {
+        invHandItemList = newInvHandItemList;
+    }
+
     public virtual List<InventoryItem> GetInvItemArmorList()
     {
         return invItemArmorList;
+    }
+
+    public virtual void SetInvItemArmorList(List<InventoryItem> newInvItemArmorList)
+    {
+        invItemArmorList = newInvItemArmorList;
     }
 
     public virtual GameObject GetEmptyInventoryItem()

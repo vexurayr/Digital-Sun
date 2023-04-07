@@ -74,6 +74,25 @@ public class MenuManager : MonoBehaviour
 
         SceneManager.LoadScene(forestLevelName);
 
+        GameManager.instance.SpawnPlayer(false);
+
+        UpdateAllAudioSliderValues();
+    }
+
+    public void LoadForestSceneFromTerminal()
+    {
+        Time.timeScale = 1.0f;
+
+        HideCursor();
+
+        inGameSettingsMenu.SetActive(false);
+        deathScreen.SetActive(false);
+        mainMenu.SetActive(false);
+
+        SceneManager.LoadScene(forestLevelName);
+
+        GameManager.instance.SpawnPlayer(true);
+
         UpdateAllAudioSliderValues();
     }
 

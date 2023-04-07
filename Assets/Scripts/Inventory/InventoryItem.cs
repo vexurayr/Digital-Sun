@@ -31,7 +31,8 @@ public class InventoryItem : MonoBehaviour
         Oven,
         Green_Herb,
         Rope,
-        Red_Herb
+        Red_Herb,
+        Terminal
     }
 
     public enum ItemType

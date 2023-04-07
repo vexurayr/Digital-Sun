@@ -511,6 +511,11 @@ public class PlayerController : MonoBehaviour
         {
             hitInventoryItem.PrimaryAction(this.gameObject);
         }
+        // Special case for using a Terminal
+        else if (Input.GetKeyDown(leftClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Terminal)
+        {
+            hitInventoryItem.PrimaryAction(this.gameObject);
+        }
     }
 
     public void ToggleInventoryUI()

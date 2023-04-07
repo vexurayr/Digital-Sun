@@ -8,11 +8,14 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
 
     [SerializeField] private PlayerController currentPlayerController;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Vector3 playerSpawn;
+
+    [SerializeField] private PlayerInventory invToPreserve;
 
     #endregion Variables
 
     #region MonoBehaviours
-
     private void Awake()
     {
         // Singleton
@@ -25,11 +28,10 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    private void Update()
-    {
-        
+        invToPreserve = playerPrefab.GetComponent<PlayerInventory>();
+        Debug.Log("Are you running every time?");
+        SpawnPlayer(true);
     }
 
     #endregion MonoBehaviours
@@ -45,5 +47,41 @@ public class GameManager : MonoBehaviour
         currentPlayerController = newController;
     }
 
+    public PlayerInventory GetInvToPreserve()
+    {
+        return invToPreserve;
+    }
+
+    public void SetInvToPreserve(PlayerInventory newInv)
+    {
+        Debug.Log(newInv);
+        playerPrefab.GetComponent<PlayerInventory>().SetInvItemList(newInv.GetInvItemList());
+        playerPrefab.GetComponent<PlayerInventory>().SetInvHandItemList(newInv.GetInvHandItemList());
+        playerPrefab.GetComponent<PlayerInventory>().SetInvItemArmorList(newInv.GetInvItemArmorList());
+        
+        invToPreserve = playerPrefab.GetComponent<PlayerInventory>();
+    }
+
     #endregion GetSet
+
+    #region SpawnerFunctions
+    public void SpawnPlayer(bool isRespawningFromTerminal)
+    {
+        if (currentPlayerController != null)
+        {
+            return;
+        }
+
+        GameObject spawnedPlayer = Instantiate(playerPrefab, playerSpawn, Quaternion.identity);
+
+        if (isRespawningFromTerminal)
+        {
+            Debug.Log("Setting Inventory");
+            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemList(invToPreserve.GetInvItemList());
+            spawnedPlayer.GetComponent<PlayerInventory>().SetInvHandItemList(invToPreserve.GetInvHandItemList());
+            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemArmorList(invToPreserve.GetInvItemArmorList());
+        }
+    }
+
+    #endregion SpawnerFunctions
 }
