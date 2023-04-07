@@ -45,4 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentPlayerController: {fileID: 0}
   playerPrefab: {fileID: 4016175755622753308, guid: 9eb605ef67680754e82528b60f1c1a81, type: 3}
-  playerSpawn: {x: 293, y: 1, z: 819}
+  playerSpawn: {x: 293, y: 0.1, z: 819}

@@ -23,6 +23,7 @@ public class UIAnimation : MonoBehaviour
     public void TriggerFadeAnimation()
     {
         fadeToBlackTransitionAnimator.SetTrigger("Begin Fade");
+        SceneManager.LoadSceneAsync(1);
     }
 
     public void LoadForestScene()

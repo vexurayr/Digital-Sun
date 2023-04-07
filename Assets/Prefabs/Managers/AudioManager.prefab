@@ -48,8 +48,7 @@ MonoBehaviour:
     audioName: Button Press
     isAudioMuted: 0
     volume: 1
-    pitch: 1.5
+    pitch: 1
     spacialBlend: 0
     isLooping: 0
     mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
-    source: {fileID: 0}
