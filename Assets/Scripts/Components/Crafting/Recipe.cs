@@ -27,7 +27,19 @@ public class Recipe : MonoBehaviour
 
     public InventoryItem GetItemOutput()
     {
-        return itemOutput;
+        GameObject newObject = Instantiate(InvItemManager.instance.GetPrefabForItem(InventoryItem.Item.None), this.transform.position, this.transform.rotation);
+
+        InventoryItem newItem = newObject.GetComponent<InventoryItem>();
+
+        Destroy(newObject);
+
+        newItem.SetItem(itemOutput.GetItem());
+        newItem.SetItemType(itemOutput.GetItemType());
+        newItem.SetItemSprite(itemOutput.GetItemSprite());
+        newItem.SetMaxStackSize(itemOutput.GetMaxStackSize());
+        newItem.SetItemCount(itemOutput.GetItemCount());
+        Debug.Log("Hash code from item stored in recipe: " + itemOutput.GetHashCode() + "\n Hash code from new item: " + newItem.GetHashCode());
+        return newItem.GetComponent<InventoryItem>();
     }
 
     public void SetItemsRequiredCount()

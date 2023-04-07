@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7790972415154211549}
   - component: {fileID: 6406594853542792104}
-  - component: {fileID: 3426744231043674163}
+  - component: {fileID: 622072420429042057}
+  - component: {fileID: 4744283765653796712}
   m_Layer: 0
   m_Name: CookedMeat
   m_TagString: Untagged
@@ -46,7 +47,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0.1, z: 0}
---- !u!114 &3426744231043674163
+--- !u!114 &622072420429042057
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,7 +56,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4499167627189174359}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e9360d383208b743be22c21577b69d5, type: 3}
+  m_Script: {fileID: 11500000, guid: c415c0540f59d434caf981838a87f9d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   item: 19
@@ -69,6 +70,28 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 0
   rotationInHandZ: 0
+  powerup: {fileID: 8372859131683887786, guid: c1ce1b706c8c9194cba17a9e9aa6c63f, type: 3}
+  animationPrimaryTriggerName: Use
+  animationSpeed: 1
+--- !u!95 &4744283765653796712
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499167627189174359}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf00fd603668ce34b99d4f266c9a7b50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8873545563881288852
 GameObject:
   m_ObjectHideFlags: 0

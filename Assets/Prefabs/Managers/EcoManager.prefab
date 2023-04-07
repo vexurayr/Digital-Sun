@@ -43,7 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c94cde0ce428df4a8cbe78eb61a86b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStartingDataRandom: 0
-  startingTimeOfDay: 0
-  maxTemperature: 0
-  minTemperature: 0
+  sun: {fileID: 0}
+  isStartingTimeRandom: 0
+  isTimeChanging: 1
+  startingTimeOfDay: 8
+  maxTemperature: 89
+  minTemperature: 64
+  isDebugging: 0

@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6721170061040865338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3680102899254247323}
+  - component: {fileID: 5565410986209553919}
+  m_Layer: 0
+  m_Name: StoneAxeRecipe
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3680102899254247323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721170061040865338}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5565410986209553919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6721170061040865338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330c502d92e313d42958850321c3f5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipeName: 11
+  requiredItems:
+  - {fileID: 6730088782378839336, guid: de1d47d2ee385104086540c3fef487a6, type: 3}
+  - {fileID: 6306669123841676038, guid: 2e17799e546f67d4fb13dd853ce2fb5a, type: 3}
+  - {fileID: 6399851417700859847, guid: 3d074e6171e2f224b8e378878cfdb133, type: 3}
+  requiredItemCounts: 010000000200000001000000
+  itemOutput: {fileID: 6537479424598553769, guid: f1bcbd55fb9ad9d46aeced9a18e5a09a, type: 3}
+  itemCountOutput: 1

@@ -46,15 +46,29 @@ public class Inventory : MonoBehaviour
     {
         return invItemList;
     }
+    public virtual void SetInvItemList(List<InventoryItem> newInvItemList)
+    {
+        invItemList = newInvItemList;
+    }
 
     public virtual List<InventoryItem> GetInvHandItemList()
     {
         return invHandItemList;
     }
 
+    public virtual void SetInvHandItemList(List<InventoryItem> newInvHandItemList)
+    {
+        invHandItemList = newInvHandItemList;
+    }
+
     public virtual List<InventoryItem> GetInvItemArmorList()
     {
         return invItemArmorList;
+    }
+
+    public virtual void SetInvItemArmorList(List<InventoryItem> newInvItemArmorList)
+    {
+        invItemArmorList = newInvItemArmorList;
     }
 
     public virtual GameObject GetEmptyInventoryItem()
@@ -100,6 +114,7 @@ public class Inventory : MonoBehaviour
                     // Whole stack can fit in this slot
                     else
                     {
+                        Debug.Log("Hash code of invItemList[i]: " + invItemList[i].GetHashCode());
                         invItemList[i].SetItemCount(newAmount);
                         return;
                     }
@@ -121,8 +136,11 @@ public class Inventory : MonoBehaviour
 
     public virtual void AddToInventory(GameObject newObj)
     {
-        InventoryItem newItem = newObj.GetComponent<InventoryItem>();
-        AddToInventory(newItem);
+        if (newObj.GetComponent<InventoryItem>() != null)
+        {
+            InventoryItem newItem = newObj.GetComponent<InventoryItem>();
+            AddToInventory(newItem);
+        }
     }
 
     #endregion AddItemToInventory

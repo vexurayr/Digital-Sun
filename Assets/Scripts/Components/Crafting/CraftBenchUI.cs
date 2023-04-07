@@ -9,6 +9,14 @@ public class CraftBenchUI : MonoBehaviour
 
     private PlayerInventory player;
 
+    public void Start()
+    {
+        if (GetComponentInParent<PlayerInventory>() != null)
+        {
+            player = GetComponentInParent<PlayerInventory>();
+        }
+    }
+
     public Recipe GetRecipe(InventoryItem.Item recipeName)
     { 
         foreach (Recipe recipe in recipes)
@@ -25,6 +33,41 @@ public class CraftBenchUI : MonoBehaviour
     public void SetInteractingObject(PlayerInventory player)
     {
         this.player = player;
+    }
+
+    public void CraftStick()
+    {
+        CraftItem(InventoryItem.Item.Stick);
+    }
+
+    public void CraftRope()
+    {
+        CraftItem(InventoryItem.Item.Rope);
+    }
+
+    public void CraftBandage()
+    {
+        CraftItem(InventoryItem.Item.Bandage);
+    }
+
+    public void CraftStaminaBoost()
+    {
+        CraftItem(InventoryItem.Item.Stamina_Boost);
+    }
+
+    public void CraftCraftBench()
+    {
+        CraftItem(InventoryItem.Item.Craft_Bench);
+    }
+
+    public void CraftOven()
+    {
+        CraftItem(InventoryItem.Item.Oven);
+    }
+
+    public void CraftCanteen()
+    {
+        CraftItem(InventoryItem.Item.Canteen);
     }
 
     public void CraftWoodSpear()
@@ -85,9 +128,11 @@ public class CraftBenchUI : MonoBehaviour
             if (player.HasSameItemOfNonMaxStackSize(targetRecipe.GetItemOutput()).GetItem() != emptyRecipe.GetRecipeName())
             {
                 // In this case the play has room for that specific item
+                Debug.Log("Player has room to make more of this item");
             }
             else
             {
+                Debug.Log("Player does not have room to make more of this item");
                 return;
             }
         }
@@ -101,6 +146,7 @@ public class CraftBenchUI : MonoBehaviour
 
             if (!isSuccessful)
             {
+                Debug.Log("Player is missing an item for this recipe");
                 return;
             }
         }
