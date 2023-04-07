@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,8 +11,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController currentPlayerController;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Vector3 playerSpawn;
-
-    [SerializeField] private PlayerInventory invToPreserve;
 
     #endregion Variables
 
@@ -29,9 +28,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        invToPreserve = playerPrefab.GetComponent<PlayerInventory>();
-        Debug.Log("Are you running every time?");
-        SpawnPlayer(true);
+        SpawnPlayer(null, false);
     }
 
     #endregion MonoBehaviours
@@ -47,39 +44,25 @@ public class GameManager : MonoBehaviour
         currentPlayerController = newController;
     }
 
-    public PlayerInventory GetInvToPreserve()
-    {
-        return invToPreserve;
-    }
-
-    public void SetInvToPreserve(PlayerInventory newInv)
-    {
-        Debug.Log(newInv);
-        playerPrefab.GetComponent<PlayerInventory>().SetInvItemList(newInv.GetInvItemList());
-        playerPrefab.GetComponent<PlayerInventory>().SetInvHandItemList(newInv.GetInvHandItemList());
-        playerPrefab.GetComponent<PlayerInventory>().SetInvItemArmorList(newInv.GetInvItemArmorList());
-        
-        invToPreserve = playerPrefab.GetComponent<PlayerInventory>();
-    }
-
     #endregion GetSet
 
     #region SpawnerFunctions
-    public void SpawnPlayer(bool isRespawningFromTerminal)
+    public void SpawnPlayer(PlayerInventory inventory, bool isRespawningFromTerminal)
     {
         if (currentPlayerController != null)
         {
+            Debug.Log("Player already exists.");
             return;
         }
-
+        
         GameObject spawnedPlayer = Instantiate(playerPrefab, playerSpawn, Quaternion.identity);
-
+        
         if (isRespawningFromTerminal)
         {
             Debug.Log("Setting Inventory");
-            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemList(invToPreserve.GetInvItemList());
-            spawnedPlayer.GetComponent<PlayerInventory>().SetInvHandItemList(invToPreserve.GetInvHandItemList());
-            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemArmorList(invToPreserve.GetInvItemArmorList());
+            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemList(inventory.GetInvItemList());
+            spawnedPlayer.GetComponent<PlayerInventory>().SetInvHandItemList(inventory.GetInvHandItemList());
+            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemArmorList(inventory.GetInvItemArmorList());
         }
     }
 

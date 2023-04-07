@@ -8,11 +8,9 @@ public class Terminal : InventoryItem
     #region OverrideFunctions
     public override bool PrimaryAction(GameObject player)
     {
-        PlayerInventory currentInv = player.GetComponent<PlayerInventory>();
+        //PlayerInventory currentInv = player.GetComponent<PlayerInventory>();
 
-        GameManager.instance.SetInvToPreserve(currentInv);
-
-        MenuManager.instance.LoadForestSceneFromTerminal();
+        MenuManager.instance.LoadForestScene();
 
         return true;
     }

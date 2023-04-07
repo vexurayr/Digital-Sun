@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sun: {fileID: 0}
   isStartingTimeRandom: 0
-  isTimeChanging: 0
+  isTimeChanging: 1
   startingTimeOfDay: 8
   maxTemperature: 89
   minTemperature: 64

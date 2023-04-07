@@ -13,9 +13,8 @@ public class PlayerHealth : Health
         if (currentValue <= 0)
         {
             MenuManager.instance.ShowDeathScreen();
-
+            Debug.Log("Player died");
             GameManager.instance.SetCurrentPlayerController(null);
-            GameManager.instance.SetInvToPreserve(null);
 
             Die();
         }
@@ -28,9 +27,8 @@ public class PlayerHealth : Health
         if (currentValue <= 0)
         {
             MenuManager.instance.ShowDeathScreen();
-
+            Debug.Log("Player died");
             GameManager.instance.SetCurrentPlayerController(null);
-            GameManager.instance.SetInvToPreserve(null);
 
             Die();
         }
