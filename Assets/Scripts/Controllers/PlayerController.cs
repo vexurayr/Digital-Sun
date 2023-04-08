@@ -512,7 +512,7 @@ public class PlayerController : MonoBehaviour
             hitInventoryItem.PrimaryAction(this.gameObject);
         }
         // Special case for using a Terminal
-        else if (Input.GetKeyDown(leftClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Terminal)
+        else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Terminal)
         {
             hitInventoryItem.PrimaryAction(this.gameObject);
         }
@@ -645,7 +645,7 @@ public class PlayerController : MonoBehaviour
             invItem = invItems[invItemIndex];
         }
 
-        inventoryToolTipUI.gameObject.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 25,
+        inventoryToolTipUI.gameObject.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y + 50,
                 Input.mousePosition.z);
 
         if (invItem.GetItem() == InventoryItem.Item.None)
