@@ -26,6 +26,8 @@ public class InventoryUI : MonoBehaviour
 
     [SerializeField] private List<GameObject> invHandSelectedSlotUI;
 
+    [SerializeField] private GameObject basicCraftingUI;
+
     #endregion Variables
 
     #region GetSet
@@ -87,6 +89,11 @@ public class InventoryUI : MonoBehaviour
     public List<GameObject> GetInvHandSelectedSlotUI()
     {
         return invHandSelectedSlotUI;
+    }
+
+    public GameObject GetBasicCraftingUI()
+    {
+        return basicCraftingUI;
     }
 
     #endregion GetSet

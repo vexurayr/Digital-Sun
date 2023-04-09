@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57dda664cc32a54e8b3373c2c54965c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingDifficulty: 0
-  startingDifficultyMultiplier: 0.001
-  difficultyMultiplierIncAmount: 0.001
-  secondsUntilDiffMultIncrease: 5
+  startingStage: 0
+  difficultyMultiplierPerStage: 0.2
+  secondsUntilStageChange: 60
+  isDebugging: 0

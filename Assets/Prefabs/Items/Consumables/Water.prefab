@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 1399104532389653122}
   - component: {fileID: 7140448938702028141}
   - component: {fileID: 8320492190017966555}
+  - component: {fileID: 6611421414025762598}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -150,15 +151,25 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 90
   rotationInHandZ: 0
-  primaryEffect: 3
-  secondEffect: 0
-  primaryStatChangeAmount: 15
-  secondStatChangeAmount: 0
-  maxPowerupDuration: 0
-  isStackable: 0
-  isPrimaryEffectPermanent: 1
-  isSecondEffectPermanent: 0
-  isPrimaryStatPercentChange: 0
-  isSecondStatPercentChange: 0
-  isPrimaryEffectAlwaysApplied: 0
-  isSecondEffectAlwaysApplied: 0
+  powerup: {fileID: 7832075205278941582, guid: 93586daebe530024187ca4d0b3778537, type: 3}
+  animationPrimaryTriggerName: Use
+  animationSpeed: 1
+--- !u!95 &6611421414025762598
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6698066347075909765}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf00fd603668ce34b99d4f266c9a7b50, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

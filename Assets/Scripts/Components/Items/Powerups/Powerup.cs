@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class Powerup
+public class Powerup : MonoBehaviour
 {
     #region Variables
     public enum PrimaryEffect
@@ -27,22 +27,22 @@ public class Powerup
         StaminaRegen
     }
 
-    private PrimaryEffect primaryEffect;
-    private SecondEffect secondEffect;
-    private float primaryStatChangeAmount;
-    private float secondStatChangeAmount;
-    private float maxPowerupDuration;
-    private bool isStackable;
-    private bool isPrimaryPermanent;
-    private bool isSecondPermanent;
-    private bool isPrimaryPercentChange;
-    private bool isSecondPercentChange;
-    private bool isPrimaryEffectAlwaysApplied;
-    private bool isSecondEffectAlwaysApplied;
+    [Tooltip("Which survival system should the consumable effect?")][SerializeField] private PrimaryEffect primaryEffect;
+    [Tooltip("Set to None if the consumable won't have a second effect.")][SerializeField] private SecondEffect secondEffect;
+    [Tooltip("Being a flat amount versus a percent changes what this number means.")][SerializeField] private float primaryStatChangeAmount;
+    [Tooltip("Being a flat amount versus a percent changes what this number means.")][SerializeField] private float secondStatChangeAmount;
+    [Tooltip("Leave duration at 0 if the effect is instant.")][SerializeField] private float maxPowerupDuration;
+    [Tooltip("If true, the effects will stack on top of their duration being reset.")][SerializeField] private bool isStackable;
+    [Tooltip("If true, the effect will never wear off.")][SerializeField] private bool isPrimaryEffectPermanent;
+    [Tooltip("If true, the effect will never wear off.")][SerializeField] private bool isSecondEffectPermanent;
+    [Tooltip("If it's not a percent change, the stat change is a flat amount.")][SerializeField] private bool isPrimaryStatPercentChange;
+    [Tooltip("If it's not a percent change, the stat change is a flat amount.")][SerializeField] private bool isSecondStatPercentChange;
+    [Tooltip("Force primary effect to always apply to the target.")][SerializeField] private bool isPrimaryEffectAlwaysApplied;
+    [Tooltip("Force second effect to always apply to the target.")][SerializeField] private bool isSecondEffectAlwaysApplied;
     // Will track stacking effects so Remove() is called for each stack applied
-    private int timesPrimaryEffectApplied;
-    private int timesSecondEffectApplied;
-    private float currentPowerupDuration;
+    private int timesPrimaryEffectApplied = 0;
+    private int timesSecondEffectApplied = 0;
+    private float currentPowerupDuration = 0f;
 
     #endregion Variables
 
@@ -68,7 +68,7 @@ public class Powerup
             }
 
             // Changes healing amount if it's a percentage healing or flat healing
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxHealth = health.GetMaxValue();
 
@@ -88,7 +88,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxHunger = hunger.GetMaxValue();
 
@@ -108,7 +108,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxThirst = thirst.GetMaxValue();
 
@@ -128,7 +128,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxStamina = stamina.GetMaxValue();
 
@@ -148,7 +148,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float regainMult = stamina.GetRegainMult();
 
@@ -184,7 +184,7 @@ public class Powerup
             }
 
             // Changes healing amount if it's a percentage healing or flat healing
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxHealth = health.GetMaxValue();
 
@@ -204,7 +204,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxHunger = hunger.GetMaxValue();
 
@@ -224,7 +224,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxThirst = thirst.GetMaxValue();
 
@@ -244,7 +244,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxStamina = stamina.GetMaxValue();
 
@@ -264,7 +264,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float regainMult = stamina.GetRegainMult();
 
@@ -299,7 +299,7 @@ public class Powerup
             }
 
             // Changes healing amount if it's a percentage healing or flat healing
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxHealth = health.GetMaxValue();
 
@@ -319,7 +319,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxHunger = hunger.GetMaxValue();
 
@@ -339,7 +339,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxThirst = thirst.GetMaxValue();
 
@@ -359,7 +359,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float maxStamina = stamina.GetMaxValue();
 
@@ -379,7 +379,7 @@ public class Powerup
                 return;
             }
 
-            if (isPrimaryPercentChange)
+            if (isPrimaryStatPercentChange)
             {
                 float regainMult = stamina.GetRegainMult();
 
@@ -413,7 +413,7 @@ public class Powerup
             }
 
             // Changes healing amount if it's a percentage healing or flat healing
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxHealth = health.GetMaxValue();
 
@@ -433,7 +433,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxHunger = hunger.GetMaxValue();
 
@@ -453,7 +453,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxThirst = thirst.GetMaxValue();
 
@@ -473,7 +473,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float maxStamina = stamina.GetMaxValue();
 
@@ -493,7 +493,7 @@ public class Powerup
                 return;
             }
 
-            if (isSecondPercentChange)
+            if (isSecondStatPercentChange)
             {
                 float regainMult = stamina.GetRegainMult();
 
@@ -568,22 +568,22 @@ public class Powerup
 
     public bool GetIsPrimaryPermanent()
     {
-        return isPrimaryPermanent;
+        return isPrimaryEffectPermanent;
     }
 
     public void SetIsPrimaryPermanent(bool newState)
     {
-        isPrimaryPermanent = newState;
+        isPrimaryEffectPermanent = newState;
     }
 
     public bool GetIsSecondPermanent()
     {
-        return isSecondPermanent;
+        return isSecondEffectPermanent;
     }
 
     public void SetIsSecondPermanent(bool newState)
     {
-        isSecondPermanent = newState;
+        isSecondEffectPermanent = newState;
     }
 
     public PrimaryEffect GetPrimaryEffect()
@@ -608,22 +608,22 @@ public class Powerup
 
     public bool GetIsPrimaryPercentChange()
     {
-        return isPrimaryPercentChange;
+        return isPrimaryStatPercentChange;
     }
 
     public void SetIsPrimaryPercentChange(bool newState)
     {
-        isPrimaryPercentChange = newState;
+        isPrimaryStatPercentChange = newState;
     }
 
     public bool GetIsSecondPercentChange()
     {
-        return isSecondPercentChange;
+        return isSecondStatPercentChange;
     }
 
     public void SetIsSecondPercentChange(bool newState)
     {
-        isSecondPercentChange = newState;
+        isSecondStatPercentChange = newState;
     }
 
     public bool GetIsPrimaryEffectAlwaysApplied()
