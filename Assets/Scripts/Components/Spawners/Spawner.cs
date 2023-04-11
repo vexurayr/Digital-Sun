@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
     #region Variables
     public enum SpawnerType
     {
+        None,
         LandAnimal,
         WaterAnimal,
         Tribesman,
@@ -25,7 +26,7 @@ public class Spawner : MonoBehaviour
     #region MonoBehaviours
     private void Start()
     {
-        Debug.Log("Adding self to a spawner list");
+        Debug.Log("Adding self (" + spawnerType.ToString() + ") to a spawner list");
         SpawnerManager.instance.AddSelfToSpawnerList(gameObject);
     }
 

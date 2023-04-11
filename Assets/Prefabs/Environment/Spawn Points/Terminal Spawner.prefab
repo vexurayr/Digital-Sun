@@ -43,6 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbaf02e3006dd14b879ea320597dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerType: 4
+  spawnerType: 5
   objectsToSpawn:
   - {fileID: 4003832128247973143, guid: 629e3e3e8902c2341939c7ea64201ab5, type: 3}

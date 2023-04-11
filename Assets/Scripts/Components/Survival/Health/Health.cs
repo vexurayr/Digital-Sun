@@ -5,6 +5,8 @@ using UnityEngine.UIElements.Experimental;
 
 public class Health : BaseValues
 {
+    [SerializeField] private Spawner.SpawnerType spawnedFrom;
+
     #region MonoBehaviours
     protected override void Start()
     {
@@ -75,6 +77,19 @@ public class Health : BaseValues
 
     public virtual void Die()
     {
+        if (spawnedFrom == Spawner.SpawnerType.LandAnimal)
+        {
+            SpawnerManager.instance.IncrementLandAnimalsLeft();
+        }
+        else if (spawnedFrom == Spawner.SpawnerType.WaterAnimal)
+        {
+            SpawnerManager.instance.IncrementWaterAnimalsLeft();
+        }
+        else if (spawnedFrom == Spawner.SpawnerType.Tribesman)
+        {
+            SpawnerManager.instance.IncrementTribesmanLeft();
+        }
+
         Destroy(gameObject);
     }
 }

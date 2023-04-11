@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        SpawnerManager.instance.SpawnOnNewZone();
+        MenuManager.instance.SpawnThingsOnSceneLoad();
     }
 
     #endregion MonoBehaviours

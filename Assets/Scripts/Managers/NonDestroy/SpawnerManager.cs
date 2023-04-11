@@ -11,6 +11,7 @@ public class SpawnerManager : MonoBehaviour
     [SerializeField] private int maxWaterAnimalsInScene;
     [SerializeField] private int maxTribesmanInScene;
     [SerializeField] private int maxCodelessStructuresInScene;
+    [SerializeField] private float distanceFromPlayerToSpawn;
 
     private int landAnimalsLeft;
     private int waterAnimalsLeft;
@@ -60,15 +61,15 @@ public class SpawnerManager : MonoBehaviour
         SpawnLandAnimals();
         SpawnWaterAnimals();
         SpawnTribesman();
-        SpawnPlayer();
         SpawnTerminal();
         SpawnCodeStructures();
         SpawnCodelessStructures();
-        Debug.Log("Spawned Everything");
+        SpawnPlayer();
     }
 
     public void SpawnOnDifficultyIncrease()
     {
+        Debug.Log("Spawning more from difficulty increase!");
         SpawnLandAnimals();
         SpawnWaterAnimals();
         SpawnTribesman();
@@ -82,7 +83,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning land animals");
         // Shuffles the list for random spawner order
         for (int i = 0; i < landAnimalSpawners.Count; i++)
         {
@@ -93,6 +94,11 @@ public class SpawnerManager : MonoBehaviour
         }
 
         int spawnCount = ReturnLowerNumber(landAnimalSpawners.Count, landAnimalsLeft);
+
+        if (landAnimalsLeft > landAnimalSpawners.Count)
+        {
+            landAnimalsLeft = landAnimalSpawners.Count;
+        }
 
         for (int i = 0; i < spawnCount; i++)
         {
@@ -110,7 +116,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning water animals");
         for (int i = 0; i < waterAnimalSpawners.Count; i++)
         {
             GameObject temp = waterAnimalSpawners[i];
@@ -121,12 +127,44 @@ public class SpawnerManager : MonoBehaviour
 
         int spawnCount = ReturnLowerNumber(waterAnimalSpawners.Count, waterAnimalsLeft);
 
+        if (waterAnimalsLeft > waterAnimalSpawners.Count)
+        {
+            waterAnimalsLeft = waterAnimalSpawners.Count;
+        }
+        Debug.Log("WaterAnimalSpawners.Count: " + waterAnimalSpawners.Count + "\nWaterAnimalsLeft: " + waterAnimalsLeft + "\nSpawn Count: " + spawnCount);
         for (int i = 0; i < spawnCount; i++)
         {
             if (waterAnimalSpawners[i].GetComponent<Spawner>())
             {
-                waterAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
-                waterAnimalsLeft--;
+                // If a player is in the scene
+                if (GameManager.instance.GetCurrentPlayerController() != null)
+                {
+                    // Get the distance from this spawner to the player
+                    GameObject player = GameManager.instance.GetCurrentPlayerController().gameObject;
+                    Vector3 vectorFromPlayerToSpawn = player.transform.position - waterAnimalSpawners[i].gameObject.transform.position;
+                    float distance = vectorFromPlayerToSpawn.sqrMagnitude;
+
+                    // Get the angle between the distance vector and player.forward
+                    float angle = Vector3.Angle(vectorFromPlayerToSpawn, player.transform.forward);
+
+                    // Spawn thing if far enough away from the player
+                    if (distance >= distanceFromPlayerToSpawn)
+                    {
+                        waterAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                        waterAnimalsLeft--;
+                    }
+                    else if (distance > distanceFromPlayerToSpawn / 2 && angle > GameManager.instance.GetCurrentPlayerController().GetCameraFOV())
+                    {
+                        waterAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                        waterAnimalsLeft--;
+                    }
+                }
+                // Spawn the thing regardless if there is no player yet
+                else
+                {
+                    waterAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                    waterAnimalsLeft--;
+                }
             }
         }
     }
@@ -137,7 +175,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning tribesman");
         for (int i = 0; i < tribesmanSpawners.Count; i++)
         {
             GameObject temp = tribesmanSpawners[i];
@@ -147,6 +185,11 @@ public class SpawnerManager : MonoBehaviour
         }
 
         int spawnCount = ReturnLowerNumber(tribesmanSpawners.Count, tribesmanLeft);
+
+        if (tribesmanLeft > tribesmanSpawners.Count)
+        {
+            tribesmanLeft = tribesmanSpawners.Count;
+        }
 
         for (int i = 0; i < spawnCount; i++)
         {
@@ -165,7 +208,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning player");
         int randSpawnPoint = Random.Range(0, playerSpawners.Count);
 
         if (playerSpawners[randSpawnPoint].GetComponent<Spawner>())
@@ -180,7 +223,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning terminal");
         int randSpawnPoint = Random.Range(0, terminalSpawners.Count);
 
         if (terminalSpawners[randSpawnPoint].GetComponent<Spawner>())
@@ -195,7 +238,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning code structures");
         for (int i = 0; i < codeStructureSpawners.Count; i++)
         {
             GameObject temp = codeStructureSpawners[i];
@@ -221,7 +264,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log("Spawning codeless structures");
         for (int i = 0; i < codelessStructureSpawners.Count; i++)
         {
             GameObject temp = codelessStructureSpawners[i];
@@ -285,6 +328,30 @@ public class SpawnerManager : MonoBehaviour
         terminalSpawners.Clear();
         codeStructureSpawners.Clear();
         codelessStructureSpawners.Clear();
+    }
+
+    public void IncrementLandAnimalsLeft()
+    {
+        if (landAnimalsLeft < maxLandAnimalsInScene)
+        {
+            landAnimalsLeft++;
+        }
+    }
+
+    public void IncrementWaterAnimalsLeft()
+    {
+        if (waterAnimalsLeft < maxWaterAnimalsInScene)
+        {
+            waterAnimalsLeft++;
+        }
+    }
+
+    public void IncrementTribesmanLeft()
+    {
+        if (tribesmanLeft < maxTribesmanInScene)
+        {
+            tribesmanLeft++;
+        }
     }
 
     public int ReturnLowerNumber(int firstNumber, int secondNumber)

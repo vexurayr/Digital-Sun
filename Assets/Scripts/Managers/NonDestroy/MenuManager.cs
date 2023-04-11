@@ -76,7 +76,7 @@ public class MenuManager : MonoBehaviour
         
         SceneManager.LoadScene(forestLevelName);
 
-        StartCoroutine("WaitToSpawnThings");
+        SpawnThingsOnSceneLoad();
 
         UpdateAllAudioSliderValues();
     }
@@ -204,6 +204,11 @@ public class MenuManager : MonoBehaviour
     }
 
     #endregion AudioFunctions
+
+    public void SpawnThingsOnSceneLoad()
+    {
+        StartCoroutine("WaitToSpawnThings");
+    }
 
     public IEnumerator WaitToSpawnThings()
     {
