@@ -74,16 +74,14 @@ public class PowerupManager : MonoBehaviour
         else if (!powerup.GetIsStackable())
         {
             powerups[indexPowerupExists].SetCurrentPowerupDuration(powerup.GetMaxPowerupDuration());
-
+            
             if (powerup.GetIsPrimaryEffectAlwaysApplied())
             {
                 powerup.ApplyPrimaryEffect(this);
-                powerups[indexPowerupExists].SetTimesPrimaryEffectApplied(powerup.GetTimesPrimaryEffectApplied() + 1);
             }
             if (powerup.GetIsSecondEffectAlwaysApplied())
             {
                 powerup.ApplySecondEffect(this);
-                powerups[indexPowerupExists].SetTimesSecondEffectApplied(powerup.GetTimesSecondEffectApplied() + 1);
             }
         }
         // It is in the list and can stack, also reset the timer

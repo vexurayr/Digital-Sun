@@ -71,8 +71,12 @@ public class MenuManager : MonoBehaviour
         inGameSettingsMenu.SetActive(false);
         deathScreen.SetActive(false);
         mainMenu.SetActive(false);
+
+        SpawnerManager.instance.ClearAllLists();
         
         SceneManager.LoadScene(forestLevelName);
+
+        StartCoroutine("WaitToSpawnThings");
 
         UpdateAllAudioSliderValues();
     }
@@ -200,4 +204,11 @@ public class MenuManager : MonoBehaviour
     }
 
     #endregion AudioFunctions
+
+    public IEnumerator WaitToSpawnThings()
+    {
+        yield return new WaitUntil(() => SceneManager.GetActiveScene().isLoaded);
+        Debug.Log("Scene is loaded, ready to spawn things");
+        SpawnerManager.instance.SpawnOnNewZone();
+    }
 }

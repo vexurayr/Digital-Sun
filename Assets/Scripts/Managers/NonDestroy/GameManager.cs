@@ -27,8 +27,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
-        SpawnPlayer(null, false);
+    private void Start()
+    {
+        SpawnerManager.instance.SpawnOnNewZone();
     }
 
     #endregion MonoBehaviours
