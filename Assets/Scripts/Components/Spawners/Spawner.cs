@@ -20,13 +20,14 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private SpawnerType spawnerType;
     [SerializeField] private List<GameObject> objectsToSpawn;
+    [SerializeField] private float spawnRadius;
 
     #endregion Variables
 
     #region MonoBehaviours
     private void Start()
     {
-        Debug.Log("Adding self (" + spawnerType.ToString() + ") to a spawner list");
+        //Debug.Log("Adding self (" + spawnerType.ToString() + ") to a spawner list");
         SpawnerManager.instance.AddSelfToSpawnerList(gameObject);
     }
 
@@ -48,7 +49,16 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        Instantiate(objectsToSpawn[index], gameObject.transform.position, gameObject.transform.rotation);
+        float randSpawnX = Random.Range(-1f, 1f) * spawnRadius;
+        float randSpawnZ = Random.Range(-1f, 1f) * spawnRadius;
+        float randAngle = Random.Range(0f, 360f);
+        Vector3 randPosition = new Vector3(randSpawnX, 0, randSpawnZ);
+
+        GameObject newObj = Instantiate(objectsToSpawn[index], gameObject.transform.position +
+            randPosition, gameObject.transform.rotation);
+
+        newObj.transform.rotation = Quaternion.Euler(Vector3.up * randAngle);
+        Debug.Log("Rand Angle: " + randAngle);
     }
 
     public void SpawnRandomObject()
@@ -59,9 +69,26 @@ public class Spawner : MonoBehaviour
         }
 
         int randIndex = Random.Range(0, objectsToSpawn.Count);
+        float randSpawnX = Random.Range(-1f, 1f) * spawnRadius;
+        float randSpawnZ = Random.Range(-1f, 1f) * spawnRadius;
+        float randAngle = Random.Range(0f, 360f);
+        Vector3 randPosition = new Vector3(randSpawnX, 0, randSpawnZ);
 
-        Instantiate(objectsToSpawn[randIndex], gameObject.transform.position, gameObject.transform.rotation);
+        GameObject newObj = Instantiate(objectsToSpawn[randIndex], gameObject.transform.position +
+            randPosition, gameObject.transform.rotation);
+
+        newObj.transform.rotation = Quaternion.Euler(Vector3.up * randAngle);
+        Debug.Log("Rand Angle: " + randAngle);
     }
 
     #endregion SpawnerFunctions
+
+    #region Gizmos
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(transform.position, spawnRadius);
+    }
+
+    #endregion Gizmos
 }

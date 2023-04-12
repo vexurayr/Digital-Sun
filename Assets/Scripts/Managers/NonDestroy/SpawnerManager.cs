@@ -69,7 +69,6 @@ public class SpawnerManager : MonoBehaviour
 
     public void SpawnOnDifficultyIncrease()
     {
-        Debug.Log("Spawning more from difficulty increase!");
         SpawnLandAnimals();
         SpawnWaterAnimals();
         SpawnTribesman();
@@ -83,7 +82,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning land animals");
+        
         // Shuffles the list for random spawner order
         for (int i = 0; i < landAnimalSpawners.Count; i++)
         {
@@ -104,8 +103,36 @@ public class SpawnerManager : MonoBehaviour
         {
             if (landAnimalSpawners[i].GetComponent<Spawner>())
             {
-                landAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
-                landAnimalsLeft--;
+                // If a player is in the scene
+                if (GameManager.instance.GetCurrentPlayerController() != null)
+                {
+                    // Get the distance from this spawner to the player
+                    GameObject player = GameManager.instance.GetCurrentPlayerController().gameObject;
+                    Vector3 vectorFromPlayerToSpawn = player.transform.position - waterAnimalSpawners[i].gameObject.transform.position;
+                    float distance = vectorFromPlayerToSpawn.magnitude;
+
+                    // Get the angle between the distance vector and player.forward
+                    float angle = Vector3.Angle(vectorFromPlayerToSpawn, player.transform.forward);
+
+                    // Spawn thing if far enough away from the player
+                    if (distance >= distanceFromPlayerToSpawn)
+                    {
+                        landAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                        landAnimalsLeft--;
+                    }
+                    // Spawn thing if a little far away and out of sight
+                    else if (distance >= distanceFromPlayerToSpawn / 2 && angle < GameManager.instance.GetCurrentPlayerController().GetCameraFOV())
+                    {
+                        landAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                        landAnimalsLeft--;
+                    }
+                }
+                // Spawn the thing regardless if there is no player yet
+                else
+                {
+                    landAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                    landAnimalsLeft--;
+                }
             }
         }
     }
@@ -116,7 +143,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning water animals");
+        
         for (int i = 0; i < waterAnimalSpawners.Count; i++)
         {
             GameObject temp = waterAnimalSpawners[i];
@@ -131,7 +158,7 @@ public class SpawnerManager : MonoBehaviour
         {
             waterAnimalsLeft = waterAnimalSpawners.Count;
         }
-        Debug.Log("WaterAnimalSpawners.Count: " + waterAnimalSpawners.Count + "\nWaterAnimalsLeft: " + waterAnimalsLeft + "\nSpawn Count: " + spawnCount);
+        
         for (int i = 0; i < spawnCount; i++)
         {
             if (waterAnimalSpawners[i].GetComponent<Spawner>())
@@ -139,10 +166,11 @@ public class SpawnerManager : MonoBehaviour
                 // If a player is in the scene
                 if (GameManager.instance.GetCurrentPlayerController() != null)
                 {
+                    Debug.Log("Attempting to spawn fish");
                     // Get the distance from this spawner to the player
                     GameObject player = GameManager.instance.GetCurrentPlayerController().gameObject;
                     Vector3 vectorFromPlayerToSpawn = player.transform.position - waterAnimalSpawners[i].gameObject.transform.position;
-                    float distance = vectorFromPlayerToSpawn.sqrMagnitude;
+                    float distance = vectorFromPlayerToSpawn.magnitude;
 
                     // Get the angle between the distance vector and player.forward
                     float angle = Vector3.Angle(vectorFromPlayerToSpawn, player.transform.forward);
@@ -150,11 +178,14 @@ public class SpawnerManager : MonoBehaviour
                     // Spawn thing if far enough away from the player
                     if (distance >= distanceFromPlayerToSpawn)
                     {
+                        Debug.Log("Far enough away");
                         waterAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
                         waterAnimalsLeft--;
                     }
-                    else if (distance > distanceFromPlayerToSpawn / 2 && angle > GameManager.instance.GetCurrentPlayerController().GetCameraFOV())
+                    // Spawn thing if a little far away and out of sight
+                    else if (distance >= distanceFromPlayerToSpawn / 2 && angle < GameManager.instance.GetCurrentPlayerController().GetCameraFOV())
                     {
+                        Debug.Log("Semi far but not in player sight");
                         waterAnimalSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
                         waterAnimalsLeft--;
                     }
@@ -175,7 +206,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning tribesman");
+        
         for (int i = 0; i < tribesmanSpawners.Count; i++)
         {
             GameObject temp = tribesmanSpawners[i];
@@ -195,8 +226,36 @@ public class SpawnerManager : MonoBehaviour
         {
             if (tribesmanSpawners[i].GetComponent<Spawner>())
             {
-                tribesmanSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
-                tribesmanLeft--;
+                // If a player is in the scene
+                if (GameManager.instance.GetCurrentPlayerController() != null)
+                {
+                    // Get the distance from this spawner to the player
+                    GameObject player = GameManager.instance.GetCurrentPlayerController().gameObject;
+                    Vector3 vectorFromPlayerToSpawn = player.transform.position - waterAnimalSpawners[i].gameObject.transform.position;
+                    float distance = vectorFromPlayerToSpawn.magnitude;
+
+                    // Get the angle between the distance vector and player.forward
+                    float angle = Vector3.Angle(vectorFromPlayerToSpawn, player.transform.forward);
+
+                    // Spawn thing if far enough away from the player
+                    if (distance >= distanceFromPlayerToSpawn)
+                    {
+                        tribesmanSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                        tribesmanLeft--;
+                    }
+                    // Spawn thing if a little far away and out of sight
+                    else if (distance >= distanceFromPlayerToSpawn / 2 && angle < GameManager.instance.GetCurrentPlayerController().GetCameraFOV())
+                    {
+                        tribesmanSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                        tribesmanLeft--;
+                    }
+                }
+                // Spawn the thing regardless if there is no player yet
+                else
+                {
+                    tribesmanSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
+                    tribesmanLeft--;
+                }
             }
         }
     }
@@ -208,7 +267,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning player");
+        
         int randSpawnPoint = Random.Range(0, playerSpawners.Count);
 
         if (playerSpawners[randSpawnPoint].GetComponent<Spawner>())
@@ -223,7 +282,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning terminal");
+        
         int randSpawnPoint = Random.Range(0, terminalSpawners.Count);
 
         if (terminalSpawners[randSpawnPoint].GetComponent<Spawner>())
@@ -238,7 +297,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning code structures");
+        
         for (int i = 0; i < codeStructureSpawners.Count; i++)
         {
             GameObject temp = codeStructureSpawners[i];
@@ -264,7 +323,7 @@ public class SpawnerManager : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Spawning codeless structures");
+        
         for (int i = 0; i < codelessStructureSpawners.Count; i++)
         {
             GameObject temp = codelessStructureSpawners[i];

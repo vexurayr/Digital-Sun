@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnerType: 1
   objectsToSpawn: []
+  spawnRadius: 1

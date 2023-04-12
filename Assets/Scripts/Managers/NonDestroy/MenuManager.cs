@@ -213,7 +213,7 @@ public class MenuManager : MonoBehaviour
     public IEnumerator WaitToSpawnThings()
     {
         yield return new WaitUntil(() => SceneManager.GetActiveScene().isLoaded);
-        Debug.Log("Scene is loaded, ready to spawn things");
+        //Debug.Log("Scene is loaded, ready to spawn things");
         SpawnerManager.instance.SpawnOnNewZone();
     }
 }

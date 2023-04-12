@@ -47,3 +47,4 @@ MonoBehaviour:
   maxWaterAnimalsInScene: 100
   maxTribesmanInScene: 40
   maxCodelessStructuresInScene: 11
+  distanceFromPlayerToSpawn: 350

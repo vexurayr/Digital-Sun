@@ -2574,6 +2574,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -11956,6 +11957,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5146013242416224126, guid: 0f88e8ebc9f875b458fd9312ebd26b36, type: 3}
+      propertyPath: spawnRadius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6704769791743212255, guid: 0f88e8ebc9f875b458fd9312ebd26b36, type: 3}
       propertyPath: m_Name
       value: Water Animal Spawner
@@ -14024,6 +14029,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4104605100597420072, guid: f1c5c649ab56f7b4684453f3715eb12e, type: 3}
+      propertyPath: distanceFromPlayerToSpawn
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 5306202089858194465, guid: f1c5c649ab56f7b4684453f3715eb12e, type: 3}
       propertyPath: m_Name
       value: SpawnerManager
@@ -15546,6 +15555,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -21369,6 +21379,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -34712,6 +34723,10 @@ PrefabInstance:
     - target: {fileID: 3495956320094090217, guid: 5e4ad07b0fbdd8145b6ecc35eca73a15, type: 3}
       propertyPath: m_Name
       value: DifficultyManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3544850120377197615, guid: 5e4ad07b0fbdd8145b6ecc35eca73a15, type: 3}
+      propertyPath: secondsUntilStageChange
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4069769165996740876, guid: 5e4ad07b0fbdd8145b6ecc35eca73a15, type: 3}
       propertyPath: m_RootOrder
@@ -48863,6 +48878,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -50417,6 +50433,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -60616,6 +60633,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -61340,6 +61358,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -66596,6 +66615,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -75532,6 +75552,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
@@ -75568,6 +75589,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 0}
   quantityToDrop: 4
   destroyedBy: 5
