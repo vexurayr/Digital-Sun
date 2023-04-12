@@ -58,14 +58,7 @@ public class DifficultyManager : MonoBehaviour
         // Increase difficulty multiplier when timer reaches 0
         if (timeUntilNextStageChange <= 0)
         {
-            // Reset timer
-            timeUntilNextStageChange = secondsUntilStageChange;
-
-            // Increment difficulty stage
-            currentStage++;
-
-            // Adjust difficulty based on new difficulty stage
-            currentDifficulty = 1 + (currentStage * difficultyMultiplierPerStage);
+            IncreaseCurrentDifficulty();
         }
     }
 
@@ -83,6 +76,21 @@ public class DifficultyManager : MonoBehaviour
         {
             currentDifficulty = 1;
         }
+    }
+
+    public void IncreaseCurrentDifficulty()
+    {
+        // Reset timer
+        timeUntilNextStageChange = secondsUntilStageChange;
+
+        // Increment difficulty stage
+        currentStage++;
+
+        // Adjust difficulty based on new difficulty stage
+        currentDifficulty = 1 + (currentStage * difficultyMultiplierPerStage);
+
+        // Attempt to spawn more animals and tribesman
+        SpawnerManager.instance.SpawnOnDifficultyIncrease();
     }
 
     public void ToggleIsAffectedByTime()

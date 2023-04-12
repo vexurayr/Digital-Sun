@@ -276,6 +276,7 @@ MonoBehaviour:
   regainMult: 1.5
   regainDelay: 2
   isDebugging: 0
+  spawnedFrom: 4
 --- !u!114 &4343693250337912774
 MonoBehaviour:
   m_ObjectHideFlags: 0

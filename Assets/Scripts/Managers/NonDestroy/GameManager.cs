@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerController currentPlayerController;
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Vector3 playerSpawn;
 
     #endregion Variables
 
@@ -27,8 +26,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
 
-        SpawnPlayer(null, false);
+    private void Start()
+    {
+        MenuManager.instance.SpawnThingsOnSceneLoad();
     }
 
     #endregion MonoBehaviours
@@ -53,16 +55,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Player already exists.");
             return;
-        }
-        
-        GameObject spawnedPlayer = Instantiate(playerPrefab, playerSpawn, Quaternion.identity);
-        
-        if (isRespawningFromTerminal)
-        {
-            Debug.Log("Setting Inventory");
-            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemList(inventory.GetInvItemList());
-            spawnedPlayer.GetComponent<PlayerInventory>().SetInvHandItemList(inventory.GetInvHandItemList());
-            spawnedPlayer.GetComponent<PlayerInventory>().SetInvItemArmorList(inventory.GetInvItemArmorList());
         }
     }
 
