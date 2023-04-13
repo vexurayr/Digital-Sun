@@ -71,6 +71,6 @@ public class DestructibleHealth : Health
         GameObject newResource = Instantiate(itemToDrop, this.gameObject.transform.position, this.gameObject.transform.rotation);
         newResource.GetComponent<InventoryItem>().SetItemCount(quantityToDrop);
 
-        Destroy(gameObject);
+        base.Die();
     }
 }

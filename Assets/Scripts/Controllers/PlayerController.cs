@@ -872,6 +872,11 @@ public class PlayerController : MonoBehaviour
         return isInventoryActive;
     }
 
+    public float GetCameraFOV()
+    {
+        return playerCamera.fieldOfView;
+    }
+
     #endregion GetSet
 
     #region HelperFunctions
