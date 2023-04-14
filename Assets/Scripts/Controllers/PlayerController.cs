@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
 
         PlayerInventoryManager.instance.GetPlayerInventory().RefreshInventoryVisuals();
         PlayerInventoryManager.instance.GetPlayerInventory().CreateHandItemOnPlayerSpawn();
+        PlayerInventoryManager.instance.CheckArmorOnSceneLoad();
     }
 
     private void Update()

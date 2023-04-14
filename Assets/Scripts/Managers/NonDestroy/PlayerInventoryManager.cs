@@ -74,7 +74,31 @@ public class PlayerInventoryManager : MonoBehaviour
         playerInventory.InitializeInventory();
     }
 
-    #endregion InventoryFunctions
+    public void CheckArmorOnSceneLoad()
+    {
+        StartCoroutine(CheckArmor());
+    }
+
+    private IEnumerator CheckArmor()
+    {
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < playerInventory.GetInvItemArmorList().Count; i++)
+        {
+            if (playerInventory.GetInvItemArmorList()[i].GetItemType() == InventoryItem.ItemType.Helmet)
+            {
+                playerInventory.GetInvItemArmorList()[i].PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
+            }
+            else if (playerInventory.GetInvItemArmorList()[i].GetItemType() == InventoryItem.ItemType.Chestplate)
+            {
+                playerInventory.GetInvItemArmorList()[i].PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
+            }
+            else if (playerInventory.GetInvItemArmorList()[i].GetItemType() == InventoryItem.ItemType.Leggings)
+            {
+                playerInventory.GetInvItemArmorList()[i].PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
+            }
+        }
+    }
 
     public void ToggleInventoryUI(bool newState)
     {
@@ -165,4 +189,6 @@ public class PlayerInventoryManager : MonoBehaviour
             ovenUI.GetOutputItem().SetActive(true);
         }
     }
+
+    #endregion InventoryFunctions
 }

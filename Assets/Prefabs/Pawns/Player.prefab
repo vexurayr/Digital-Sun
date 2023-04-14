@@ -186,10 +186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ab532b57e4e12479b426dd2f46b370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldToolTipUI: {fileID: 0}
-  inventoryToolTipUI: {fileID: 0}
-  inventoryUI: {fileID: 0}
-  ovenUI: {fileID: 0}
   playerCamera: {fileID: 8015317138704668572}
   mouseSensitivityX: 2
   mouseSensitivityY: 1.8
