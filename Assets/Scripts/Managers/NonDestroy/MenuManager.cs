@@ -80,6 +80,9 @@ public class MenuManager : MonoBehaviour
         
         SceneManager.LoadScene(forestLevelName);
 
+        PlayerInventoryManager.instance.ToggleInventoryUI(false);
+        PlayerInventoryManager.instance.GetPlayerUI().SetActive(true);
+
         SpawnThingsOnSceneLoad();
 
         UpdateAllAudioSliderValues();
@@ -98,6 +101,8 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(mainMenuName);
 
         UpdateAllAudioSliderValues();
+
+        PlayerInventoryManager.instance.ResetInventory();
     }
 
     public void QuitGame()
@@ -139,9 +144,13 @@ public class MenuManager : MonoBehaviour
 
     public void ShowDeathScreen()
     {
+        PlayerInventoryManager.instance.GetPlayerUI().SetActive(false);
+
         ShowCursor();
 
         deathScreen.SetActive(true);
+
+        PlayerInventoryManager.instance.ResetInventory();
     }
 
     public void HideDeathScreen()
