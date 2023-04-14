@@ -14,7 +14,6 @@ public class DestructibleHealth : Health
         // Check if the hitbox that collided with the pawn is intended to deal damage
         if (!collider.gameObject.GetComponent<DamageSource>())
         {
-            Debug.Log("No Damage Source");
             return;
         }
 
@@ -28,7 +27,6 @@ public class DestructibleHealth : Health
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
             DecCurrentValue(totalDamage);
-            Debug.Log("Damage Recieved: " + totalDamage);
         }
         // If it's a tool, use its damage to specialty instead
         else if (collider.gameObject.GetComponentInParent<Tool>())

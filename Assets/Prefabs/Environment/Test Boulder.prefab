@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 2784391821975121655}
   - component: {fileID: 4996595421261035902}
   - component: {fileID: 180132224356203326}
+  - component: {fileID: -6287805606102127585}
   m_Layer: 0
   m_Name: Test Boulder
   m_TagString: Untagged
@@ -480,6 +481,7 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+  spawnedFrom: 0
   itemToDrop: {fileID: 2534159753980435047, guid: 2e17799e546f67d4fb13dd853ce2fb5a, type: 3}
   quantityToDrop: 4
   destroyedBy: 5
@@ -502,6 +504,22 @@ MonoBehaviour:
   regainMult: 0
   regainDelay: 0
   isDebugging: 0
+--- !u!208 &-6287805606102127585
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6031667216283678715}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1.375, z: 0.5}
+  m_MoveThreshold: 0.2
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 1.4, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &6146615397377082992
 GameObject:
   m_ObjectHideFlags: 0

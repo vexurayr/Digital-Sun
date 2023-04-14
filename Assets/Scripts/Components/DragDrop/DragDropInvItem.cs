@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class DragDropInvItem : DragAndDrop
 {
     #region Variables
-    [SerializeField] private GameObject player;
     [SerializeField] private GameObject invUI;
 
     private PlayerInventory playerInventory;
@@ -18,7 +17,7 @@ public class DragDropInvItem : DragAndDrop
     public override void Awake()
     {
         base.Awake();
-        playerInventory = player.GetComponent<PlayerInventory>();
+        playerInventory = GetComponentInParent<PlayerInventory>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
 

@@ -7,8 +7,7 @@ using UnityEngine.EventSystems;
 public class DragDropInvDiscard : DragAndDrop
 {
     #region Variables
-    [SerializeField] private GameObject player;
-
+    private GameObject player;
     private PlayerInventory playerInventory;
     private List<InventoryItem> inventoryItems;
     private List<InventoryItem> inventoryHandItems;
@@ -20,10 +19,15 @@ public class DragDropInvDiscard : DragAndDrop
     public override void Awake()
     {
         base.Awake();
-        playerInventory = player.GetComponent<PlayerInventory>();
+        playerInventory = GetComponentInParent<PlayerInventory>();
         inventoryItems = playerInventory.GetInvItemList();
         inventoryHandItems = playerInventory.GetInvHandItemList();
         inventoryArmorItems = playerInventory.GetInvItemArmorList();
+    }
+
+    public void Start()
+    {
+        player = GameManager.instance.GetCurrentPlayerController().gameObject;
     }
 
     #endregion MonoBehaviours

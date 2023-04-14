@@ -7,6 +7,8 @@ using static UnityEngine.ParticleSystem;
 public class PlayerInventory : Inventory
 {
     #region Variables
+    [SerializeField] private Text worldToolTipUI;
+    [SerializeField] private Text inventoryToolTipUI;
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private OvenUI ovenUI;
 
@@ -48,7 +50,7 @@ public class PlayerInventory : Inventory
         invArmorSlotsUI = inventoryUI.GetInvArmorSlotsUI();
         invArmorItemsUI = inventoryUI.GetInvArmorItemsUI();
         invArmorItemCountersUI = inventoryUI.GetInvArmorItemCountersUI();
-        
+
         fuelInputSlotUI = ovenUI.GetFuelInputSlot();
         convertInputSlotUI = ovenUI.GetConvertInputSlot();
         outputSlotUI = ovenUI.GetOutputSlot();
@@ -62,18 +64,17 @@ public class PlayerInventory : Inventory
         RefreshInventoryVisuals();
     }
 
-    public void Start()
-    {
-        // Update the scene with the player's currently held object
-        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
-    }
-
     #endregion MonoBehaviours
 
     #region GetSet
     public InventoryUI GetInventoryUI()
     {
         return inventoryUI;
+    }
+
+    public void SetInventoryUI(InventoryUI inventoryUI)
+    {
+        this.inventoryUI = inventoryUI;
     }
 
     public int GetSelectedInvHandSlot()
@@ -86,9 +87,29 @@ public class PlayerInventory : Inventory
         selectedInvHandSlot = slotIndex;
     }
 
+    public OvenUI GetOvenUI()
+    {
+        return ovenUI;
+    }
+
+    public void SetOvenUI(OvenUI ovenUI)
+    {
+        this.ovenUI = ovenUI;
+    }
+
     public GameObject GetActivePlayerItem()
     {
         return GameObject.Find("ActivePlayerItem");
+    }
+
+    public Text GetWorldToolTipUI()
+    {
+        return worldToolTipUI;
+    }
+
+    public Text GetInventoryToolTipUI()
+    {
+        return inventoryToolTipUI;
     }
 
     #endregion GetSet
@@ -341,21 +362,21 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(this.gameObject);
+                invItem.PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(this.gameObject);
+                invItem.PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
             }
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
             {
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invItem.PrimaryAction(this.gameObject);
+                invItem.PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
             }
         }
         // Attempting to remove armor and place in an empty slot
@@ -364,7 +385,7 @@ public class PlayerInventory : Inventory
             invItemArmorList[firstFromArmorInv] = invItem;
             invItemList[secondFromInv] = invArmorItem;
 
-            invArmorItem.SecondaryAction(this.gameObject);
+            invArmorItem.SecondaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
         }
         // Attempting to remove armor and add something else to the armor slot
         else
@@ -375,8 +396,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(this.gameObject);
-                invItem.PrimaryAction(this.gameObject);
+                invArmorItem.SecondaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
+                invItem.PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
             }
             // Replace chestplate with different chestplate
             else if (invItem.GetItemType() == InventoryItem.ItemType.Chestplate && firstFromArmorInv == 1)
@@ -384,8 +405,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(this.gameObject);
-                invItem.PrimaryAction(this.gameObject);
+                invArmorItem.SecondaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
+                invItem.PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
             }
             // Replace leggings with different leggings
             else if (invItem.GetItemType() == InventoryItem.ItemType.Leggings && firstFromArmorInv == 2)
@@ -393,8 +414,8 @@ public class PlayerInventory : Inventory
                 invItemArmorList[firstFromArmorInv] = invItem;
                 invItemList[secondFromInv] = invArmorItem;
 
-                invArmorItem.SecondaryAction(this.gameObject);
-                invItem.PrimaryAction(this.gameObject);
+                invArmorItem.SecondaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
+                invItem.PrimaryAction(GameManager.instance.GetCurrentPlayerController().gameObject);
             }
         }
 
@@ -464,6 +485,12 @@ public class PlayerInventory : Inventory
     #endregion SelectHotbarSlot
 
     #region ChangeInvHandItemInScene
+    public void CreateHandItemOnPlayerSpawn()
+    {
+        // Update the scene with the player's currently held object
+        CreateItemInHand(invHandItemList[selectedInvHandSlot]);
+    }
+
     public void CreateItemInHand(InventoryItem newItem)
     {
         // There will only be one object in the scene with this name
@@ -474,7 +501,7 @@ public class PlayerInventory : Inventory
 
         // Instantiate and make this new item a child of the player's camera
         GameObject itemInScene = Instantiate(itemPrefab, this.gameObject.transform.position, this.gameObject.transform.rotation);
-        itemInScene.transform.parent = this.GetComponent<PlayerController>().GetPlayerCamera().transform;
+        itemInScene.transform.parent = GameManager.instance.GetCurrentPlayerController().GetPlayerCamera().transform;
 
         // Adjust the item so it appears to be held
         itemInScene.gameObject.transform.localPosition = newItem.GetTransformInHand();
@@ -545,7 +572,7 @@ public class PlayerInventory : Inventory
             ovenOutput = firstInvItem;
         }
 
-        Oven lastOpenedOven = gameObject.GetComponent<PlayerController>().GetLastOpenedOven();
+        Oven lastOpenedOven = GameManager.instance.GetCurrentPlayerController().GetLastOpenedOven();
 
         lastOpenedOven.SetOvenInventoryFromPlayer(gameObject);
         

@@ -114,7 +114,6 @@ public class Inventory : MonoBehaviour
                     // Whole stack can fit in this slot
                     else
                     {
-                        Debug.Log("Hash code of invItemList[i]: " + invItemList[i].GetHashCode());
                         invItemList[i].SetItemCount(newAmount);
                         return;
                     }

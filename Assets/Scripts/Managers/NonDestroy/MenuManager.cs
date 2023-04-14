@@ -12,6 +12,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private string mainMenuName;
     [SerializeField] private string forestLevelName;
 
+    [SerializeField] private GameObject loadingScreen;
+
     // For in game menu
     [SerializeField] private GameObject inGameSettingsMenu;
     [SerializeField] private Slider inGameMasterVolumeLevel;
@@ -64,6 +66,8 @@ public class MenuManager : MonoBehaviour
     #region LoadScenes
     public void LoadForestScene()
     {
+        loadingScreen.SetActive(true);
+
         Time.timeScale = 1.0f;
 
         HideCursor();
@@ -75,6 +79,9 @@ public class MenuManager : MonoBehaviour
         SpawnerManager.instance.ClearAllLists();
         
         SceneManager.LoadScene(forestLevelName);
+
+        PlayerInventoryManager.instance.ToggleInventoryUI(false);
+        PlayerInventoryManager.instance.GetPlayerUI().SetActive(true);
 
         SpawnThingsOnSceneLoad();
 
@@ -94,6 +101,8 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(mainMenuName);
 
         UpdateAllAudioSliderValues();
+
+        PlayerInventoryManager.instance.ResetInventory();
     }
 
     public void QuitGame()
@@ -135,9 +144,13 @@ public class MenuManager : MonoBehaviour
 
     public void ShowDeathScreen()
     {
+        PlayerInventoryManager.instance.GetPlayerUI().SetActive(false);
+
         ShowCursor();
 
         deathScreen.SetActive(true);
+
+        PlayerInventoryManager.instance.ResetInventory();
     }
 
     public void HideDeathScreen()
@@ -205,6 +218,7 @@ public class MenuManager : MonoBehaviour
 
     #endregion AudioFunctions
 
+    #region SpawnFunctions
     public void SpawnThingsOnSceneLoad()
     {
         StartCoroutine("WaitToSpawnThings");
@@ -215,5 +229,8 @@ public class MenuManager : MonoBehaviour
         yield return new WaitUntil(() => SceneManager.GetActiveScene().isLoaded);
         //Debug.Log("Scene is loaded, ready to spawn things");
         SpawnerManager.instance.SpawnOnNewZone();
+        loadingScreen.SetActive(false);
     }
+
+    #endregion SpawnFunctions
 }
