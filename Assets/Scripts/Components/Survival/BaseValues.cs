@@ -11,6 +11,7 @@ public abstract class BaseValues : MonoBehaviour
     [SerializeField] protected float drainDelay;
     [SerializeField] protected float regainMult;
     [SerializeField] protected float regainDelay;
+    [SerializeField] protected bool isAffectedByDifficulty;
     [SerializeField] protected bool isDebugging;
 
     protected float currentValue;
@@ -29,6 +30,13 @@ public abstract class BaseValues : MonoBehaviour
         currentRegainMult = regainMult;
         isDrainingValueOverTime = false;
         isRegainingValueOverTime = false;
+
+        if (isAffectedByDifficulty)
+        {
+            float difficulty = DifficultyManager.instance.GetCurrentDifficulty();
+            maxValue = maxValue * difficulty;
+            currentValue = currentValue * difficulty;
+        }
     }
 
     protected virtual void Update()

@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnerType: 3
-  objectsToSpawn: []
+  objectsToSpawn:
+  - {fileID: 7482098364417582241, guid: 30fb764b616677d4dbb70907b1c8cdf5, type: 3}
   spawnRadius: 1

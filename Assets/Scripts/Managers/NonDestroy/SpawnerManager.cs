@@ -229,6 +229,7 @@ public class SpawnerManager : MonoBehaviour
                 // If a player is in the scene
                 if (GameManager.instance.GetCurrentPlayerController() != null)
                 {
+                    Debug.Log("Attempting to spawn Tribesman");
                     // Get the distance from this spawner to the player
                     GameObject player = GameManager.instance.GetCurrentPlayerController().gameObject;
                     Vector3 vectorFromPlayerToSpawn = player.transform.position - waterAnimalSpawners[i].gameObject.transform.position;
@@ -240,12 +241,14 @@ public class SpawnerManager : MonoBehaviour
                     // Spawn thing if far enough away from the player
                     if (distance >= distanceFromPlayerToSpawn)
                     {
+                        Debug.Log("Far enough away");
                         tribesmanSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
                         tribesmanLeft--;
                     }
                     // Spawn thing if a little far away and out of sight
                     else if (distance >= distanceFromPlayerToSpawn / 2 && angle < GameManager.instance.GetCurrentPlayerController().GetCameraFOV())
                     {
+                        Debug.Log("Semi far but not in player sight");
                         tribesmanSpawners[i].GetComponent<Spawner>().SpawnRandomObject();
                         tribesmanLeft--;
                     }
