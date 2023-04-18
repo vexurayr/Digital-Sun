@@ -38,6 +38,8 @@ public class Recipe : MonoBehaviour
         newItem.SetItemSprite(itemOutput.GetItemSprite());
         newItem.SetMaxStackSize(itemOutput.GetMaxStackSize());
         newItem.SetItemCount(itemOutput.GetItemCount());
+        newItem.SetTransformInHand(itemOutput.GetTransformInHand());
+        newItem.SetRotationInHand(itemOutput.GetRotationInHand());
 
         return newItem.GetComponent<InventoryItem>();
     }

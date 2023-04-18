@@ -159,9 +159,23 @@ public class InventoryItem : MonoBehaviour
         return new Vector3(transformInHandX, transformInHandY, transformInHandZ);
     }
 
+    public void SetTransformInHand(Vector3 newTransform)
+    {
+        transformInHandX = newTransform.x;
+        transformInHandY = newTransform.y;
+        transformInHandZ = newTransform.z;
+    }
+
     public Vector3 GetRotationInHand()
     {
         return new Vector3(rotationInHandX, rotationInHandY, rotationInHandZ);
+    }
+
+    public void SetRotationInHand(Vector3 newRotation)
+    {
+        rotationInHandX = newRotation.x;
+        rotationInHandY = newRotation.y;
+        rotationInHandZ = newRotation.z;
     }
 
     #endregion GetSet
