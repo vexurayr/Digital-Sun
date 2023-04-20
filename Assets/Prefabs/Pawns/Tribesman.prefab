@@ -190,6 +190,7 @@ MonoBehaviour:
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 1
   isDebugging: 0
   spawnedFrom: 3
 --- !u!114 &6943020600214082655
@@ -210,6 +211,7 @@ MonoBehaviour:
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &6435433995925079697
 MonoBehaviour:
@@ -225,10 +227,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startValue: 100
   maxValue: 100
-  drainMult: 0.01
+  drainMult: 0
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &4658740157329757747
 MonoBehaviour:
@@ -244,10 +247,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startValue: 100
   maxValue: 100
-  drainMult: 0.03
+  drainMult: 0
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &6644503389418297200
 MonoBehaviour:
@@ -286,6 +290,7 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &789235982637409236
 MonoBehaviour:
