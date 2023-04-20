@@ -28,6 +28,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Slider startScreenMusicVolumeLevel;
     [SerializeField] private Slider startScreenSFXVolumeLevel;
 
+    private bool areControlsDisabled = false;
+
     #endregion Variables
 
     #region MonoBehaviours
@@ -55,6 +57,11 @@ public class MenuManager : MonoBehaviour
 
     public void Update()
     {
+        if (areControlsDisabled)
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape) && !mainMenu.activeInHierarchy && !deathScreen.activeInHierarchy)
         {
             ToggleInGameSettingsMenu();
@@ -226,10 +233,13 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator WaitToSpawnThings()
     {
+        areControlsDisabled = true;
         yield return new WaitUntil(() => SceneManager.GetActiveScene().isLoaded);
         //Debug.Log("Scene is loaded, ready to spawn things");
+        SpawnerManager.instance.ResetEntitiesLeft();
         SpawnerManager.instance.SpawnOnNewZone();
         loadingScreen.SetActive(false);
+        areControlsDisabled = false;
     }
 
     #endregion SpawnFunctions

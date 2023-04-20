@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TribesmanFSM : AIController
 {
+    [SerializeField] private InventoryItem spear;
+
     protected override void Start()
     {
         base.Start();
@@ -39,7 +41,7 @@ public class TribesmanFSM : AIController
             case AIState.Idle:
                 // Does the actions of the state
                 Idle();
-
+                Debug.Log("Idle");
                 TargetPlayer();
 
                 // Check for transitions
@@ -61,9 +63,9 @@ public class TribesmanFSM : AIController
                 }
                 else
                 {
-                    Seek(target);
+                    Seek(target, attackDistance);
                 }
-
+                Debug.Log("Chase");
                 // Check state transitions
                 if (!IsDistanceLessThan(target, eyesightDistance))
                 {
@@ -73,12 +75,32 @@ public class TribesmanFSM : AIController
                 {
                     ChangeState(AIState.Flee);
                 }
+                else if (IsDistanceLessThan(target, attackDistance))
+                {
+                    ChangeState(AIState.SeekAndAttack);
+                }
                 /* AI has been in this state for secondsToAttackPlayer amount of time
                 else if (lastTimeStateChanged <= Time.time - secondsToAttackPlayer)
                 {
                     ChangeState(AIState.SeekAndAttack);
                 }
                 */
+
+                break;
+            case AIState.SeekAndAttack:
+                if (target == null)
+                {
+                    ChangeState(AIState.Idle);
+                }
+                else
+                {
+                    SeekAndAttack();
+                }
+                Debug.Log("Seek and attack");
+                if (!IsDistanceLessThan(target, attackDistance))
+                {
+                    ChangeState(AIState.Idle);
+                }
 
                 break;
             case AIState.Flee:
@@ -90,7 +112,7 @@ public class TribesmanFSM : AIController
                 {
                     Flee();
                 }
-
+                Debug.Log("Flee");
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     ChangeState(AIState.Idle);
@@ -102,5 +124,11 @@ public class TribesmanFSM : AIController
 
                 break;
         }
+    }
+
+    public override void Attack()
+    {
+        Debug.Log("Attacking with spear");
+        spear.PrimaryAction(gameObject);
     }
 }

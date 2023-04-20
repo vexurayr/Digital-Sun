@@ -81,6 +81,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3913695777855373009
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7824068978059938608}
+  m_Layer: 0
+  m_Name: Raycast Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7824068978059938608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3913695777855373009}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.45, y: 2, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7422132210134628603}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7482098364417582241
 GameObject:
   m_ObjectHideFlags: 0
@@ -93,6 +123,7 @@ GameObject:
   - component: {fileID: 4026150392836981497}
   - component: {fileID: 8658964612846153319}
   - component: {fileID: 3002378503452264489}
+  - component: {fileID: 5228376675526971289}
   - component: {fileID: 6597070149403444913}
   - component: {fileID: 6943020600214082655}
   - component: {fileID: 6435433995925079697}
@@ -121,6 +152,7 @@ Transform:
   m_Children:
   - {fileID: 4123635210054283922}
   - {fileID: 8234280036476167487}
+  - {fileID: 7824068978059938608}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -172,6 +204,30 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5228376675526971289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7482098364417582241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb88201bd1a9d5a45904bff95c56b090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aIFOV: 45
+  eyesightDistance: 30
+  earshotDistance: 40
+  attackDistance: 10
+  fleeDistance: 20
+  percentHealthToFlee: 0.7
+  maxDistanceFromSpawn: 30
+  timeToAgro: 5
+  distanceFromPlayerToDisable: 200
+  raycastLocation: {fileID: 3913695777855373009}
+  startState: 0
+  spear: {fileID: 3584662300463668172}
 --- !u!114 &6597070149403444913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,3 +448,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2410404491623811762, guid: 7383db069607eb94c806b093f6e9644e, type: 3}
   m_PrefabInstance: {fileID: 5995821682927792013}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3584662300463668172 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7100548592554865729, guid: 7383db069607eb94c806b093f6e9644e, type: 3}
+  m_PrefabInstance: {fileID: 5995821682927792013}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0242d31091b4ae4598d07f69d233610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

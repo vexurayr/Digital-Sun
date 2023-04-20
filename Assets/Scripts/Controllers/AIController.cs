@@ -81,19 +81,22 @@ public abstract class AIController : MonoBehaviour
     { }
 
     // Polymorphism at its finest
-    public void Seek(Vector3 targetVector)
+    public void Seek(Vector3 targetVector, float minDistance)
     {
-        navMeshAgent.destination = targetVector;
+        if (!IsDistanceLessThan(targetVector, minDistance))
+        {
+            navMeshAgent.destination = targetVector;
+        }
     }
 
-    public void Seek(Transform targetTransform)
+    public void Seek(Transform targetTransform, float minDistance)
     {
-        Seek(targetTransform.position);
+        Seek(targetTransform.position, minDistance);
     }
 
-    public void Seek(GameObject target)
+    public void Seek(GameObject target, float minDistance)
     {
-        Seek(target.transform.position);
+        Seek(target.transform.position, minDistance);
     }
 
     public void Flee()
@@ -107,17 +110,14 @@ public abstract class AIController : MonoBehaviour
         // Find how far away the AI will travel
         // Compare how close the player is at the beginning of the flee to always be the flee distance away from the player
         // at the end of the flee
-        float targetDistance = Vector3.Distance(target.transform.position, gameObject.transform.position);
+        float targetDistance = Vector3.Distance(vectorAwayFromTarget, gameObject.transform.position);
         float percentOfFleeDistance = targetDistance / fleeDistance;
 
-        // Clamps it between 0 and 1
-        percentOfFleeDistance = Mathf.Clamp01(percentOfFleeDistance);
-        float flippedPercentOfFleeDistance = 1 - percentOfFleeDistance;
-
-        Vector3 fleeVector = vectorAwayFromTarget.normalized * flippedPercentOfFleeDistance;
-
+        Debug.Log(targetDistance + "\n" + percentOfFleeDistance);
+        Vector3 fleeVector = vectorAwayFromTarget.normalized * percentOfFleeDistance;
+        
         // Seek the point the AI needs to flee to
-        Seek(gameObject.transform.position + fleeVector);
+        Seek(gameObject.transform.position + fleeVector, 1);
     }
 
     // Will need to be changed based on the AI pawn
@@ -128,7 +128,7 @@ public abstract class AIController : MonoBehaviour
     public virtual void SeekAndAttack()
     {
         // Continually chases and shoots at target
-        Seek(target);
+        Seek(target, attackDistance);
 
         // Only attacks if in range and is lined up with the player
         RaycastHit targetToHit;
@@ -161,7 +161,7 @@ public abstract class AIController : MonoBehaviour
             randomLocation = GetRandomDirectionInFrontOfSelf();
         }
 
-        Seek(randomLocation);
+        Seek(randomLocation, 1);
     }
 
     // Will have to be changed based on the AI pawn
@@ -256,8 +256,13 @@ public abstract class AIController : MonoBehaviour
     #region HelperFunctions
     public bool IsDistanceLessThan(Vector3 target, float distance)
     {
+        if (target == null)
+        {
+            return false;
+        }
+
         // Checks distance between 2 vectors
-        if (target != null && Vector3.Distance(gameObject.transform.position, target) < distance)
+        if (Vector3.Distance(gameObject.transform.position, target) < distance)
         {
             return true;
         }

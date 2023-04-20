@@ -416,6 +416,13 @@ public class SpawnerManager : MonoBehaviour
         }
     }
 
+    public void ResetEntitiesLeft()
+    {
+        landAnimalsLeft = maxLandAnimalsInScene;
+        waterAnimalsLeft= maxWaterAnimalsInScene;
+        tribesmanLeft = maxTribesmanInScene;
+    }
+
     public int ReturnLowerNumber(int firstNumber, int secondNumber)
     {
         if (firstNumber < secondNumber)

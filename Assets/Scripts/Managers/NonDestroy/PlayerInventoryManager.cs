@@ -150,7 +150,10 @@ public class PlayerInventoryManager : MonoBehaviour
             survivalUI.gameObject.SetActive(false);
             basicCraftingUI.SetActive(false);
 
-            lastOpenedCraftBench = GameManager.instance.GetCurrentPlayerController().GetLastOpenedCraftBench();
+            if (GameManager.instance.GetCurrentPlayerController())
+            {
+                lastOpenedCraftBench = GameManager.instance.GetCurrentPlayerController().GetLastOpenedCraftBench();
+            }
 
             if (lastOpenedCraftBench != null)
             {
