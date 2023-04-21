@@ -15,10 +15,5 @@ public class Terminal : InventoryItem
         return true;
     }
 
-    public override void PickItemUp(Inventory targetInv)
-    {
-        // Do nothing, this is not an item that can be picked up
-    }
-
     #endregion OverrideFunctions
 }

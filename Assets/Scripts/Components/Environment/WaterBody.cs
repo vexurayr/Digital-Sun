@@ -19,8 +19,4 @@ public class WaterBody : InventoryItem
 
         return true;
     }
-
-    // Inheriting from InventoryItem makes this easier, but we don't want the player to pick up water as is
-    public override void PickItemUp(Inventory targetInv)
-    {}
 }

@@ -64,6 +64,7 @@ MonoBehaviour:
   itemSprite: {fileID: 21300000, guid: 3aa887bf33eaa154cb74b54ef8e1e501, type: 3}
   itemCount: 0
   maxStackSize: 20
+  isGrabbable: 1
   transformInHandX: 0
   transformInHandY: 0
   transformInHandZ: 0

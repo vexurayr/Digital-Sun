@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class TribesmanFSM : AIController
 {
+    #region Variables
     [SerializeField] private InventoryItem spear;
 
+    #endregion Variables
+
+    #region MonoBehaviours
     protected override void Start()
     {
         base.Start();
@@ -29,6 +33,9 @@ public class TribesmanFSM : AIController
         MakeDecisions();
     }
 
+    #endregion MonoBehaviours
+
+    #region FSM
     public void StartingState()
     {
         ChangeState(startState);
@@ -126,9 +133,13 @@ public class TribesmanFSM : AIController
         }
     }
 
+    #endregion FSM
+
+    #region OverrideFunctions
     public override void Attack()
     {
-        Debug.Log("Attacking with spear");
         spear.PrimaryAction(gameObject);
     }
+
+    #endregion OverrideFunctions
 }

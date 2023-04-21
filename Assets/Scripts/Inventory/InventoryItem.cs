@@ -57,6 +57,8 @@ public class InventoryItem : MonoBehaviour
     [SerializeField] protected int itemCount;
     [SerializeField] protected int maxStackSize;
 
+    [SerializeField] protected bool isGrabbable;
+
     // Used to place objects in a way that the player seems to be holding it
     [SerializeField] protected float transformInHandX, transformInHandY, transformInHandZ;
     [SerializeField] protected float rotationInHandX, rotationInHandY, rotationInHandZ;
@@ -96,6 +98,11 @@ public class InventoryItem : MonoBehaviour
 
     public virtual void PickItemUp(Inventory targetInv)
     {
+        if (!isGrabbable)
+        {
+            return;
+        }
+
         targetInv.AddToInventory(this.gameObject);
 
         Destroy(this.gameObject);
@@ -176,6 +183,16 @@ public class InventoryItem : MonoBehaviour
         rotationInHandX = newRotation.x;
         rotationInHandY = newRotation.y;
         rotationInHandZ = newRotation.z;
+    }
+
+    public bool GetIsGrabbable()
+    {
+        return isGrabbable;
+    }
+
+    public void SetIsGrabbable(bool newState)
+    {
+        isGrabbable = newState;
     }
 
     #endregion GetSet

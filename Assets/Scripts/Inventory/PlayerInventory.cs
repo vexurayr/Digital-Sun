@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.ParticleSystem;
 
 public class PlayerInventory : Inventory
 {
@@ -507,6 +506,8 @@ public class PlayerInventory : Inventory
         itemInScene.gameObject.transform.localPosition = newItem.GetTransformInHand();
         itemInScene.gameObject.transform.localEulerAngles = newItem.GetRotationInHand();
         itemInScene.GetComponent<InventoryItem>().SetItemCount(newItem.GetItemCount());
+        // Make sure this item can't be grabbed to duplicate it
+        itemInScene.GetComponent<InventoryItem>().SetIsGrabbable(false);
 
         // Give the item in the scene the unique name
         itemInScene.gameObject.name = "ActivePlayerItem";
