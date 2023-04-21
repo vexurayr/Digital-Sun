@@ -38,7 +38,7 @@ public class Recipe : MonoBehaviour
         newItem.SetItemSprite(itemOutput.GetItemSprite());
         newItem.SetMaxStackSize(itemOutput.GetMaxStackSize());
         newItem.SetItemCount(itemOutput.GetItemCount());
-        Debug.Log("Hash code from item stored in recipe: " + itemOutput.GetHashCode() + "\n Hash code from new item: " + newItem.GetHashCode());
+
         return newItem.GetComponent<InventoryItem>();
     }
 

@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 3965720492232101430}
   - component: {fileID: 6515460654470572443}
   - component: {fileID: 1288634717117867698}
+  - component: {fileID: 7698411094646081768}
   m_Layer: 0
   m_Name: Terminal
   m_TagString: Untagged
@@ -317,6 +318,22 @@ MonoBehaviour:
   rotationInHandX: 0
   rotationInHandY: 0
   rotationInHandZ: 0
+--- !u!208 &7698411094646081768
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003832128247973143}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1.375, z: 0.5}
+  m_MoveThreshold: 0.2
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 1.4, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5015045764631773133
 GameObject:
   m_ObjectHideFlags: 0
