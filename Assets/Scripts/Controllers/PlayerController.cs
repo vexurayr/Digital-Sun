@@ -7,9 +7,6 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private Text worldToolTipUI;
-    [SerializeField] private Text inventoryToolTipUI;
-    [SerializeField] private OvenUI ovenUI;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float mouseSensitivityX;
     [SerializeField] private float mouseSensitivityY;
@@ -43,14 +40,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private KeyCode selfKillKey = KeyCode.K;
     [SerializeField] private KeyCode selfLiveKey = KeyCode.L;
 
-    private InventoryUI inventoryUI;
+    private PlayerInventory playerInventory;
     private SurvivalUI survivalUI;
     private GameObject basicCraftingUI;
+    private Text worldToolTipUI;
+    private Text inventoryToolTipUI;
+    private InventoryUI inventoryUI;
+    private OvenUI ovenUI;
     private Health health;
     private Stamina stamina;
     private Hunger hunger;
     private Thirst thirst;
 
+    private bool isInventoryReady = false;
     private bool isMovementLocked = false;
     private bool isCameraMovementLocked = false;
     private bool isInventoryActive = false;
@@ -81,6 +83,8 @@ public class PlayerController : MonoBehaviour
         // Lets the character controller handle movement and collision, applies the value to this component
         playerController = GetComponent<CharacterController>();
 
+        GameManager.instance.SetCurrentPlayerController(this);
+
         if (isCursorLocked)
         {
             // Locks the cursor to the center of the screen
@@ -90,24 +94,37 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = false;
         }
 
-        inventoryUI = GetComponent<PlayerInventory>().GetInventoryUI();
+        playerInventory = PlayerInventoryManager.instance.GetPlayerInventory();
+        inventoryUI = playerInventory.GetInventoryUI();
         survivalUI = inventoryUI.GetSurvivalUI();
         basicCraftingUI = inventoryUI.GetBasicCraftingUI();
+        ovenUI = playerInventory.GetOvenUI();
+        worldToolTipUI = playerInventory.GetWorldToolTipUI();
+        inventoryToolTipUI = playerInventory.GetInventoryToolTipUI();
         health = GetComponent<Health>();
         stamina = GetComponent<Stamina>();
         hunger = GetComponent<Hunger>();
         thirst = GetComponent<Thirst>();
 
-        int selectedInvHandSlot = GetComponent<PlayerInventory>().GetSelectedInvHandSlot();
+        int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
         Color background = inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color;
         inventoryUI.GetInvHandSelectedSlotUI()[selectedInvHandSlot].GetComponent<RawImage>().color =
             new Color(background.r, background.g, background.b, .8f);
 
-        GameManager.instance.SetCurrentPlayerController(this);
+        PlayerInventoryManager.instance.GetPlayerInventory().RefreshInventoryVisuals();
+        PlayerInventoryManager.instance.GetPlayerInventory().CreateHandItemOnPlayerSpawn();
+        PlayerInventoryManager.instance.CheckArmorOnSceneLoad();
     }
 
     private void Update()
     {
+        // Nothing can happen in Update until the PlayerInventoryManager has done what it needs
+        // which can only happen after the player is spawned
+        if (isInventoryReady)
+        {
+            return;
+        }
+
         if (!isCameraMovementLocked)
         {
             UpdateMouseLook();
@@ -288,8 +305,6 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeSelectedHandSlot(int slotIndex)
     {
-        PlayerInventory playerInventory = GetComponent<PlayerInventory>();
-
         // Get the currently selected slot
         int oldInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
@@ -312,8 +327,6 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeSelectedHandSlot(bool isMovingRight)
     {
-        PlayerInventory playerInventory = GetComponent<PlayerInventory>();
-
         // Get currently selected slot
         int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
@@ -374,11 +387,9 @@ public class PlayerController : MonoBehaviour
 
         worldToolTipUI.text = "";
 
-        PlayerInventory inventory = this.gameObject.GetComponent<PlayerInventory>();
-
         if (!isHitSuccess)
         {
-            currentItemBeingObserved = inventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
+            currentItemBeingObserved = playerInventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
             return;
         }
 
@@ -386,7 +397,7 @@ public class PlayerController : MonoBehaviour
 
         if (hitInventoryItem == null)
         {
-            currentItemBeingObserved = inventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
+            currentItemBeingObserved = playerInventory.GetEmptyInventoryItem().GetComponent<InventoryItem>();
             return;
         }
 
@@ -403,10 +414,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // If there is not a single empty slot in the player's inventory
-        if (GetComponent<PlayerInventory>().IsInventoryFull())
+        if (playerInventory.IsInventoryFull())
         {
             // If they have a non-max stack of the same item, pick up as much as possible
-            InventoryItem itemToTransferTo = GetComponent<PlayerInventory>().HasSameItemOfNonMaxStackSize(hitInventoryItem);
+            InventoryItem itemToTransferTo = playerInventory.HasSameItemOfNonMaxStackSize(hitInventoryItem);
 
             // Let the player interact with the Craft Bench even if they can't pick it up
             if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
@@ -464,7 +475,7 @@ public class PlayerController : MonoBehaviour
                     Destroy(hitInventoryItem.gameObject);
                 }
 
-                inventory.RefreshInventoryVisuals();
+                playerInventory.RefreshInventoryVisuals();
                 return;
             }
         }
@@ -472,9 +483,9 @@ public class PlayerController : MonoBehaviour
         // Player can pick the item up no problem
         if (Input.GetKeyDown(pickUpKey))
         {
-            hitInventoryItem.PickItemUp(inventory);
+            hitInventoryItem.PickItemUp(playerInventory);
 
-            inventory.RefreshInventoryVisuals();
+            playerInventory.RefreshInventoryVisuals();
         }
         // Special case for using a Craft Bench
         else if (Input.GetKeyDown(rightClickKey) && hitInventoryItem.GetItem() == InventoryItem.Item.Craft_Bench)
@@ -626,7 +637,6 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        PlayerInventory playerInventory = this.gameObject.GetComponent<PlayerInventory>();
         List<InventoryItem> invItems = playerInventory.GetInvItemList();
         List<InventoryItem> invHandItems = playerInventory.GetInvHandItemList();
         List<InventoryItem> invArmorItems = playerInventory.GetInvItemArmorList();
@@ -692,9 +702,6 @@ public class PlayerController : MonoBehaviour
         {
             bool wasConsumed = false;
 
-            // Get player inventory
-            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
-
             // Get the index of the selected inv hand slot
             int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
@@ -748,9 +755,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(rightClickKey))
         {
-            // Get player inventory
-            PlayerInventory playerInventory = GetComponent<PlayerInventory>();
-
             // Get the index of the selected inv hand slot
             int selectedInvHandSlot = playerInventory.GetSelectedInvHandSlot();
 
@@ -857,6 +861,11 @@ public class PlayerController : MonoBehaviour
         return playerCamera;
     }
 
+    public CraftBench GetLastOpenedCraftBench()
+    {
+        return lastOpenedCraftBench;
+    }
+
     public Oven GetLastOpenedOven()
     {
         return lastOpenedOven;
@@ -875,6 +884,11 @@ public class PlayerController : MonoBehaviour
     public float GetCameraFOV()
     {
         return playerCamera.fieldOfView;
+    }
+
+    public void SetIsInventoryReady(bool newState)
+    {
+        isInventoryReady = newState;
     }
 
     #endregion GetSet

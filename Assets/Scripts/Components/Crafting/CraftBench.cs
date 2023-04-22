@@ -8,7 +8,7 @@ public class CraftBench : InventoryItem
 
     public override bool PrimaryAction(GameObject player)
     {
-        craftBenchUI.GetComponent<CraftBenchUI>().SetInteractingObject(player.GetComponent<PlayerInventory>());
+        craftBenchUI.GetComponent<CraftBenchUI>().SetInteractingObject(PlayerInventoryManager.instance.GetPlayerInventory());
         ToggleUI();
         return true;
     }

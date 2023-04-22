@@ -15,7 +15,6 @@ public class Oven : InventoryItem
     private InventoryItem fuelInput;
     private InventoryItem convertInput;
     private InventoryItem output;
-    private GameObject player;
     private float timeRemaining;
     private bool hasItems = false;
 
@@ -48,18 +47,18 @@ public class Oven : InventoryItem
     #region GetSet
     public void SetOvenInventoryFromPlayer(GameObject player)
     {
-        fuelInput = player.GetComponent<PlayerInventory>().GetOvenFuelInput();
-        convertInput = player.GetComponent<PlayerInventory>().GetOvenConvertInput();
-        output = player.GetComponent<PlayerInventory>().GetOvenOutput();
+        fuelInput = PlayerInventoryManager.instance.GetPlayerInventory().GetOvenFuelInput();
+        convertInput = PlayerInventoryManager.instance.GetPlayerInventory().GetOvenConvertInput();
+        output = PlayerInventoryManager.instance.GetPlayerInventory().GetOvenOutput();
 
         CheckIfHasItems();
     }
 
     public void SetPlayerInventoryFromOven()
     {
-        player.GetComponent<PlayerInventory>().SetOvenFuelInput(fuelInput);
-        player.GetComponent<PlayerInventory>().SetOvenConvertInput(convertInput);
-        player.GetComponent<PlayerInventory>().SetOvenOutput(output);
+        PlayerInventoryManager.instance.GetPlayerInventory().SetOvenFuelInput(fuelInput);
+        PlayerInventoryManager.instance.GetPlayerInventory().SetOvenConvertInput(convertInput);
+        PlayerInventoryManager.instance.GetPlayerInventory().SetOvenOutput(output);
 
         CheckIfHasItems();
     }
@@ -178,7 +177,7 @@ public class Oven : InventoryItem
         SetPlayerInventoryFromOven();
 
         // Update the oven UI
-        player.GetComponent<PlayerInventory>().RefreshOvenVisuals();
+        PlayerInventoryManager.instance.GetPlayerInventory().RefreshOvenVisuals();
     }
 
     private void CookMeat()
@@ -200,7 +199,6 @@ public class Oven : InventoryItem
     #region InventoryItemFunctions
     public override bool PrimaryAction(GameObject player)
     {
-        this.player = player;
         // Update the player's Oven UI with whatever this oven is holding
         SetPlayerInventoryFromOven();
         return true;
@@ -208,19 +206,14 @@ public class Oven : InventoryItem
 
     public override void PickItemUp(Inventory targetInv)
     {
-        if (player == null)
-        {
-            player = targetInv.gameObject;
-        }
-
         // Don't let the player pick up the oven if there is anything in its inventory
         // The data will be lost because it isn't being given to the prefab when the oven is placed again
         if (!hasItems)
         {
             // Close the oven's inventory so the player
-            if (player.GetComponent<PlayerController>().GetOvenUI().gameObject.activeInHierarchy)
+            if (GameManager.instance.GetCurrentPlayerController().GetOvenUI().gameObject.activeInHierarchy)
             {
-                player.GetComponent<PlayerController>().ToggleOvenUI();
+                GameManager.instance.GetCurrentPlayerController().ToggleOvenUI();
             }
 
             base.PickItemUp(targetInv);

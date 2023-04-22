@@ -58,7 +58,6 @@ public class Spawner : MonoBehaviour
             randPosition, gameObject.transform.rotation);
 
         newObj.transform.rotation = Quaternion.Euler(Vector3.up * randAngle);
-        Debug.Log("Rand Angle: " + randAngle);
     }
 
     public void SpawnRandomObject()
@@ -78,7 +77,6 @@ public class Spawner : MonoBehaviour
             randPosition, gameObject.transform.rotation);
 
         newObj.transform.rotation = Quaternion.Euler(Vector3.up * randAngle);
-        Debug.Log("Rand Angle: " + randAngle);
     }
 
     #endregion SpawnerFunctions

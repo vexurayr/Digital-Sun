@@ -21,7 +21,7 @@ public class Armor : InventoryItem
     public override bool PrimaryAction(GameObject player)
     {
         Defense defense = player.GetComponent<Defense>();
-
+        
         defense.IncCurrentValue(defenseProtection);
         defense.IncCurrentHotProtection(hotTemperatureProtection);
         defense.IncCurrentColdProtection(coldTemperatureProtection);
@@ -36,7 +36,7 @@ public class Armor : InventoryItem
     public override bool SecondaryAction(GameObject player)
     {
         Defense defense = player.GetComponent<Defense>();
-
+        
         defense.DecCurrentValue(defenseProtection);
         defense.DecCurrentHotProtection(hotTemperatureProtection);
         defense.DecCurrentColdProtection(coldTemperatureProtection);
