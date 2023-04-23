@@ -5200,6 +5200,7 @@ GameObject:
   - component: {fileID: 444884}
   - component: {fileID: 206061018147589996}
   - component: {fileID: -4932756821026584275}
+  - component: {fileID: 7867021115455013313}
   m_Layer: 0
   m_Name: Well
   m_TagString: Untagged
@@ -5330,6 +5331,22 @@ MonoBehaviour:
   rotationInHandY: 0
   rotationInHandZ: 0
   thirstRestored: 0
+--- !u!208 &7867021115455013313
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 186502}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.5, y: 4, z: 2.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 3, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &186906
 GameObject:
   m_ObjectHideFlags: 0
