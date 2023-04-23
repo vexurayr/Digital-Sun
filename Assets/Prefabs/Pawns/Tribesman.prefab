@@ -223,6 +223,7 @@ MonoBehaviour:
   fleeDistance: 20
   percentHealthToFlee: 0.7
   maxDistanceFromSpawn: 30
+  delayBetweenRandomMovement: 5
   timeToAgro: 5
   distanceFromPlayerToDisable: 200
   raycastLocation: {fileID: 3913695777855373009}

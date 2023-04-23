@@ -27,6 +27,7 @@ public abstract class AIController : MonoBehaviour
     [SerializeField] protected float fleeDistance;
     [Range(0f, 1f)][SerializeField] protected float percentHealthToFlee;
     [Tooltip("Leave 0 to have no restriction.")][SerializeField] protected float maxDistanceFromSpawn;
+    [SerializeField] protected float delayBetweenRandomMovement;
     [SerializeField] protected float timeToAgro;
     [SerializeField] protected float distanceFromPlayerToDisable;
     [SerializeField] protected GameObject raycastLocation;
@@ -44,12 +45,15 @@ public abstract class AIController : MonoBehaviour
     // Used for random movement & random observe
     protected Vector3 randomLocation;
 
+    protected Vector3 startingLocation;
+
     // Used for Face Noise and Seek Noise
     protected GameObject noiseLocation;
 
     // Value between 0 and timeToAgro
     protected float currentAlertness;
 
+    protected float currentDelayBetweenRandomMovement = 0;
     private NavMeshAgent navMeshAgent;
 
     #endregion Variables
@@ -59,12 +63,14 @@ public abstract class AIController : MonoBehaviour
     {
         noiseLocation = new GameObject();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        startingLocation = gameObject.transform.position;
+        randomLocation = GetRandomDirection();
     }
 
     #endregion MonoBehaviours
 
     #region Transitions
-    // Option to override later for AI tanks with different personalities
+    // Option to override later for AI with different personalities
     public virtual void ChangeState(AIState newState)
     {
         // Change current state
@@ -83,10 +89,7 @@ public abstract class AIController : MonoBehaviour
     // Polymorphism at its finest
     public void Seek(Vector3 targetVector, float minDistance)
     {
-        if (!IsDistanceLessThan(targetVector, minDistance))
-        {
-            navMeshAgent.destination = targetVector;
-        }
+        navMeshAgent.destination = targetVector;
     }
 
     public void Seek(Transform targetTransform, float minDistance)
@@ -97,6 +100,32 @@ public abstract class AIController : MonoBehaviour
     public void Seek(GameObject target, float minDistance)
     {
         Seek(target.transform.position, minDistance);
+    }
+
+    public void SeekPointBeforeTarget(float minDistance)
+    {
+        // Gets vector to target
+        Vector3 vectorToTarget = target.transform.position - gameObject.transform.position;
+        float targetDistance = Vector3.Distance(vectorToTarget, gameObject.transform.position);
+
+        // Travel percentage of vector
+        if (targetDistance < minDistance)
+        {
+            // Half vector length
+            vectorToTarget = vectorToTarget * 0.5f;
+
+            Seek(vectorToTarget, 0);
+        }
+        // Travel vector with flat reduction
+        else
+        {
+            vectorToTarget = vectorToTarget.normalized;
+
+            // Slightly shorter vector
+            vectorToTarget = vectorToTarget * (targetDistance - minDistance);
+
+            Seek(vectorToTarget, 0);
+        }
     }
 
     public void Flee()
@@ -155,13 +184,20 @@ public abstract class AIController : MonoBehaviour
 
     public void RandomMovement()
     {
-        // This will prevent this tank from constantly looking for a new position to travel to
-        if (HasReachedRandomLocation())
+        // This will prevent the AI from constantly looking for a new position to travel to
+        if (HasReachedRandomLocation() || randomLocation == null)
         {
-            randomLocation = GetRandomDirectionInFrontOfSelf();
+            ResetDelayBetweenRandomMovement();
+            Debug.Log("Picking new random location");
+            randomLocation = GetRandomDirection();
         }
-
-        Seek(randomLocation, 1);
+        
+        if (currentDelayBetweenRandomMovement <= 0)
+        {
+            Seek(randomLocation, 1);
+        }
+        
+        CountdownDelayBetweenRandomMovement();
     }
 
     // Will have to be changed based on the AI pawn
@@ -241,14 +277,48 @@ public abstract class AIController : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public Vector3 GetRandomDirectionInFrontOfSelf()
+    public Vector3 GetRandomDirection()
     {
-        // This will pick a direction away from the player on the x and z axis
-        Vector3 targetPosition = gameObject.transform.position;
-        float distance = Random.Range(4, 8);
-        targetPosition = targetPosition + gameObject.transform.forward * distance;
+        if (maxDistanceFromSpawn > 0)
+        {
+            // Pick a random direction in a circle around the start location
+            float radius = Random.Range(0, maxDistanceFromSpawn);
+            float theta = Random.Range(0, Mathf.PI * 2);
 
-        return targetPosition;
+            float x = radius * Mathf.Cos(theta);
+            float z = radius * Mathf.Sin(theta);
+
+            Vector3 direction = new Vector3(x, 0, z);
+            direction += startingLocation;
+
+            return direction;
+        }
+        else
+        {
+            // Pick a random direction in a circle around the current location
+            float radius = Random.Range(0, 10);
+            float theta = Random.Range(0, Mathf.PI * 2);
+
+            float x = radius * Mathf.Cos(theta);
+            float z = radius * Mathf.Sin(theta);
+
+            Vector3 direction = new Vector3(x, 0, z);
+            direction += gameObject.transform.position;
+
+            return direction;
+        }
+    }
+
+    public void CountdownDelayBetweenRandomMovement()
+    {
+        currentDelayBetweenRandomMovement -= Time.deltaTime;
+
+        currentDelayBetweenRandomMovement = Mathf.Clamp(currentDelayBetweenRandomMovement, 0, delayBetweenRandomMovement);
+    }
+
+    public void ResetDelayBetweenRandomMovement()
+    {
+        currentDelayBetweenRandomMovement = delayBetweenRandomMovement;
     }
 
     #endregion Other Methods

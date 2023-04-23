@@ -52,7 +52,7 @@ public class TribesmanFSM : AIController
                 TargetPlayer();
 
                 // Check for transitions
-                if (IsDistanceLessThan(target, eyesightDistance))
+                if (CanSeeTarget())
                 {
                     ChangeState(AIState.Chase);
                 }
@@ -60,8 +60,24 @@ public class TribesmanFSM : AIController
                 {
                     ChangeState(AIState.Flee);
                 }
+                else
+                {
+                    ChangeState(AIState.RandomMovement);
+                }
 
                 break;
+            case AIState.RandomMovement:
+                RandomMovement();
+                Debug.Log("Moving randomly");
+                TargetPlayer();
+
+                if (CanSeeTarget())
+                {
+                    ChangeState(AIState.Chase);
+                }
+
+                break;
+
             case AIState.Chase:
                 // Do state actions
                 if (target == null)
