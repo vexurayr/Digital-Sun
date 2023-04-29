@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 773390898319019602}
   - component: {fileID: 3269426022940129944}
   - component: {fileID: 7090385961893243509}
-  - component: {fileID: 5325133381927877426}
   m_Layer: 0
   m_Name: Tent_A_01
   m_TagString: Untagged
@@ -97,19 +96,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6705128238138053353, guid: 6724caf277831854fa8c7e4bcd500aa1, type: 3}
---- !u!208 &5325133381927877426
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3918036935182654285}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.25, y: 1.0250001, z: 1.5150001}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 1.024, z: 0.015000001}
-  m_TimeToStationary: 0.5
