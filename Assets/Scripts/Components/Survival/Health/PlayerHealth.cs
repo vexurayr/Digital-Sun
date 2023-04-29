@@ -16,6 +16,8 @@ public class PlayerHealth : Health
             
             GameManager.instance.SetCurrentPlayerController(null);
 
+            Camera.main.GetComponent<AudioListener>().enabled = true;
+
             Die();
         }
     }
@@ -29,6 +31,8 @@ public class PlayerHealth : Health
             MenuManager.instance.ShowDeathScreen();
             
             GameManager.instance.SetCurrentPlayerController(null);
+
+            Camera.main.GetComponent<AudioListener>().enabled = true;
 
             Die();
         }

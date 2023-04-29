@@ -254,8 +254,11 @@ MonoBehaviour:
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
   spawnedFrom: 4
+  playSoundFromDamage: Player Hit
+  playSoundOnDeath: Player Death
 --- !u!114 &4343693250337912774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +277,7 @@ MonoBehaviour:
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &6980715797390888414
 MonoBehaviour:
@@ -293,6 +297,7 @@ MonoBehaviour:
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &6449182244168678847
 MonoBehaviour:
@@ -312,6 +317,7 @@ MonoBehaviour:
   drainDelay: 5
   regainMult: 1.5
   regainDelay: 2
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &6939311668126202570
 MonoBehaviour:
@@ -350,6 +356,7 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &4261295615998066493
 MonoBehaviour:

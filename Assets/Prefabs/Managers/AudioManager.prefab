@@ -44,11 +44,107 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - clip: {fileID: 8300000, guid: c3108e2052ab30442b79bba054ab1b2e, type: 3}
-    audioName: Button Press
+  - clip: {fileID: 8300000, guid: d193ad7d703bbbd40a669c070a8540c0, type: 3}
+    audioName: Main Menu Music
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 1
+    mixerGroup: {fileID: -6567185558255739561, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: 6917c6a1afaf3b844bf4d8bce0fcbc7f, type: 3}
+    audioName: Attack Swing
     isAudioMuted: 0
     volume: 1
     pitch: 1
     spacialBlend: 0
     isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: 0df923f70f1898e4ea2e7dacc410fb90, type: 3}
+    audioName: Button
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: 9efd5d07cf6ca6841881ee5b17fd95ae, type: 3}
+    audioName: Campfire
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: f9b4d6aaaa2bdc847ae9eac5853d3bfa, type: 3}
+    audioName: Lantern
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: af65b63bdc97be14ca50f083b0e0cfc9, type: 3}
+    audioName: Pick Item Up
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: dd5d497cc8d877f4db9818f9e3fda065, type: 3}
+    audioName: Player Death
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: a6971301c2fe3ea49a825b16a1940dbe, type: 3}
+    audioName: Player Hit
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: 8885e20877293be4fa53a22fe4a8ab37, type: 3}
+    audioName: Rock Hit
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: 5e498e850c9eb02458ca1f276015ac25, type: 3}
+    audioName: Swap Hand Item
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: e893583c2cf51ec42b2e3e43607cb6ec, type: 3}
+    audioName: Tree Hit
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: b9d15232b19e0a9498f9eb61341deda4, type: 3}
+    audioName: Walking
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 1
+    isLooping: 0
+    mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}
+  - clip: {fileID: 8300000, guid: b4ea7a17e3f8e02499f515153d149f5f, type: 3}
+    audioName: Wind
+    isAudioMuted: 0
+    volume: 1
+    pitch: 1
+    spacialBlend: 0
+    isLooping: 1
     mixerGroup: {fileID: -4301351605127873137, guid: 0f5b66f4e5ab0c84898cf4c5711ad011, type: 2}

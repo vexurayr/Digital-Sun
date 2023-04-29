@@ -277,6 +277,8 @@ public class SpawnerManager : MonoBehaviour
         {
             playerSpawners[randSpawnPoint].GetComponent<Spawner>().SpawnObject(0);
         }
+
+        Camera.main.GetComponent<AudioListener>().enabled = false;
     }
 
     public void SpawnTerminal()

@@ -53,6 +53,15 @@ public class MenuManager : MonoBehaviour
         {
             UpdateAllAudioSliderValues();
         }
+
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main Menu"))
+        {
+            AudioManager.instance.PlayLoopingSound("Main Menu Music", transform);
+        }
+        else if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Forest - Build"))
+        {
+            AudioManager.instance.PlayLoopingSound("Wind", transform);
+        }
     }
 
     public void Update()
@@ -84,8 +93,12 @@ public class MenuManager : MonoBehaviour
         mainMenu.SetActive(false);
 
         SpawnerManager.instance.ClearAllLists();
-        
+
+        AudioManager.instance.StopSound("Main Menu Music");
+
         SceneManager.LoadScene(forestLevelName);
+
+        AudioManager.instance.PlayLoopingSound("Wind", transform);
 
         PlayerInventoryManager.instance.ToggleInventoryUI(false);
         PlayerInventoryManager.instance.GetPlayerUI().SetActive(true);
@@ -105,7 +118,11 @@ public class MenuManager : MonoBehaviour
         deathScreen.SetActive(false);
         mainMenu.SetActive(true);
 
+        AudioManager.instance.StopSound("Wind");
+
         SceneManager.LoadScene(mainMenuName);
+
+        AudioManager.instance.PlayLoopingSound("Main Menu Music", transform);
 
         UpdateAllAudioSliderValues();
 
@@ -220,7 +237,7 @@ public class MenuManager : MonoBehaviour
     #region AudioFunctions
     public void PlayButtonPressedSound()
     {
-        AudioManager.instance.PlaySound2D("Button Press");
+        AudioManager.instance.PlaySound2D("Button");
     }
 
     #endregion AudioFunctions

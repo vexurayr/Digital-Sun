@@ -26,6 +26,7 @@ public class DestructibleHealth : Health
 
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
+            PlaySoundAfterTakingDamage();
             DecCurrentValue(totalDamage);
         }
         // If it's a tool, use its damage to specialty instead
@@ -42,6 +43,7 @@ public class DestructibleHealth : Health
 
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
+            PlaySoundAfterTakingDamage();
             DecCurrentValue(totalDamage);
             Debug.Log("Damage Recieved: " + totalDamage);
         }
@@ -58,6 +60,7 @@ public class DestructibleHealth : Health
 
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
+            PlaySoundAfterTakingDamage();
             DecCurrentValue(totalDamage);
             Debug.Log("Damage Recieved: " + totalDamage);
         }

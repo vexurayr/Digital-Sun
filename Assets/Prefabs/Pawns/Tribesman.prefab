@@ -250,6 +250,8 @@ MonoBehaviour:
   isAffectedByDifficulty: 1
   isDebugging: 0
   spawnedFrom: 3
+  playSoundFromDamage: Player Hit
+  playSoundOnDeath: Player Death
 --- !u!114 &6943020600214082655
 MonoBehaviour:
   m_ObjectHideFlags: 0

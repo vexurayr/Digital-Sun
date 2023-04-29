@@ -188,7 +188,7 @@ public abstract class AIController : MonoBehaviour
         if (HasReachedRandomLocation() || randomLocation == null)
         {
             ResetDelayBetweenRandomMovement();
-            Debug.Log("Picking new random location");
+            
             randomLocation = GetRandomDirection();
         }
         

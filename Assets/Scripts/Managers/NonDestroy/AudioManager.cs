@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour
     #region PlaySounds
     public void PlayButtonSound()
     {
-        PlaySound2D("Button Press");
+        PlaySound2D("Button");
     }
 
     public void PlaySound2D(string audioName)
@@ -59,7 +59,8 @@ public class AudioManager : MonoBehaviour
 
         try
         {
-            sound.GetAudioSource().Play();
+            sound.SetSpacialBlend(0);
+            sound.GetAudioSource().Play(0);
         }
         catch (Exception)
         { }
@@ -77,8 +78,8 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
-                // Without updating the transform, every source in 3D space would be (0, 0, 0)
-                AudioSource.PlayClipAtPoint(sound.GetAudioClip(), soundTransform.position);
+                sound.GetAudioSource().transform.position = soundTransform.position;
+                sound.GetAudioSource().Play();
             }
         }
         catch (Exception)
@@ -148,6 +149,18 @@ public class AudioManager : MonoBehaviour
         }
         catch (Exception)
         {}
+    }
+
+    public void RefreshAudioTransform(string audioName, Transform soundTransform)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.GetAudioName() == audioName);
+
+        try
+        {
+            sound.GetAudioSource().transform.position = soundTransform.position;
+        }
+        catch (Exception)
+        { }
     }
 
     #endregion HelperFunctions

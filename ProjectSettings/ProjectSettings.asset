@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: Next Patch Studio
+  companyName: Next Patch Studios
   productName: Digital Sun
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -153,7 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.NextPatchStudio.DigitalSun
+    Standalone: com.NextPatchStudios.DigitalSun
   buildNumber:
     Standalone: 0
     iPhone: 0

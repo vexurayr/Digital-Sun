@@ -210,6 +210,20 @@ public class PlayerController : MonoBehaviour
                 * walkSpeed + Vector3.up * velocityY;
         }
 
+        if (targetDirection != Vector2.zero)
+        {
+            if (!AudioManager.instance.IsSoundAlreadyPlaying("Walking"))
+            {
+                AudioManager.instance.PlayLoopingSound("Walking", transform);
+            }
+
+            AudioManager.instance.RefreshAudioTransform("Walking", transform);
+        }
+        else
+        {
+            AudioManager.instance.StopSound("Walking");
+        }
+
         // The character controller will do its thing
         playerController.Move(playerVelocity * Time.deltaTime);
 

@@ -66,8 +66,10 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
   spawnedFrom: 0
+  playSoundFromDamage: Tree Hit
   itemToDrop: {fileID: 6698066347075909765, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
   quantityToDrop: 4
   destroyedBy: 4
@@ -89,6 +91,7 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!208 &4542190269393859685
 NavMeshObstacle:

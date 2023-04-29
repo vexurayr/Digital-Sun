@@ -48,7 +48,7 @@ public class TribesmanFSM : AIController
             case AIState.Idle:
                 // Does the actions of the state
                 Idle();
-                Debug.Log("Idle");
+                
                 TargetPlayer();
 
                 // Check for transitions
@@ -68,7 +68,7 @@ public class TribesmanFSM : AIController
                 break;
             case AIState.RandomMovement:
                 RandomMovement();
-                Debug.Log("Moving randomly");
+                
                 TargetPlayer();
 
                 if (CanSeeTarget())
@@ -88,7 +88,7 @@ public class TribesmanFSM : AIController
                 {
                     Seek(target, attackDistance);
                 }
-                Debug.Log("Chase");
+                
                 // Check state transitions
                 if (!IsDistanceLessThan(target, eyesightDistance))
                 {
@@ -119,7 +119,7 @@ public class TribesmanFSM : AIController
                 {
                     SeekAndAttack();
                 }
-                Debug.Log("Seek and attack");
+                
                 if (!IsDistanceLessThan(target, attackDistance))
                 {
                     ChangeState(AIState.Idle);
@@ -135,7 +135,7 @@ public class TribesmanFSM : AIController
                 {
                     Flee();
                 }
-                Debug.Log("Flee");
+                
                 if (!IsDistanceLessThan(target, fleeDistance))
                 {
                     ChangeState(AIState.Idle);

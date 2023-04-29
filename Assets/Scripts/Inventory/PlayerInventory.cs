@@ -463,6 +463,8 @@ public class PlayerInventory : Inventory
     #region SelectHotbarSlot
     public void MoveSelectedInvHandSlotRight()
     {
+        AudioManager.instance.PlaySound2D("Swap Hand Item");
+
         selectedInvHandSlot++;
 
         if (selectedInvHandSlot > invHandSlotsUI.Count - 1)
@@ -473,6 +475,8 @@ public class PlayerInventory : Inventory
 
     public void MoveSelectedInvHandSlotLeft()
     {
+        AudioManager.instance.PlaySound2D("Swap Hand Item");
+
         selectedInvHandSlot--;
 
         if (selectedInvHandSlot < 0)

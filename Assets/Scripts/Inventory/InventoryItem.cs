@@ -105,6 +105,8 @@ public class InventoryItem : MonoBehaviour
 
         targetInv.AddToInventory(this.gameObject);
 
+        AudioManager.instance.PlaySound2D("Pick Item Up");
+
         Destroy(this.gameObject);
     }
 

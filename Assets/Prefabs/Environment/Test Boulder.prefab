@@ -480,8 +480,10 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
   spawnedFrom: 0
+  playSoundFromDamage: Rock Hit
   itemToDrop: {fileID: 2534159753980435047, guid: 2e17799e546f67d4fb13dd853ce2fb5a, type: 3}
   quantityToDrop: 4
   destroyedBy: 5
@@ -503,6 +505,7 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!208 &-6287805606102127585
 NavMeshObstacle:

@@ -33,6 +33,8 @@ public class Weapon : InventoryItem
         {
             if (player.GetComponent<Stamina>().GetCurrentValue() >= staminaCost)
             {
+                AudioManager.instance.PlaySound3D("Attack Swing", transform);
+
                 animator.SetTrigger(animationTriggerName);
 
                 player.GetComponent<Stamina>().DecCurrentValue(staminaCost);

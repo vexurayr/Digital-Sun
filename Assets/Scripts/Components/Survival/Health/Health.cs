@@ -5,7 +5,12 @@ using UnityEngine.UIElements.Experimental;
 
 public class Health : BaseValues
 {
+    #region Variables
     [SerializeField] private Spawner.SpawnerType spawnedFrom;
+    [SerializeField] private string playSoundFromDamage;
+    [SerializeField] private string playSoundOnDeath;
+
+    #endregion Variables
 
     #region MonoBehaviours
     protected override void Start()
@@ -71,12 +76,15 @@ public class Health : BaseValues
 
             float totalDamage = damageTaken - (damageTaken * defense.GetCurrentValue());
 
+            PlaySoundAfterTakingDamage();
             DecCurrentValue(totalDamage);
         }
     }
 
     public virtual void Die()
     {
+        AudioManager.instance.PlaySound2D(playSoundOnDeath);
+
         if (spawnedFrom == Spawner.SpawnerType.LandAnimal)
         {
             SpawnerManager.instance.IncrementLandAnimalsLeft();
@@ -91,5 +99,10 @@ public class Health : BaseValues
         }
 
         Destroy(gameObject);
+    }
+
+    public virtual void PlaySoundAfterTakingDamage()
+    {
+        AudioManager.instance.PlaySound3D(playSoundFromDamage, transform);
     }
 }
