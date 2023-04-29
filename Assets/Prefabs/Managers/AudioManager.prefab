@@ -143,7 +143,7 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: b4ea7a17e3f8e02499f515153d149f5f, type: 3}
     audioName: Wind
     isAudioMuted: 0
-    volume: 1
+    volume: 0.2
     pitch: 1
     spacialBlend: 0
     isLooping: 1

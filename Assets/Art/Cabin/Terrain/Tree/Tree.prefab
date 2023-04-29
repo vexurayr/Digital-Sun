@@ -86,7 +86,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -126,7 +126,11 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
+  spawnedFrom: 0
+  playSoundFromDamage: Tree Hit
+  playSoundOnDeath: 
   itemToDrop: {fileID: 6698066347075909765, guid: 3d8f12e1f3ef25c4d853ab5265e781ef, type: 3}
   quantityToDrop: 4
   destroyedBy: 4
@@ -148,6 +152,7 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!21 &21093035886076208
 Material:

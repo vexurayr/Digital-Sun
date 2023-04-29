@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 3965720492232101430}
   - component: {fileID: 6515460654470572443}
   - component: {fileID: 3354869350708504001}
+  - component: {fileID: 2054269656847446088}
   m_Layer: 0
   m_Name: CraftBench
   m_TagString: Untagged
@@ -143,7 +144,7 @@ MonoBehaviour:
   item: 13
   itemType: 1
   itemSprite: {fileID: 21300000, guid: 3fe984ed808ff1e48be74f1e49de5b27, type: 3}
-  itemCount: 0
+  itemCount: 1
   maxStackSize: 1
   isGrabbable: 1
   transformInHandX: 0
@@ -153,6 +154,22 @@ MonoBehaviour:
   rotationInHandY: 0
   rotationInHandZ: 0
   craftBenchUI: {fileID: 5232314024643511224}
+--- !u!208 &2054269656847446088
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003832128247973143}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2, y: 2.25, z: 1}
+  m_MoveThreshold: 0.2
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 2, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &6485444866233087340
 PrefabInstance:
   m_ObjectHideFlags: 0

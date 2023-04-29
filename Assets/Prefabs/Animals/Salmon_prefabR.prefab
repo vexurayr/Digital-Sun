@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 491049945952359072}
   - component: {fileID: 491049945952359078}
   - component: {fileID: 491049945952359073}
+  - component: {fileID: 4143412514761219160}
   m_Layer: 0
   m_Name: Salmon_prefabR
   m_TagString: Untagged
@@ -59,7 +60,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492090497208807185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 285.54834, y: 0.8, z: 807.61487}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 495033896701813389}
@@ -99,7 +100,7 @@ CapsuleCollider:
   m_Radius: 0.05941524
   m_Height: 0.64489746
   m_Direction: 2
-  m_Center: {x: 0, y: 0.0052808127, z: -0.07946777}
+  m_Center: {x: 0, y: 0, z: -0.15}
 --- !u!114 &491049945952359078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +147,22 @@ MonoBehaviour:
   itemToDrop: {fileID: 4499167627189174359, guid: b021851243a813e4481db6179cd6143c, type: 3}
   quantityToDrop: 2
   destroyedBy: 0
+--- !u!208 &4143412514761219160
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492090497208807185}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 0.05, z: 0.5}
+  m_MoveThreshold: 0.2
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0, z: -0.15}
+  m_TimeToStationary: 0.5
 --- !u!1 &492108067485837319
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492108067485837319}
   m_LocalRotation: {x: 0.51436716, y: 0.48520714, z: 0.5143677, w: 0.4852076}
-  m_LocalPosition: {x: 0.0000000045676387, y: 0.07905604, z: 0.10449539}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 2.54, y: 2.54, z: 2.54}
   m_Children:
   - {fileID: 486828419343963933}

@@ -5323,13 +5323,14 @@ MonoBehaviour:
   itemSprite: {fileID: 0}
   itemCount: 0
   maxStackSize: 0
+  isGrabbable: 0
   transformInHandX: 0
   transformInHandY: 0
   transformInHandZ: 0
   rotationInHandX: 0
   rotationInHandY: 0
   rotationInHandZ: 0
-  thirstRestored: 0
+  thirstRestored: 100
 --- !u!1 &186906
 GameObject:
   m_ObjectHideFlags: 0

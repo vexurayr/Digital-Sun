@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8257974280236065569}
   - component: {fileID: 8465100341341113618}
   - component: {fileID: 1066490033775231083}
+  - component: {fileID: -5223394779340162385}
   m_Layer: 0
   m_Name: Oven
   m_TagString: Untagged
@@ -75,6 +76,22 @@ MonoBehaviour:
   woodPerConvert: 2
   emptyInvItem: {fileID: 9091200904645990277, guid: e6d072bebea6e854aa557dda389b2b06, type: 3}
   cookedMeat: {fileID: 622072420429042057, guid: a80667771bfe7304cb0ed5df42ec9d9e, type: 3}
+--- !u!208 &-5223394779340162385
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2522424999753659918}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1.25, z: 1}
+  m_MoveThreshold: 0.2
+  m_Carve: 1
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 1.25, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5546144193246002870
 GameObject:
   m_ObjectHideFlags: 0

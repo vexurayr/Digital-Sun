@@ -312,6 +312,7 @@ MonoBehaviour:
   itemSprite: {fileID: 0}
   itemCount: 0
   maxStackSize: 1
+  isGrabbable: 0
   transformInHandX: 0
   transformInHandY: 0
   transformInHandZ: 0
@@ -327,12 +328,12 @@ NavMeshObstacle:
   m_GameObject: {fileID: 4003832128247973143}
   m_Enabled: 1
   serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 1.375, z: 0.5}
+  m_Shape: 1
+  m_Extents: {x: 1.6, y: 0.85, z: 0.5}
   m_MoveThreshold: 0.2
   m_Carve: 1
   m_CarveOnlyStationary: 0
-  m_Center: {x: 0, y: 1.4, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
   m_TimeToStationary: 0.5
 --- !u!1 &5015045764631773133
 GameObject:

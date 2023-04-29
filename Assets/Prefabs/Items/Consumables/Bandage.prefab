@@ -146,7 +146,7 @@ MonoBehaviour:
   itemCount: 0
   maxStackSize: 20
   isGrabbable: 1
-  transformInHandX: 1.25
+  transformInHandX: 1
   transformInHandY: -1.1
   transformInHandZ: 1
   rotationInHandX: 180
