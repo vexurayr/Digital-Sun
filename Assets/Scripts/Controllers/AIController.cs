@@ -142,7 +142,6 @@ public abstract class AIController : MonoBehaviour
         float targetDistance = Vector3.Distance(vectorAwayFromTarget, gameObject.transform.position);
         float percentOfFleeDistance = targetDistance / fleeDistance;
 
-        Debug.Log(targetDistance + "\n" + percentOfFleeDistance);
         Vector3 fleeVector = vectorAwayFromTarget.normalized * percentOfFleeDistance;
         
         // Seek the point the AI needs to flee to

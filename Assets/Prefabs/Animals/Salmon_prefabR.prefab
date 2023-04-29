@@ -118,6 +118,7 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
 --- !u!114 &491049945952359073
 MonoBehaviour:
@@ -137,8 +138,11 @@ MonoBehaviour:
   drainDelay: 0
   regainMult: 0
   regainDelay: 0
+  isAffectedByDifficulty: 0
   isDebugging: 0
   spawnedFrom: 2
+  playSoundFromDamage: Player Hit
+  playSoundOnDeath: 
   itemToDrop: {fileID: 4499167627189174359, guid: b021851243a813e4481db6179cd6143c, type: 3}
   quantityToDrop: 2
   destroyedBy: 0
